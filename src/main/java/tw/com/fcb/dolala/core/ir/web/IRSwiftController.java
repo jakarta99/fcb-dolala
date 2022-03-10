@@ -1,10 +1,12 @@
 package tw.com.fcb.dolala.core.ir.web;
 
 import io.swagger.v3.oas.annotations.Operation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import tw.com.fcb.dolala.core.ir.service.IRService;
 import tw.com.fcb.dolala.core.ir.web.cmd.SwiftMessageSaveCmd;
 
 /**
@@ -21,10 +23,13 @@ import tw.com.fcb.dolala.core.ir.web.cmd.SwiftMessageSaveCmd;
 @RequestMapping("/ir")
 public class IRSwiftController {
 
+    @Autowired
+    IRService service;
+
     @PostMapping("/swift")
     @Operation(description = "接收 swift 電文並存到 SwiftMessage", summary="儲存 swift")
     public void receiveSwift(SwiftMessageSaveCmd message) {
-
+        service.insert(message);
     }
 
     @GetMapping("/swift/{id}")

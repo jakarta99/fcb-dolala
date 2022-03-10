@@ -1,8 +1,10 @@
 package tw.com.fcb.dolala.core.ir.web.cmd;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 import tw.com.fcb.dolala.core.ir.ChargeType;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Currency;
 
@@ -17,6 +19,7 @@ import java.util.Currency;
  * 作者姓名       修改時間       版本編號       描述
  */
 @Schema(description = "匯入SWIFT資料")
+@Data
 public class SwiftMessageSaveCmd {
     @Schema(description = "swift序號")
     String seqNo;
@@ -27,7 +30,7 @@ public class SwiftMessageSaveCmd {
     @Schema
     LocalDate valueDate;
 
-    String amount;
+    BigDecimal amount;
     String currency;
 
     String senderInfo1;

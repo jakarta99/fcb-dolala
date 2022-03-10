@@ -1,5 +1,11 @@
 package tw.com.fcb.dolala.core.ir.repository;
 
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+import tw.com.fcb.dolala.core.ir.repository.entity.IRSwiftMessage;
+
 /**
  * Copyright (C),2022-2022,FirstBank
  * FileName: IRSwiftMessageRepository
@@ -10,6 +16,7 @@ package tw.com.fcb.dolala.core.ir.repository;
  * <author>     <time>       <version>     <desc>
  * 作者姓名       修改時間       版本編號       描述
  */
-public interface IRSwiftMessageRepository {
-    void insert();
+@Repository
+public interface IRSwiftMessageRepository extends JpaRepository<IRSwiftMessage,Long> {
+
 }
