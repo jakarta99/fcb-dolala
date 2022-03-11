@@ -23,4 +23,9 @@ public class SerialNumberGenerator {
 
         return seqNo;
     }
+
+    public String getIRNo(){
+        String irNo= "S2AW2000000";
+        return irNo;
+    }
 }
