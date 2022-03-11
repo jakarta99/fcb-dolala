@@ -169,5 +169,4 @@ public class IRMaster {
     
     @Column(name = "NOTICE_3")
     String notice3;	//分行注意事項三
-    
 }

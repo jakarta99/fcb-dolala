@@ -1,10 +1,7 @@
 package tw.com.fcb.dolala.core.ir.web;
 
-import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.*;
-import tw.com.fcb.dolala.core.ir.web.cmd.IRCriteriaCmd;
 import tw.com.fcb.dolala.core.ir.web.cmd.IRSaveCmd;
-import tw.com.fcb.dolala.core.ir.web.cmd.SwiftMessageSaveCmd;
 import tw.com.fcb.dolala.core.ir.web.dto.IR;
 
 /**
@@ -27,22 +24,22 @@ public class IRController {
     }
 
     @GetMapping("/count")
-    public Integer getCount(IRCriteriaCmd criteria) {
+    public Integer getCount(String branch) {
         return 0;
     }
 
     @GetMapping("/{id}")
-    public IR getById(Long id) {
+    public IR getById(String irNo) {
         return new IR();
     }
 
     @PutMapping("/print")
-    public void print(Long id) {
+    public void print(String irNo) {
 
     }
 
     @PutMapping("/settle")
-    public void settle(Long id) {
+    public void settle(String irNo) {
 
     }
 }
