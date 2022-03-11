@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import tw.com.fcb.dolala.core.ir.service.IRService;
+import tw.com.fcb.dolala.core.ir.web.cmd.IRCriteriaCmd;
 import tw.com.fcb.dolala.core.ir.web.cmd.SwiftMessageSaveCmd;
 
 /**

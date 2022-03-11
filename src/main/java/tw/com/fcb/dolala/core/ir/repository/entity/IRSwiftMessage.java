@@ -27,14 +27,23 @@ public class IRSwiftMessage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
+    Long id;
+
+
     @Column(name = "SEQ_NO")
     String seqNo;
+
+    @Column(name = "REFERENCE_NO")
+    String referenceNo;
+
+    @Column(name = "CURRENCY")
+    String currency;
 
     @Column(name = "AMOUNT")
     BigDecimal amount;
 
-    @Column(name = "CURRENCY")
-    String currency;
+
 
     @Column(name = "VALUE_DATE")
     LocalDate valueDate;
