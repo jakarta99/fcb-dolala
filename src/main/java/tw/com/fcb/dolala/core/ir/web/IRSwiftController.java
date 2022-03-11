@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import tw.com.fcb.dolala.core.ir.service.IRService;
+import tw.com.fcb.dolala.core.ir.service.IRSwiftMessageService;
+import tw.com.fcb.dolala.core.ir.web.cmd.IRCriteriaCmd;
 import tw.com.fcb.dolala.core.ir.web.cmd.SwiftMessageSaveCmd;
 
 /**
@@ -24,7 +26,7 @@ import tw.com.fcb.dolala.core.ir.web.cmd.SwiftMessageSaveCmd;
 public class IRSwiftController {
 
     @Autowired
-    IRService service;
+    IRSwiftMessageService service;
 
     @PostMapping("/swift")
     @Operation(description = "接收 swift 電文並存到 SwiftMessage", summary="儲存 swift")
