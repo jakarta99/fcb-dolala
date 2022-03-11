@@ -5,12 +5,15 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
+import tw.com.fcb.dolala.core.ir.ChargeType;
 
 /**
  * @author sinjen
@@ -65,38 +68,38 @@ public class IRMaster {
     @Column(name = "TO_US_FXRATE")
     BigDecimal toUsFxrate;	//折合美金匯率
     
-    @Column(name = "SW20")
-    String sw20;	//匯款行匯出編號(匯票NO)
+    @Column(name = "REFERENCE_NO")
+    String referenceNo;	//匯款行匯出編號(匯票NO)
     
-    @Column(name = "SW50_1")
-    String sw501;	//匯款人一
+    @Column(name = "SENDER_INFO1")
+    String senderInfo1;	//匯款人一
     
-    @Column(name = "SW50_2")
-    String sw502;	//匯款人二
+    @Column(name = "SENDER_INFO2")
+    String senderInfo2;	//匯款人二
     
-    @Column(name = "SW50_3")
-    String sw503;	//匯款人三
+    @Column(name = "SENDER_INFO3")
+    String senderInfo3;	//匯款人三
     
-    @Column(name = "SW50_4")
-    String sw504;	//匯款人四
+    @Column(name = "SENDER_INFO4")
+    String senderInfo4;	//匯款人四
     
-    @Column(name = "SW59_AC")
-    String sw59Ac;	//受款人帳號
+    @Column(name = "RECEIVER_ACCOUNT")
+    String receiverAccount;	//受款人帳號
     
-    @Column(name = "SW59_1")
-    String sw591;	//受款人一
+    @Column(name = "RECEIVER_INFO1")
+    String receiverInfo1;	//受款人一
     
-    @Column(name = "SW59_2")
-    String sw592;	//受款人二
+    @Column(name = "RECEIVER_INFO2")
+    String receiverInfo2;	//受款人二
     
-    @Column(name = "SW59_3")
-    String sw593;	//受款人三
+    @Column(name = "RECEIVER_INFO3")
+    String receiverInfo3;	//受款人三
     
-    @Column(name = "SW59_4")
-    String sw594;	//受款人四
+    @Column(name = "RECEIVER_INFO4")
+    String receiverInfo4;	//受款人四
     
-    @Column(name = "SW71A")
-    String sw71A;	//費用明細(BEN,OUR)
+    @Enumerated(EnumType.STRING)
+    ChargeType chargeType;	//費用明細(BEN,OUR)
     
     @Column(name = "REMIT_BANK")
     String remitBank;	//匯款行 SWIFT_TID
@@ -131,23 +134,23 @@ public class IRMaster {
     @Column(name = "EXCHANGE_RATE")
     BigDecimal exchangeRate;	//匯率
     
-    @Column(name = "SW71F_CUR_1")
-    String sw71fCur1;	//發電者費用幣別_1
+    @Column(name = "CHARGE_FEE_CURRENCY1")
+    String chargeFeeCurrency1;	//發電者費用幣別_1
     
-    @Column(name = "SW71F_1")
-    BigDecimal sw71f1;	//發電者費用_1
+    @Column(name = "CHARGE_FEE_AMOUNT1")
+    BigDecimal chargeFeeAmount1;	//發電者費用_1
     
-    @Column(name = "SW71F_CUR_2")
-    String sw71fCur2;	//發電者費用幣別_2
+    @Column(name = "CHARGE_FEE_CURRENCY2")
+    String chargeFeeCurrency2;	//發電者費用幣別_2
     
-    @Column(name = "SW71F_2")
-    BigDecimal sw71f2;	//發電者費用_2
+    @Column(name = "CHARGE_FEE_AMOUNT2")
+    BigDecimal chargeFeeAmount2;	//發電者費用_2
     
-    @Column(name = "SW71F_CUR_3")
-    String sw71fCur3;	//發電者費用幣別_3
+    @Column(name = "CHARGE_FEE_CURRENCY3")
+    String chargeFeeCurrency3;	//發電者費用幣別_3
     
-    @Column(name = "SW71F_3")
-    BigDecimal sw71f3;	//發電者費用_3
+    @Column(name = "CHARGE_FEE_AMOUNT3")
+    BigDecimal chargeFeeAmount3;	//發電者費用_3
     
     @Column(name = "BENE_KIND")
     String beneKind;	//受款人身份別
