@@ -23,9 +23,9 @@ public class IRController {
 
     }
 
-    @GetMapping("/count")
+    @GetMapping("/count/{branch}")
     public Integer getCount(String branch) {
-        return 0;
+        return 123;
     }
 
     @GetMapping("/{id}")
