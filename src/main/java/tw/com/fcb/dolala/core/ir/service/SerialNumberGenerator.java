@@ -4,7 +4,7 @@ import java.util.Random;
 
 /**
  * Copyright (C),2022-2022,FirstBank
- * FileName: SeqNoGenerator
+ * FileName: SerialNumberGenerator
  * Author: Han-Ru
  * Date: 2022/3/11 下午 04:45
  * Description: 取號程式
@@ -12,7 +12,7 @@ import java.util.Random;
  * <author>     <time>       <version>     <desc>
  * 作者姓名       修改時間       版本編號       描述
  */
-public class SeqNoGenerator {
+public class SerialNumberGenerator {
 
     public String getSeqNo(){
         Random rm=new Random();

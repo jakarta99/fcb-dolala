@@ -27,8 +27,8 @@ public class IRService {
         //beginTx
 
         IRSwiftMessage entity = new IRSwiftMessage();
-        SeqNoGenerator seqNoGenerator = new SeqNoGenerator();
-        saveCmd.setSeqNo(seqNoGenerator.getSeqNo());
+        SerialNumberGenerator serialNumberGenerator = new SerialNumberGenerator();
+        saveCmd.setSeqNo(serialNumberGenerator.getSeqNo());
 // 自動將saveCmd的屬性，對應到entity裡
         BeanUtils.copyProperties(saveCmd, entity);
         repository.save(entity);
