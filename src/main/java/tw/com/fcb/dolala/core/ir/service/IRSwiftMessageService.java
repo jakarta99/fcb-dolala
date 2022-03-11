@@ -36,8 +36,4 @@ public class IRSwiftMessageService {
         //commitTx
     }
 
-    public Integer count(String countCmd){
-
-        return 0;
-    }
 }

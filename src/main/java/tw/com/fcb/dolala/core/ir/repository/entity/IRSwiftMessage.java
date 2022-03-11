@@ -15,7 +15,7 @@ import java.time.LocalDate;
  * FileName: IRSwiftMessage
  * Author: Han-Ru
  * Date: 2022/3/10 下午 04:44
- * Description: IRSwiftMessage Entity
+ * Description: 匯入電文檔
  * Hisotry:
  * <author>     <time>       <version>     <desc>
  * 作者姓名       修改時間       版本編號       描述
