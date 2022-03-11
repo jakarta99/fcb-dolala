@@ -29,6 +29,7 @@ public class IRSwiftController {
     @PostMapping("/swift")
     @Operation(description = "接收 swift 電文並存到 SwiftMessage", summary="儲存 swift")
     public void receiveSwift(SwiftMessageSaveCmd message) {
+
         service.insert(message);
     }
 

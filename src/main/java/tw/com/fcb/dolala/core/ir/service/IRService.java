@@ -8,6 +8,9 @@ import tw.com.fcb.dolala.core.ir.repository.IRSwiftMessageRepository;
 import tw.com.fcb.dolala.core.ir.repository.entity.IRSwiftMessage;
 import tw.com.fcb.dolala.core.ir.web.cmd.SwiftMessageSaveCmd;
 
+import java.sql.Date;
+import java.time.format.DateTimeFormatter;
+
 /**
  * Copyright (C),2022-2022,FirstBank
  * FileName: IRService
@@ -29,6 +32,9 @@ public class IRService {
         IRSwiftMessage entity = new IRSwiftMessage();
 //        entity.setSeqNo(saveCmd.getSeqNo());
 //        entity.setValueDate(saveCmd.getValueDate());
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//        Date formatDateTime = Date.valueOf(saveCmd.getValueDate().format(formatter));
+//        entity.setValueDate(formatDateTime);
 // 自動將saveCmd的屬性，對應到entity裡
         BeanUtils.copyProperties(saveCmd, entity);
         repository.save(entity);

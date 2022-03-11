@@ -21,8 +21,6 @@ import tw.com.fcb.dolala.core.ir.web.dto.IR;
 @RequestMapping("/ir")
 public class IRController {
 
-
-
     @PostMapping
     public void insert(IRSaveCmd ir) {
 
