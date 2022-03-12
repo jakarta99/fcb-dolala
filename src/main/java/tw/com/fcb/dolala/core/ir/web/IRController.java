@@ -32,21 +32,25 @@ public class IRController {
     }
 
     @GetMapping("/count/{branch}")
+    @Operation(description = "傳入受通知單位查詢案件數", summary="查詢案件數")
     public Integer getCount(String branch) {
-        return 0;
+        return service.getIrCaseCount(branch);
     }
 
     @GetMapping("/{id}")
+    @Operation(description = "傳入匯入匯款編號查詢案件", summary="查詢案件")
     public IR getByIrNo(String irNo) {
         return service.findOne(irNo);
     }
 
     @PutMapping("/print")
+    @Operation(description = "變更印製通知書記號", summary="印製通知書記號")
     public void print(String irNo) {
 
     }
 
     @PutMapping("/settle")
+    @Operation(description = "變更付款狀態", summary="付款狀態")
     public void settle(String irNo) {
 
     }

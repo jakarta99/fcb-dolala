@@ -36,14 +36,19 @@ public class IRService {
     }
     
     //傳入匯入匯款編號查詢案件
-    public IR findOne(String irNo) {
-    	
-    	IR ir = new IR();
-    	IRMaster irMaster = repository.findByIrNo(irNo);
-    	if(irMaster != null) {
-    		BeanUtils.copyProperties(irMaster, ir);
-    	}
-    	
-    	return ir;
-    }
+	public IR findOne(String irNo) {
+		IR ir = new IR();
+		IRMaster irMaster = repository.findByIrNo(irNo);
+		if (irMaster != null) {
+			BeanUtils.copyProperties(irMaster, ir);
+		}
+		return ir;
+	}
+    
+	//傳入受通知單位查詢案件數
+	public Integer getIrCaseCount(String branch) {
+		Integer count = 0;
+		count = repository.findByBeAdvBranch(branch).size();
+		return count;
+	}
 }
