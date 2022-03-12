@@ -40,7 +40,9 @@ public class IRService {
     	
     	IR ir = new IR();
     	IRMaster irMaster = repository.findByIrNo(irNo);
-    	BeanUtils.copyProperties(irMaster, ir);
+    	if(irMaster != null) {
+    		BeanUtils.copyProperties(irMaster, ir);
+    	}
     	
     	return ir;
     }

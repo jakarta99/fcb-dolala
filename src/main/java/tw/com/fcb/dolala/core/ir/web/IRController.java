@@ -29,7 +29,6 @@ public class IRController {
     @Operation(description = "匯入匯款主檔資料寫入", summary="新增匯入匯款主檔")
     public void insert(IRSaveCmd ir) {
     	service.insert(ir);
-    	service.findOne("S1NHA00971");
     }
 
     @GetMapping("/count/{branch}")
