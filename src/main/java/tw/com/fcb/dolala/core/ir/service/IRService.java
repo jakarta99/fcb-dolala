@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tw.com.fcb.dolala.core.ir.repository.IRMasterRepository;
 import tw.com.fcb.dolala.core.ir.repository.entity.IRMaster;
 import tw.com.fcb.dolala.core.ir.web.cmd.IRSaveCmd;
+import tw.com.fcb.dolala.core.ir.web.dto.IR;
 
 
 /**
@@ -34,4 +35,13 @@ public class IRService {
     	repository.save(irMaster);
     }
     
+    //傳入匯入匯款編號查詢案件
+    public IR findOne(String irNo) {
+    	
+    	IR ir = new IR();
+    	IRMaster irMaster = repository.findByIrNo(irNo);
+    	BeanUtils.copyProperties(irMaster, ir);
+    	
+    	return ir;
+    }
 }
