@@ -1,5 +1,7 @@
 package tw.com.fcb.dolala.core.ir.service;
 
+import java.time.LocalDate;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,4 +58,20 @@ public class IRService {
 		count = repository.findByBeAdvBranch(branch).size();
 		return count;
 	}
+	
+	//print 列印通知書
+	public void print(String irNo) {
+    	IR ir = this.findOne(irNo); 
+    	ir.setPrintAdvMk("Y");
+    	ir.setPrintAdvDate(LocalDate.now());
+    	
+    	IRMaster irMaster = new IRMaster();
+    	BeanUtils.copyProperties(ir, irMaster);
+    	repository.save(irMaster);
+    }
+    
+	//settle 解款
+    public void settle(String irNo) {
+
+    }
 }

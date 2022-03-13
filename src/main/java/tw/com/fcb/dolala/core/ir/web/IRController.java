@@ -46,12 +46,12 @@ public class IRController {
     @PutMapping("/print")
     @Operation(description = "變更印製通知書記號", summary="印製通知書記號")
     public void print(String irNo) {
-
+    	service.print(irNo);
     }
 
     @PutMapping("/settle")
     @Operation(description = "變更付款狀態", summary="付款狀態")
     public void settle(String irNo) {
-
+    	service.settle(irNo);
     }
 }
