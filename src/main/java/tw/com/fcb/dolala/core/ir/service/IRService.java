@@ -31,7 +31,8 @@ public class IRService {
     IRMasterRepository repository;
     @Autowired
     ExchgRateService rateService;
-
+//	@Autowired
+//	SerialNumberGenerator serialNumberGenerator;
 	// 新增匯入匯款主檔
 	public void insert(IRSaveCmd saveCmd) {
 		IRMaster irMaster = new IRMaster();
@@ -39,6 +40,8 @@ public class IRService {
 		BeanUtils.copyProperties(saveCmd, irMaster);
 		// 從匯率資料檔取得ExchgRate
 		irMaster.setExchangeRate(rateService.getRate(ExchgRate.EXCHG_RATE_TYPE_BUY, irMaster.getCurency(), "TWD"));
+//		SerialNumberGenerator serialNumberGenerator = new SerialNumberGenerator();
+//		irMaster.setIrNo(serialNumberGenerator.getIRNo(saveCmd.getBeAdvBranch()));
 		repository.save(irMaster);
 	}
     
