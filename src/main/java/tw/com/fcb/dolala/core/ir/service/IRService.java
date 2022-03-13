@@ -72,6 +72,11 @@ public class IRService {
     
 	//settle 解款
     public void settle(String irNo) {
-
+    	IR ir = this.findOne(irNo); 
+    	ir.setPaidStats(2);
+    	
+    	IRMaster irMaster = new IRMaster();
+    	BeanUtils.copyProperties(ir, irMaster);
+    	repository.save(irMaster);
     }
 }

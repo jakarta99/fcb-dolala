@@ -22,6 +22,9 @@ import tw.com.fcb.dolala.core.ir.ChargeType;
 @Schema(description = "匯入匯款案件主檔")
 @Data
 public class IR {
+	@Schema(description = "匯入匯款主檔系統編號")
+	String caseSeqNo;
+	
 	@Schema(description = "匯入匯款編號")
 	String irNo;
 	
