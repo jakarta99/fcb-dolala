@@ -50,6 +50,7 @@ public class IRService {
 		IR ir = new IR();
 		IRMaster irMaster = repository.findByIrNo(irNo);
 		if (irMaster != null) {
+			// 自動將entity的屬性，對應到dto裡
 			BeanUtils.copyProperties(irMaster, ir);
 		}
 		return ir;
