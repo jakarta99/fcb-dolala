@@ -62,21 +62,29 @@ public class IRService {
 	//print 列印通知書
 	public void print(String irNo) {
     	IR ir = this.findOne(irNo); 
-    	ir.setPrintAdvMk("Y");
-    	ir.setPrintAdvDate(LocalDate.now());
     	
-    	IRMaster irMaster = new IRMaster();
-    	BeanUtils.copyProperties(ir, irMaster);
-    	repository.save(irMaster);
+    	if (!ir.equals(null))
+    	{
+    		ir.setPrintAdvMk("Y");
+    		ir.setPrintAdvDate(LocalDate.now());
+    	
+    		IRMaster irMaster = new IRMaster();
+    		BeanUtils.copyProperties(ir, irMaster);
+    		repository.save(irMaster);
+    	}
     }
     
 	//settle 解款
     public void settle(String irNo) {
     	IR ir = this.findOne(irNo); 
-    	ir.setPaidStats(2);
     	
-    	IRMaster irMaster = new IRMaster();
-    	BeanUtils.copyProperties(ir, irMaster);
-    	repository.save(irMaster);
+    	if (!ir.equals(null))
+    	{
+    		ir.setPaidStats(2);
+    	
+	    	IRMaster irMaster = new IRMaster();
+	    	BeanUtils.copyProperties(ir, irMaster);
+	    	repository.save(irMaster);
+    	}
     }
 }
