@@ -14,6 +14,7 @@ import tw.com.fcb.dolala.core.ir.repository.entity.IRMaster;
  */
 @Repository
 public interface IRMasterRepository extends JpaRepository<IRMaster,Long>{
+	// select * from IRMaster where irNo = @irNo
 	IRMaster findByIrNo(String irNo);
 	
 	//List<IRMaster> findByBeAdvBranch(String beAdvBranch);
