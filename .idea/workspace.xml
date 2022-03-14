@@ -6,15 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="6bce90cb-e58f-45d6-9968-a9c415f7c69e" name="Changes" comment="code commit 20220311">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/banner.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/banner.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/ir/BranchLevel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/ir/BranchType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/ir/repository/BranchCodeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/ir/repository/BranchInformationRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/ir/repository/entity/BranchCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/ir/repository/entity/BranchInformation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/ir/service/IRService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/ir/service/IRService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/ir/service/SerialNumberGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/ir/service/SerialNumberGenerator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/banner.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/banner.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/IRController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/IRController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/IRSwiftController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/IRSwiftController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/cmd/SwiftMessageSaveCmd.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/cmd/SwiftMessageSaveCmd.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/cmd/IRSaveCmd.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/cmd/IRSaveCmd.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/dto/IR.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/dto/IR.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +59,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../tools/vaccine-1922" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
@@ -151,7 +152,14 @@
       <option name="project" value="LOCAL" />
       <updated>1646992660524</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="code commit 20220311">
+      <created>1647235241335</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1647235241335</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

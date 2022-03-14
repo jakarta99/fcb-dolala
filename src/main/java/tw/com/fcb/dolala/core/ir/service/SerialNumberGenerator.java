@@ -1,8 +1,10 @@
 package tw.com.fcb.dolala.core.ir.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import tw.com.fcb.dolala.core.ir.repository.BranchCodeRepository;
-import tw.com.fcb.dolala.core.ir.repository.entity.BranchCode;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import tw.com.fcb.dolala.core.ir.repository.BranchInformationRepository;
+import tw.com.fcb.dolala.core.ir.repository.entity.BranchInformation;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,10 +20,13 @@ import java.util.Random;
  * <author>     <time>       <version>     <desc>
  * 作者姓名       修改時間       版本編號       描述
  */
+
+@Transactional
+@Service
 public class SerialNumberGenerator {
 
-
-    BranchCodeRepository branchCodeRepository ;
+    @Autowired
+    BranchInformationRepository branchInformationRepository;
 
     public SerialNumberGenerator() {
     }
@@ -47,8 +52,9 @@ public class SerialNumberGenerator {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String nowDate = sdf.format(new Date());
-
-        String  branchCode = String.valueOf(branchCodeRepository.findByBranchCode(branch));
+        BranchInformation branchInformation;
+        branchInformation = branchInformationRepository.getById(branch);
+        String branchCode = branchInformation.getBranchCode();
         String num = getNo(count);
         // S+ 西元年最末碼+ 字軋+ 流水號五碼
         num = "S"+ nowDate.substring(3,4)+ branchCode+ num;
