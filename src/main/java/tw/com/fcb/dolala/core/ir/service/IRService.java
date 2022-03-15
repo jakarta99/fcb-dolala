@@ -75,7 +75,7 @@ public class IRService {
 	//傳入受通知單位查詢案件數
 	public Integer getIrCaseCount(String branch) {
 		Integer count = 0;
-		count = repository.findByBeAdvBranch(branch).size();
+		count = repository.findByBeAdvBranchAndPrintAdvMk(branch,"N").size();
 		return count;
 	}
 	
