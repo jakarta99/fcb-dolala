@@ -34,6 +34,8 @@ public class IRSwiftMessageService {
     //取號檔 SystemType,branch
     private final String systemType = "IR_SEQ";
     private final String branch = "999";
+
+
     public String insert(SwiftMessageSaveCmd saveCmd){
         //beginTx
 
@@ -51,7 +53,7 @@ public class IRSwiftMessageService {
         return irMessageEntity.getSeqNo();
     }
 
-    //傳入匯入匯款編號查詢案件
+    //傳入seqNo編號查詢案件
     public IRSwiftMessage getByIRSeqNo(String irSeqNo) {
 
         IRSwiftMessageEntity irSwiftMessageEntity = repository.findBySeqNo(irSeqNo);
