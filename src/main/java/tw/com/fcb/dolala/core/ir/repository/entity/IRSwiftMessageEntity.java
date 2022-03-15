@@ -12,7 +12,7 @@ import java.time.LocalDate;
 
 /**
  * Copyright (C),2022-2022,FirstBank
- * FileName: IRSwiftMessage
+ * FileName: IRSwiftMessageEntity
  * Author: Han-Ru
  * Date: 2022/3/10 下午 04:44
  * Description: 匯入電文檔
@@ -23,7 +23,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "IR_SWIFT_MESSAGE")
 @Data
-public class IRSwiftMessage {
+public class IRSwiftMessageEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

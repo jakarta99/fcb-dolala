@@ -27,8 +27,9 @@ public class IRController {
 	
     @PostMapping
     @Operation(description = "匯入匯款主檔資料寫入", summary="新增匯入匯款主檔")
-    public void insert(IRSaveCmd ir) {
-    	service.insert(ir);
+    public String insert(IRSaveCmd ir) {
+    	String irNo = service.insert(ir);
+        return irNo;
     }
 
     @GetMapping("/count/{branch}")

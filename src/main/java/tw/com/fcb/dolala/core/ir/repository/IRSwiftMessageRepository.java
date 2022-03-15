@@ -2,7 +2,7 @@ package tw.com.fcb.dolala.core.ir.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import tw.com.fcb.dolala.core.ir.repository.entity.IRSwiftMessage;
+import tw.com.fcb.dolala.core.ir.repository.entity.IRSwiftMessageEntity;
 
 /**
  * Copyright (C),2022-2022,FirstBank
@@ -15,6 +15,7 @@ import tw.com.fcb.dolala.core.ir.repository.entity.IRSwiftMessage;
  * 作者姓名       修改時間       版本編號       描述
  */
 @Repository
-public interface IRSwiftMessageRepository extends JpaRepository<IRSwiftMessage,Long> {
+public interface IRSwiftMessageRepository extends JpaRepository<IRSwiftMessageEntity,Long> {
+     IRSwiftMessageEntity findBySeqNo(String irSeqNo);
 
 }

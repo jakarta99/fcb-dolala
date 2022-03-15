@@ -7,9 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import tw.com.fcb.dolala.core.common.service.SerialNumberGenerator;
 import tw.com.fcb.dolala.core.ir.repository.IRMasterRepository;
+import tw.com.fcb.dolala.core.common.repository.SerialNumberRepository;
 import tw.com.fcb.dolala.core.ir.repository.entity.ExchgRate;
 import tw.com.fcb.dolala.core.ir.repository.entity.IRMaster;
+import tw.com.fcb.dolala.core.common.repository.entity.SerialNumber;
 import tw.com.fcb.dolala.core.ir.web.cmd.IRSaveCmd;
 import tw.com.fcb.dolala.core.ir.web.dto.IR;
 
@@ -33,15 +36,29 @@ public class IRService {
     ExchgRateService rateService;
 	@Autowired
 	SerialNumberGenerator serialNumberGenerator;
+	@Autowired
+	SerialNumberRepository serialNumberRepository;
+
+	private final String  systemType = "IR";
+	private final String  noCode = "S";
+
 	// 新增匯入匯款主檔
-	public void insert(IRSaveCmd saveCmd) {
+	public String insert(IRSaveCmd saveCmd) {
 		IRMaster irMaster = new IRMaster();
 		// 自動將saveCmd的屬性，對應到entity裡
 		BeanUtils.copyProperties(saveCmd, irMaster);
 		// 從匯率資料檔取得ExchgRate
 		irMaster.setExchangeRate(rateService.getRate(ExchgRate.EXCHG_RATE_TYPE_BUY, irMaster.getCurency(), "TWD"));
-		irMaster.setIrNo(serialNumberGenerator.getIRNo(saveCmd.getBeAdvBranch()));
+		//取號
+		String irNo = serialNumberGenerator.getFxNo(noCode,systemType,saveCmd.getBeAdvBranch());
+		irMaster.setIrNo(irNo);
 		repository.save(irMaster);
+		//更新取號檔
+		SerialNumber serialNumber;
+		serialNumber = serialNumberRepository.getBySystemTypeAndBranch(systemType,irMaster.getBeAdvBranch());
+		String numberSerial = irNo.substring(5,10);
+		serialNumberGenerator.updateSerialNumber(serialNumber, Long.valueOf(numberSerial));
+		return irMaster.getIrNo();
 	}
     
     //傳入匯入匯款編號查詢案件

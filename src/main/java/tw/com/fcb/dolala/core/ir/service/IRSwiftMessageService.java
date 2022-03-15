@@ -4,9 +4,13 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tw.com.fcb.dolala.core.common.service.SerialNumberGenerator;
 import tw.com.fcb.dolala.core.ir.repository.IRSwiftMessageRepository;
-import tw.com.fcb.dolala.core.ir.repository.entity.IRSwiftMessage;
+import tw.com.fcb.dolala.core.common.repository.SerialNumberRepository;
+import tw.com.fcb.dolala.core.ir.repository.entity.IRSwiftMessageEntity;
+import tw.com.fcb.dolala.core.common.repository.entity.SerialNumber;
 import tw.com.fcb.dolala.core.ir.web.cmd.SwiftMessageSaveCmd;
+import tw.com.fcb.dolala.core.ir.web.dto.IRSwiftMessage;
 
 /**
  * Copyright (C),2022-2022,FirstBank
@@ -23,17 +27,42 @@ import tw.com.fcb.dolala.core.ir.web.cmd.SwiftMessageSaveCmd;
 public class IRSwiftMessageService {
     @Autowired
     IRSwiftMessageRepository repository;
-    public void insert(SwiftMessageSaveCmd saveCmd){
+    @Autowired
+    SerialNumberGenerator serialNumberGenerator;
+    @Autowired
+    SerialNumberRepository serialNumberRepository;
+    //取號檔 SystemType,branch
+    private final String systemType = "IR_SEQ";
+    private final String branch = "999";
+    public String insert(SwiftMessageSaveCmd saveCmd){
         //beginTx
 
-        IRSwiftMessage entity = new IRSwiftMessage();
-        SerialNumberGenerator serialNumberGenerator = new SerialNumberGenerator();
-        saveCmd.setSeqNo(serialNumberGenerator.getSeqNo());
+        IRSwiftMessageEntity irMessageEntity = new IRSwiftMessageEntity();
+        saveCmd.setSeqNo(serialNumberGenerator.getIrSeqNo(systemType,branch));
 // 自動將saveCmd的屬性，對應到entity裡
-        BeanUtils.copyProperties(saveCmd, entity);
-        repository.save(entity);
-
+        BeanUtils.copyProperties(saveCmd, irMessageEntity);
+         repository.save(irMessageEntity);
+        //更新取號檔
+        SerialNumber serialNumber;
+        serialNumber = serialNumberRepository.getBySystemTypeAndBranch(systemType,branch);
+        String serialNo = irMessageEntity.getSeqNo();
+        serialNumberGenerator.updateSerialNumber(serialNumber, Long.valueOf(serialNo));
         //commitTx
+        return irMessageEntity.getSeqNo();
+    }
+
+    //傳入匯入匯款編號查詢案件
+    public IRSwiftMessage getByIRSeqNo(String irSeqNo) {
+
+        IRSwiftMessageEntity irSwiftMessageEntity = repository.findBySeqNo(irSeqNo);
+
+        IRSwiftMessage irSwiftMessage = new IRSwiftMessage();
+
+        if (irSwiftMessage != null) {
+            // 自動將entity的屬性，對應到dto裡
+            BeanUtils.copyProperties(irSwiftMessageEntity, irSwiftMessage);
+        }
+        return irSwiftMessage;
     }
 
 }
