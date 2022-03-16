@@ -15,15 +15,15 @@ class BranchInformationRepositoryTest {
 	
 	@Test
 	void testGetById() {
-		BranchInformation branchInformation = branchInformationRepository.getById("111");		
-		assertEquals("091", branchInformation.getBranch());
+		BranchInformation branchInformation = branchInformationRepository.getById("101");		
+		assertEquals("101", branchInformation.getBranch());
 		
 		//fail("Not yet implemented");
 	}
 
 	@Test
 	void testFindById() {
-		BranchInformation branchInformation = branchInformationRepository.findById("111").orElseThrow();
+		BranchInformation branchInformation = branchInformationRepository.findById("091").orElseThrow();
 		assertEquals("091", branchInformation.getBranch());
 		//branchInformationRepository.findById("101");
 		//fail("Not yet implemented");
