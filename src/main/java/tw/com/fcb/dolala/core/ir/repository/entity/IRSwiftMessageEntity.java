@@ -1,6 +1,7 @@
 package tw.com.fcb.dolala.core.ir.repository.entity;
 
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import tw.com.fcb.dolala.core.ir.ChargeType;
 
@@ -33,6 +34,9 @@ public class IRSwiftMessageEntity {
 
     @Column(name = "SEQ_NO")
     String seqNo;
+
+    @Column(name = "SENDER_SWIFT_CODE")
+    String senderSwiftCode;
 
     @Column(name = "REFERENCE_NO")
     String referenceNo;
