@@ -22,13 +22,8 @@ public class BranchCheckService {
     @Autowired
     BranchInformationRepository branchInformationRepository;
 
-    public boolean checkBranchExist(String branch){
+    public void checkBranchExist(String branch) throws Exception {
         BranchInformation branchInformation =
-                  branchInformationRepository.getById(branch);
-        if (branchInformation == null){
-            return  false;
-        }else {
-            return true;
-        }
+                  branchInformationRepository.findById(branch).orElseThrow(() -> new Exception("找不到此分行別"+ branch));
     }
 }
