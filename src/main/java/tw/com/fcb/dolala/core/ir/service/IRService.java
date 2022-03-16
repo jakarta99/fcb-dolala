@@ -83,7 +83,7 @@ public class IRService {
 	public void print(String irNo) {
     	IR ir = this.findOne(irNo); 
     	
-    	if (!ir.equals(null))
+    	if (!(ir == null))
     	{
     		ir.setPrintAdvMk("Y");
     		ir.setPrintAdvDate(LocalDate.now());
@@ -98,7 +98,7 @@ public class IRService {
     public void settle(String irNo) {
     	IR ir = this.findOne(irNo); 
     	
-    	if (!ir.equals(null))
+    	if (!(ir == null))
     	{
     		ir.setPaidStats(2);
     	
