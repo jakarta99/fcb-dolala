@@ -7,10 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import tw.com.fcb.dolala.core.common.service.ExchgRateService;
 import tw.com.fcb.dolala.core.common.service.SerialNumberGenerator;
 import tw.com.fcb.dolala.core.ir.repository.IRMasterRepository;
 import tw.com.fcb.dolala.core.common.repository.SerialNumberRepository;
-import tw.com.fcb.dolala.core.ir.repository.entity.ExchgRate;
+import tw.com.fcb.dolala.core.common.repository.entity.ExchgRate;
 import tw.com.fcb.dolala.core.ir.repository.entity.IRMaster;
 import tw.com.fcb.dolala.core.common.repository.entity.SerialNumber;
 import tw.com.fcb.dolala.core.ir.web.cmd.IRSaveCmd;
