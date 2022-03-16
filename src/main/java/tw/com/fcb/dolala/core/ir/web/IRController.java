@@ -27,8 +27,13 @@ public class IRController {
 	
     @PostMapping
     @Operation(description = "匯入匯款主檔資料寫入", summary="新增匯入匯款主檔")
-    public String insert(IRSaveCmd ir) {
-    	String irNo = service.insert(ir);
+    public String insert(IRSaveCmd ir)  {
+        String irNo = null;
+        try {
+            irNo = service.insert(ir);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return irNo;
     }
 
