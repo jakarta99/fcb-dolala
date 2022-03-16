@@ -90,11 +90,8 @@ public class IRService {
     	if (!(ir == null))
     	{
     		ir.setPrintAdvMk("Y");
-    		ir.setPrintAdvDate(LocalDate.now());
-    	
-    		IRMaster irMaster = new IRMaster();
-    		BeanUtils.copyProperties(ir, irMaster);
-    		repository.save(irMaster);
+    		ir.setPrintAdvDate(LocalDate.now());    	
+    		this.updateMaster(ir);    		
     	}
     }
     
@@ -104,11 +101,16 @@ public class IRService {
     	
     	if (!(ir == null))
     	{
-    		ir.setPaidStats(2);
-    	
-	    	IRMaster irMaster = new IRMaster();
-	    	BeanUtils.copyProperties(ir, irMaster);
-	    	repository.save(irMaster);
+    		ir.setPaidStats(2);    	
+    		this.updateMaster(ir);
     	}
+    }
+    
+    public void updateMaster(IR ir) {
+    	
+	    IRMaster irMaster = new IRMaster();
+	    BeanUtils.copyProperties(ir, irMaster);
+	    repository.save(irMaster);
+    	
     }
 }
