@@ -41,12 +41,11 @@ public class SerialNumberGenerator {
         return seqNo;
     }
 
-    public String getFxNo(String noCode,String systemType,String branch){
+    public String getFxNo(String noCode,String systemType,String branch) throws Exception {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String nowDate = sdf.format(new Date());
         //取得字軌
-        BranchInformation branchInformation;
-        branchInformation = branchInformationRepository.getById(branch);
+        BranchInformation branchInformation = branchInformationRepository.findById(branch).orElseThrow(() -> new Exception("找不到此分行別"+ branch));
         String branchCode = branchInformation.getBranchCode();
         //讀取取號檔
         SerialNumber serialNumber;
