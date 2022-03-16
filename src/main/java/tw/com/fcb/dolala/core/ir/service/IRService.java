@@ -1,6 +1,7 @@
 package tw.com.fcb.dolala.core.ir.service;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,11 +65,13 @@ public class IRService {
     //傳入匯入匯款編號查詢案件
 	public IR findOne(String irNo) {
 		IR ir = new IR();
-		IRMaster irMaster = repository.findByIrNo(irNo);
-		if (irMaster != null) {
-			// 自動將entity的屬性，對應到dto裡
-			BeanUtils.copyProperties(irMaster, ir);
-		}
+//		IRMaster irMaster = repository.findByIrNo(irNo);
+//		if (irMaster != null) {
+//			// 自動將entity的屬性，對應到dto裡
+//			BeanUtils.copyProperties(irMaster, ir);
+//		}
+		IRMaster irMaster = repository.findByIrNo(irNo).orElse(new IRMaster());
+		BeanUtils.copyProperties(irMaster, ir);
 		return ir;
 	}
     
