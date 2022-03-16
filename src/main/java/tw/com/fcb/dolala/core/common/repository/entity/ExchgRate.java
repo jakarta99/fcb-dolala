@@ -1,4 +1,4 @@
-package tw.com.fcb.dolala.core.ir.repository.entity;
+package tw.com.fcb.dolala.core.common.repository.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
