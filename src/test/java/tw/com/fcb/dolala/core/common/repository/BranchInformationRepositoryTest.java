@@ -14,8 +14,8 @@ class BranchInformationRepositoryTest {
 	BranchInformationRepository branchInformationRepository;
 	
 	@Test
-	void testGetById() {
-		BranchInformation branchInformation = branchInformationRepository.getById("101");		
+	void testGetByBranchId() {
+		BranchInformation branchInformation = branchInformationRepository.getByBranch("101").orElseThrow();
 		assertEquals("101", branchInformation.getBranch());
 		
 		//fail("Not yet implemented");
@@ -23,7 +23,7 @@ class BranchInformationRepositoryTest {
 
 	@Test
 	void testFindById() {
-		BranchInformation branchInformation = branchInformationRepository.findById("091").orElseThrow();
+		BranchInformation branchInformation = branchInformationRepository.findByBranch("091").orElseThrow();
 		assertEquals("091", branchInformation.getBranch());
 		//branchInformationRepository.findById("101");
 		//fail("Not yet implemented");

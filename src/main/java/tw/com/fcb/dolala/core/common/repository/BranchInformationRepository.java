@@ -9,4 +9,6 @@ import java.util.Optional;
 @Repository
 public interface BranchInformationRepository extends JpaRepository<BranchInformation,Long> {
         Optional<BranchInformation> findByBranch(String branch);
+        Optional<BranchInformation> getByBranch(String branch);
+
 }

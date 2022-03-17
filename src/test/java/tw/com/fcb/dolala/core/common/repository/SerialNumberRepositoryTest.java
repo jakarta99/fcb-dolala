@@ -3,6 +3,7 @@ package tw.com.fcb.dolala.core.common.repository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import tw.com.fcb.dolala.core.common.repository.entity.SerialNumber;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,6 +24,16 @@ class SerialNumberRepositoryTest {
 
     @Test
     void getBySystemTypeAndBranch() {
-        serialNumberRepository.getBySystemTypeAndBranch("IR","093");
+        SerialNumber serialNumber = serialNumberRepository.getBySystemTypeAndBranch("IR","093");
+        assertEquals(0, serialNumber.getSerialNo());
     }
+
+    @Test
+    void findById(){
+        SerialNumber serialNumber = serialNumberRepository.findById(1L).orElse(new SerialNumber());
+        assertEquals(0, serialNumber.getSerialNo());
+    }
+
+
+
 }
