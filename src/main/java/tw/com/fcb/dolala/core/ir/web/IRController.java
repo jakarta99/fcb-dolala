@@ -1,6 +1,8 @@
 package tw.com.fcb.dolala.core.ir.web;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -18,6 +20,7 @@ import tw.com.fcb.dolala.core.ir.web.dto.IR;
  * <author>     <time>       <version>     <desc>
  * 作者姓名       修改時間       版本編號       描述
  */
+@Slf4j
 @RestController
 @RequestMapping("/ir")
 public class IRController {
@@ -27,13 +30,19 @@ public class IRController {
 	
     @PostMapping
     @Operation(description = "匯入匯款主檔資料寫入", summary="新增匯入匯款主檔")
-    public String insert(IRSaveCmd ir)  {
+    public String insert(IRSaveCmd ir, BindingResult rs)  {
         String irNo = null;
         try {
             irNo = service.insert(ir);
+            Process log;
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+        log.info("{}",rs.getAllErrors());
+
+        log.info("{}",ir);
+
         return irNo;
     }
 
