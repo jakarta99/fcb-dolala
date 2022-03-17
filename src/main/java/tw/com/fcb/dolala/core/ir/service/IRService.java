@@ -1,7 +1,6 @@
 package tw.com.fcb.dolala.core.ir.service;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import tw.com.fcb.dolala.core.common.service.ExchgRateService;
-import tw.com.fcb.dolala.core.common.service.SerialNumberGenerator;
+import tw.com.fcb.dolala.core.common.service.SerialNumberService;
 import tw.com.fcb.dolala.core.ir.repository.IRMasterRepository;
 import tw.com.fcb.dolala.core.common.repository.SerialNumberRepository;
 import tw.com.fcb.dolala.core.common.repository.entity.ExchgRate;
@@ -33,11 +32,11 @@ import tw.com.fcb.dolala.core.ir.web.dto.IR;
 @Service
 public class IRService {
     @Autowired
-    IRMasterRepository repository;
+    IRMasterRepository irMasterRepository;
     @Autowired
     ExchgRateService rateService;
 	@Autowired
-	SerialNumberGenerator serialNumberGenerator;
+	SerialNumberService serialNumberService;
 	@Autowired
 	SerialNumberRepository serialNumberRepository;
 
@@ -52,14 +51,14 @@ public class IRService {
 		// 從匯率資料檔取得ExchgRate
 		irMaster.setExchangeRate(rateService.getRate(ExchgRate.EXCHG_RATE_TYPE_BUY, irMaster.getCurency(), "TWD"));
 		//取號
-		String irNo = serialNumberGenerator.getFxNo(noCode,systemType,saveCmd.getBeAdvBranch());
+		String irNo = serialNumberService.getFxNo(noCode,systemType,saveCmd.getBeAdvBranch());
 		irMaster.setIrNo(irNo);
-		repository.save(irMaster);
+		irMasterRepository.save(irMaster);
 		//更新取號檔
 		SerialNumber serialNumber;
 		serialNumber = serialNumberRepository.getBySystemTypeAndBranch(systemType,irMaster.getBeAdvBranch());
 		String numberSerial = irNo.substring(5,10);
-		serialNumberGenerator.updateSerialNumber(serialNumber, Long.valueOf(numberSerial));
+		serialNumberService.updateSerialNumber(serialNumber, Long.valueOf(numberSerial));
 		return irMaster.getIrNo();
 	}
     
@@ -71,7 +70,7 @@ public class IRService {
 //			// 自動將entity的屬性，對應到dto裡
 //			BeanUtils.copyProperties(irMaster, ir);
 //		}
-		IRMaster irMaster = repository.findByIrNo(irNo).orElse(new IRMaster());
+		IRMaster irMaster = irMasterRepository.findByIrNo(irNo).orElse(new IRMaster());
 		BeanUtils.copyProperties(irMaster, ir);
 		return ir;
 	}
@@ -79,7 +78,7 @@ public class IRService {
 	//傳入受通知單位查詢案件數
 	public Integer getIrCaseCount(String branch) {
 		Integer count = 0;
-		count = repository.findByBeAdvBranchAndPrintAdvMk(branch,"N").size();
+		count = irMasterRepository.findByBeAdvBranchAndPrintAdvMk(branch,"N").size();
 		return count;
 	}
 	
@@ -110,7 +109,7 @@ public class IRService {
     	
 	    IRMaster irMaster = new IRMaster();
 	    BeanUtils.copyProperties(ir, irMaster);
-	    repository.save(irMaster);
+	    irMasterRepository.save(irMaster);
     	
     }
 }

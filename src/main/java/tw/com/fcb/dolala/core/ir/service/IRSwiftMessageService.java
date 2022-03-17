@@ -4,7 +4,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tw.com.fcb.dolala.core.common.service.SerialNumberGenerator;
+import tw.com.fcb.dolala.core.common.service.SerialNumberService;
 import tw.com.fcb.dolala.core.ir.repository.IRSwiftMessageRepository;
 import tw.com.fcb.dolala.core.common.repository.SerialNumberRepository;
 import tw.com.fcb.dolala.core.ir.repository.entity.IRSwiftMessageEntity;
@@ -26,9 +26,9 @@ import tw.com.fcb.dolala.core.ir.web.dto.IRSwiftMessage;
 @Service
 public class IRSwiftMessageService {
     @Autowired
-    IRSwiftMessageRepository repository;
+    IRSwiftMessageRepository irSwiftMessageRepository;
     @Autowired
-    SerialNumberGenerator serialNumberGenerator;
+    SerialNumberService serialNumberService;
     @Autowired
     SerialNumberRepository serialNumberRepository;
     //取號檔 SystemType,branch
@@ -40,15 +40,15 @@ public class IRSwiftMessageService {
         //beginTx
 
         IRSwiftMessageEntity irMessageEntity = new IRSwiftMessageEntity();
-        saveCmd.setSeqNo(serialNumberGenerator.getIrSeqNo(systemType,branch));
+        saveCmd.setSeqNo(serialNumberService.getIrSeqNo(systemType,branch));
 // 自動將saveCmd的屬性，對應到entity裡
         BeanUtils.copyProperties(saveCmd, irMessageEntity);
-         repository.save(irMessageEntity);
+         irSwiftMessageRepository.save(irMessageEntity);
         //更新取號檔
         SerialNumber serialNumber;
         serialNumber = serialNumberRepository.getBySystemTypeAndBranch(systemType,branch);
         String serialNo = irMessageEntity.getSeqNo();
-        serialNumberGenerator.updateSerialNumber(serialNumber, Long.valueOf(serialNo));
+        serialNumberService.updateSerialNumber(serialNumber, Long.valueOf(serialNo));
         //commitTx
         return irMessageEntity.getSeqNo();
     }
@@ -56,7 +56,7 @@ public class IRSwiftMessageService {
     //傳入seqNo編號查詢案件
     public IRSwiftMessage getByIRSeqNo(String irSeqNo) {
 
-        IRSwiftMessageEntity irSwiftMessageEntity = repository.findBySeqNo(irSeqNo);
+        IRSwiftMessageEntity irSwiftMessageEntity = irSwiftMessageRepository.findBySeqNo(irSeqNo);
 
         IRSwiftMessage irSwiftMessage = new IRSwiftMessage();
 

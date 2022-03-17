@@ -13,7 +13,7 @@ import java.util.Date;
 
 /**
  * Copyright (C),2022-2022,FirstBank
- * FileName: SerialNumberGenerator
+ * FileName: SerialNumberService
  * Author: Han-Ru
  * Date: 2022/3/11 下午 04:45
  * Description: 取號程式
@@ -24,7 +24,7 @@ import java.util.Date;
 
 @Transactional
 @Service
-public class SerialNumberGenerator {
+public class SerialNumberService {
 
     @Autowired
     BranchInformationRepository branchInformationRepository;
