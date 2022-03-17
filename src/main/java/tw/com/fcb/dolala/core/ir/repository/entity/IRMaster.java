@@ -13,7 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
-import tw.com.fcb.dolala.core.ir.repository.euum.ChargeType;
+import tw.com.fcb.dolala.core.ir.repository.enums.ChargeType;
 
 /**
  * @author sinjen

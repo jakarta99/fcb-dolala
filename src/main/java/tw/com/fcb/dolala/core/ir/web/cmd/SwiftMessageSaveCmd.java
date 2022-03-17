@@ -2,8 +2,7 @@ package tw.com.fcb.dolala.core.ir.web.cmd;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
-import tw.com.fcb.dolala.core.ir.repository.euum.ChargeType;
+import tw.com.fcb.dolala.core.ir.repository.enums.ChargeType;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -28,7 +27,6 @@ public class SwiftMessageSaveCmd {
     @Schema(description = "發電行外匯編號(20欄位)")
     String referenceNo;
     @Schema(description = "生效日")
-     @DateTimeFormat(pattern = "yyyy-MM-dd")
     LocalDate valueDate;
     @Schema(description = "金額")
     BigDecimal amount;

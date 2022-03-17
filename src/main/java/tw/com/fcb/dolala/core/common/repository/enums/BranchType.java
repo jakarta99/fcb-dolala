@@ -1,4 +1,4 @@
-package tw.com.fcb.dolala.core.common.repository.euum;
+package tw.com.fcb.dolala.core.common.repository.enums;
 
 public enum BranchType {
     FIRST_CATEGORY, //第一類指定單位

@@ -1,4 +1,4 @@
-package tw.com.fcb.dolala.core.ir.repository.euum;
+package tw.com.fcb.dolala.core.ir.repository.enums;
 
 /**
  * Copyright (C),2022-2022,FirstBank
