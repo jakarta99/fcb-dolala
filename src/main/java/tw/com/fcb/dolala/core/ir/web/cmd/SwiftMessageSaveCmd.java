@@ -3,12 +3,10 @@ package tw.com.fcb.dolala.core.ir.web.cmd;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
-import tw.com.fcb.dolala.core.ir.ChargeType;
+import tw.com.fcb.dolala.core.ir.repository.euum.ChargeType;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Currency;
-import java.util.Date;
 
 /**
  * Copyright (C),2022-2022,FirstBank

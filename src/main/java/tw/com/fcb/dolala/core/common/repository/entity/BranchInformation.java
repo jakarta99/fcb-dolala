@@ -1,7 +1,7 @@
 package tw.com.fcb.dolala.core.common.repository.entity;
 
 import lombok.Data;
-import tw.com.fcb.dolala.core.common.BranchType;
+import tw.com.fcb.dolala.core.common.repository.euum.BranchType;
 
 import javax.persistence.*;
 

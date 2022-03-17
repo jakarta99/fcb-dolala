@@ -1,14 +1,12 @@
 package tw.com.fcb.dolala.core.ir.repository.entity;
 
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import tw.com.fcb.dolala.core.ir.ChargeType;
+import tw.com.fcb.dolala.core.ir.repository.euum.ChargeType;
 
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.time.LocalDate;
 
 /**
