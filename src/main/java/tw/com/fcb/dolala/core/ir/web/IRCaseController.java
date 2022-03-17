@@ -6,16 +6,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import tw.com.fcb.dolala.core.common.service.BranchCheckService;
-import tw.com.fcb.dolala.core.ir.repository.IRSwiftMessageRepository;
-import tw.com.fcb.dolala.core.ir.repository.entity.IRSwiftMessageEntity;
-import tw.com.fcb.dolala.core.ir.service.IRSwiftMessageService;
+import tw.com.fcb.dolala.core.ir.service.IRCaseService;
 import tw.com.fcb.dolala.core.ir.web.cmd.SwiftMessageSaveCmd;
-import tw.com.fcb.dolala.core.ir.web.dto.IRSwiftMessage;
+import tw.com.fcb.dolala.core.ir.web.dto.IRCase;
 
 /**
  * Copyright (C),2022-2022,FirstBank
- * FileName: IRSwiftController
+ * FileName: IRCaseController
  * Author: Han-Ru
  * Date: 2022/3/10 下午 02:51
  * Description: IRSwiftController
@@ -25,10 +22,10 @@ import tw.com.fcb.dolala.core.ir.web.dto.IRSwiftMessage;
  */
 @RestController
 @RequestMapping("/ir")
-public class IRSwiftController {
+public class IRCaseController {
 
     @Autowired
-    IRSwiftMessageService service;
+    IRCaseService service;
 
 
     @PostMapping("/swift")
@@ -49,7 +46,7 @@ public class IRSwiftController {
 
     @GetMapping("/swift")
     @Operation(description = "取得seqNo電文資料",summary="取得seqNo電文資料")
-    public IRSwiftMessage getBySeqNo(String irSeqNo){
+    public IRCase getBySeqNo(String irSeqNo){
         return service.getByIRSeqNo(irSeqNo);
     }
 

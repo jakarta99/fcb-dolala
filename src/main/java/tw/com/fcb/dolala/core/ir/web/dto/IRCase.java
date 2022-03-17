@@ -10,7 +10,7 @@ import java.time.LocalDate;
 
 /**
  * Copyright (C),2022-2022,FirstBank
- * FileName: IRSwiftMessageEntity
+ * FileName: IRCase
  * Author: Han-Ru
  * Date: 2022/3/15 下午 02:24
  * Description: 電文檔dto
@@ -20,7 +20,7 @@ import java.time.LocalDate;
  */
 @Schema(description = "匯入匯款電文檔")
 @Data
-public class IRSwiftMessage {
+public class IRCase {
     @Schema(description = "swift序號")
     String seqNo;
     @Schema(description = "發電行swift代號")

@@ -11,7 +11,7 @@ import java.time.LocalDate;
 
 /**
  * Copyright (C),2022-2022,FirstBank
- * FileName: IRSwiftMessageEntity
+ * FileName: IRCaseEntity
  * Author: Han-Ru
  * Date: 2022/3/10 下午 04:44
  * Description: 匯入電文檔
@@ -20,9 +20,9 @@ import java.time.LocalDate;
  * 作者姓名       修改時間       版本編號       描述
  */
 @Entity
-@Table(name = "IR_SWIFT_MESSAGE")
+@Table(name = "IR_CASE")
 @Data
-public class IRSwiftMessageEntity {
+public class IRCaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
