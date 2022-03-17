@@ -1,6 +1,7 @@
 package tw.com.fcb.dolala.core.ir.service;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,11 +66,13 @@ public class IRService {
     //傳入匯入匯款編號查詢案件
 	public IR findOne(String irNo) {
 		IR ir = new IR();
-		IRMaster irMaster = repository.findByIrNo(irNo);
-		if (irMaster != null) {
-			// 自動將entity的屬性，對應到dto裡
-			BeanUtils.copyProperties(irMaster, ir);
-		}
+//		IRMaster irMaster = repository.findByIrNo(irNo);
+//		if (irMaster != null) {
+//			// 自動將entity的屬性，對應到dto裡
+//			BeanUtils.copyProperties(irMaster, ir);
+//		}
+		IRMaster irMaster = repository.findByIrNo(irNo).orElse(new IRMaster());
+		BeanUtils.copyProperties(irMaster, ir);
 		return ir;
 	}
     
@@ -84,14 +87,11 @@ public class IRService {
 	public void print(String irNo) {
     	IR ir = this.findOne(irNo); 
     	
-    	if (!ir.equals(null))
+    	if (!(ir == null))
     	{
     		ir.setPrintAdvMk("Y");
-    		ir.setPrintAdvDate(LocalDate.now());
-    	
-    		IRMaster irMaster = new IRMaster();
-    		BeanUtils.copyProperties(ir, irMaster);
-    		repository.save(irMaster);
+    		ir.setPrintAdvDate(LocalDate.now());    	
+    		this.updateMaster(ir);    		
     	}
     }
     
@@ -99,13 +99,18 @@ public class IRService {
     public void settle(String irNo) {
     	IR ir = this.findOne(irNo); 
     	
-    	if (!ir.equals(null))
+    	if (!(ir == null))
     	{
-    		ir.setPaidStats(2);
-    	
-	    	IRMaster irMaster = new IRMaster();
-	    	BeanUtils.copyProperties(ir, irMaster);
-	    	repository.save(irMaster);
+    		ir.setPaidStats(2);    	
+    		this.updateMaster(ir);
     	}
+    }
+    
+    public void updateMaster(IR ir) {
+    	
+	    IRMaster irMaster = new IRMaster();
+	    BeanUtils.copyProperties(ir, irMaster);
+	    repository.save(irMaster);
+    	
     }
 }
