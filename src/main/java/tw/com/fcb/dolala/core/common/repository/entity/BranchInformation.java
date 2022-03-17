@@ -10,11 +10,11 @@ import javax.persistence.*;
 @Data
 public class BranchInformation {
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "ID")
-//    Long id;
-@Id
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
+    Long id;
+
     @Column(name = "BRANCH")
     String branch; //分行別
 

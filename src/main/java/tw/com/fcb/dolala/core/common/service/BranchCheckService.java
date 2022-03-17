@@ -24,6 +24,6 @@ public class BranchCheckService {
 
     public void checkBranchExist(String branch) throws Exception {
         BranchInformation branchInformation =
-                  branchInformationRepository.findById(branch).orElseThrow(() -> new Exception("找不到此分行別"+ branch));
+                  branchInformationRepository.findByBranch(branch).orElseThrow(() -> new Exception("找不到此分行別"+ branch));
     }
 }
