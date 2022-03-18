@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
+import tw.com.fcb.dolala.core.common.service.CountryService;
 import tw.com.fcb.dolala.core.common.service.ExchgRateService;
 
 /**
@@ -22,6 +23,8 @@ public class CommonController {
 
 	@Autowired
 	ExchgRateService fxService;
+	@Autowired
+	CountryService countryService;
 	
 	//匯率處理
 	@GetMapping("/fxrate")
@@ -41,6 +44,26 @@ public class CommonController {
 	}
 	
 	
+	//國家資料處理
+	@GetMapping("/countrynumber")
+	@Operation(description = "以國家代號英文2碼讀取國家代號4碼數字",summary="讀取國家代號4碼數字")
+	public String getCountryNumber(String countryCode) {
+		String countryNumber = null;
+		countryNumber = countryService.getCountryNumber(countryCode);
+		log.info("呼叫國別處理API：以國家代號2碼:"+ countryCode +" 讀取國家代號4碼:" + countryNumber);
+		return countryNumber;
+	}
+	
+	@GetMapping("/countrycode")
+	@Operation(description = "以國家代號4碼數字讀取國家代號英文2碼",summary="讀取國家代號英文2碼")
+	public String getCountryCode(String countryNumber) {
+		String countryCode = null;
+		countryCode = countryService.getCountryCode(countryNumber);
+		log.info("呼叫國別處理API：以國家代號4碼:"+ countryNumber +" 讀取國家代號2碼:" + countryCode);
+		return countryCode;
+	}
+	
+	
 	//顧客資料處理
 	
 	
@@ -48,9 +71,6 @@ public class CommonController {
 	
 	
 	//分行資料處理
-	
-	
-	//國家資料處理
 	
 	
 }
