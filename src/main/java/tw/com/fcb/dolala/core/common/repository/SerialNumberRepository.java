@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import tw.com.fcb.dolala.core.common.repository.entity.SerialNumber;
 
+import javax.swing.text.html.Option;
 import java.util.Optional;
 
 /**
@@ -18,6 +19,6 @@ import java.util.Optional;
  */
 @Repository
 public interface SerialNumberRepository extends JpaRepository<SerialNumber,Long> {
-    Optional<SerialNumber> findBySystemTypeAndBranch(String systemType, String branch);
+   Optional<SerialNumber> findBySystemTypeAndBranch(String systemType, String branch);
 
 }

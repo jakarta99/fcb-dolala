@@ -24,7 +24,7 @@ class SerialNumberRepositoryTest {
 
     @Test
     void findBySystemTypeAndBranch() {
-        SerialNumber serialNumber = serialNumberRepository.findBySystemTypeAndBranch("IR","093").orElseThrow();
+        SerialNumber serialNumber = serialNumberRepository.findBySystemTypeAndBranch("IR","093").orElse(new SerialNumber());
         assertEquals(0, serialNumber.getSerialNo());
     }
 
