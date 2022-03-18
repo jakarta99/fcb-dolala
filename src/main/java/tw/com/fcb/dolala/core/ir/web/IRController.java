@@ -41,7 +41,7 @@ public class IRController {
         }
         log.info("{}",rs.getAllErrors());
 
-        log.info("{}",ir);
+        log.info("{ }",ir);
 
         return irNo;
     }

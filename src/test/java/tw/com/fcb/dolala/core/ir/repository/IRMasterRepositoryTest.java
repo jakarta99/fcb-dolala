@@ -8,9 +8,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class IRMasterRepositoryTest {
-
-	@Autowired
-	IRSwiftMessageRepository repository;
+//
+//	@Autowired
+//	IRSwiftMessageRepository repository;
 	
 	@Test
 	void testFindById() {

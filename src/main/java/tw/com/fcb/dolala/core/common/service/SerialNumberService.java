@@ -32,15 +32,15 @@ public class SerialNumberService {
     SerialNumberRepository serialNumberRepository;
 
 
-
+//取得irCase seqNO
     public String getIrSeqNo(String systemType,String branch){
 
         SerialNumber serialNumber;
-        serialNumber = serialNumberRepository.getBySystemTypeAndBranch(systemType,branch);
+        serialNumber = serialNumberRepository.findBySystemTypeAndBranch(systemType,branch).orElseThrow();
         String seqNo = getNo(serialNumber.getSerialNo());
         return seqNo;
     }
-
+//取得外匯編號FxNo
     public String getFxNo(String noCode,String systemType,String branch) throws Exception {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String nowDate = sdf.format(new Date());
@@ -49,16 +49,29 @@ public class SerialNumberService {
         String branchCode = branchInformation.getBranchCode();
         //讀取取號檔
         SerialNumber serialNumber;
-        serialNumber = serialNumberRepository.getBySystemTypeAndBranch(systemType,branch);
+        serialNumber = serialNumberRepository.findBySystemTypeAndBranch(systemType,branch).orElseThrow();
         //取得流水號
         String serialNo = getNo(serialNumber.getSerialNo());
         // noCode + 西元年最末碼+ 字軋+ 流水號六碼
         String fxNo = noCode + nowDate.substring(3,4)+ branchCode+ serialNo;
         return fxNo;
     }
+ // 讀取取號檔資料
+    public  SerialNumber getNumberSerial(String systemType,String branch){
+        SerialNumber serialNumber;
+        serialNumber = serialNumberRepository.findBySystemTypeAndBranch(systemType,branch).orElseThrow();
+        return serialNumber;
+    }
+    //更新取號檔
+    public void updateSerialNumber(String systemType,String branch,Long serialNo){
+        SerialNumber serialNumber = this.getNumberSerial(systemType,branch);
 
+        serialNumber.setSerialNo(serialNo);
+        //更新取號檔
+        serialNumberRepository.save(serialNumber);
+    }
 
-
+// 取號 + 1
     private static String getNo(Long s) {
         String serialNo;
         Long rsTemp;
@@ -72,9 +85,4 @@ public class SerialNumberService {
         return serialNo;
     }
 
-    public void updateSerialNumber(SerialNumber serialNumber,Long serialNo){
-        serialNumber.setSerialNo(serialNo);
-        //更新取號檔
-        serialNumberRepository.save(serialNumber);
-    }
 }

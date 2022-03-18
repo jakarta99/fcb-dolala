@@ -23,8 +23,8 @@ class SerialNumberRepositoryTest {
     SerialNumberRepository serialNumberRepository;
 
     @Test
-    void getBySystemTypeAndBranch() {
-        SerialNumber serialNumber = serialNumberRepository.getBySystemTypeAndBranch("IR","093");
+    void findBySystemTypeAndBranch() {
+        SerialNumber serialNumber = serialNumberRepository.findBySystemTypeAndBranch("IR","093").orElseThrow();
         assertEquals(0, serialNumber.getSerialNo());
     }
 

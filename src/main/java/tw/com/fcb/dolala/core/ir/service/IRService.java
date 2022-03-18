@@ -42,7 +42,6 @@ public class IRService {
 
 	private final String  systemType = "IR";
 	private final String  noCode = "S";
-
 	// 新增匯入匯款主檔
 	public String insert(IRSaveCmd saveCmd) throws Exception {
 		IRMaster irMaster = new IRMaster();
@@ -56,9 +55,9 @@ public class IRService {
 		irMasterRepository.save(irMaster);
 		//更新取號檔
 		SerialNumber serialNumber;
-		serialNumber = serialNumberRepository.getBySystemTypeAndBranch(systemType,irMaster.getBeAdvBranch());
+		serialNumber = serialNumberRepository.findBySystemTypeAndBranch(systemType,irMaster.getBeAdvBranch()).orElseThrow();
 		String numberSerial = irNo.substring(5,10);
-		serialNumberService.updateSerialNumber(serialNumber, Long.valueOf(numberSerial));
+		serialNumberService.updateSerialNumber(systemType,saveCmd.getBeAdvBranch(), Long.valueOf(numberSerial));
 		return irMaster.getIrNo();
 	}
     

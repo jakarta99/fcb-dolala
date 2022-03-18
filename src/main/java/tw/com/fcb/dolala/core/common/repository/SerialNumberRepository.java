@@ -4,6 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import tw.com.fcb.dolala.core.common.repository.entity.SerialNumber;
 
+import java.util.Optional;
+
 /**
  * Copyright (C),2022-2022,FirstBank
  * FileName: SerialNumberRepository
@@ -16,6 +18,6 @@ import tw.com.fcb.dolala.core.common.repository.entity.SerialNumber;
  */
 @Repository
 public interface SerialNumberRepository extends JpaRepository<SerialNumber,Long> {
-    SerialNumber getBySystemTypeAndBranch(String systemType, String branch);
+    Optional<SerialNumber> findBySystemTypeAndBranch(String systemType, String branch);
 
 }

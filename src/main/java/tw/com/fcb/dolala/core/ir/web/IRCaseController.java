@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import tw.com.fcb.dolala.core.common.repository.entity.SerialNumber;
+import tw.com.fcb.dolala.core.common.service.SerialNumberService;
 import tw.com.fcb.dolala.core.ir.service.IRCaseService;
 import tw.com.fcb.dolala.core.ir.web.cmd.SwiftMessageSaveCmd;
 import tw.com.fcb.dolala.core.ir.web.dto.IRCase;
@@ -25,20 +27,34 @@ import tw.com.fcb.dolala.core.ir.web.dto.IRCase;
 public class IRCaseController {
 
     @Autowired
-    IRCaseService service;
+    IRCaseService irCaseService;
+    @Autowired
+    SerialNumberService serialNumberService;
 
+    //取號檔 SystemType,branch
+    private final String systemType = "IR_SEQ";
+    private final String branch = "999";
 
     @PostMapping("/swift")
     @Operation(description = "接收 swift 電文並存到 SwiftMessage", summary="儲存 swift")
     public String receiveSwift(SwiftMessageSaveCmd message) {
-        String irSeqNo = service.insert(message);
+        //取號
+        String irSeqNo = serialNumberService.getIrSeqNo(systemType,branch);
+        //更新取號檔
+        serialNumberService.updateSerialNumber(systemType,branch, Long.valueOf(irSeqNo));
+        //檢核流程
+
+        //insert
+        message.setSeqNo(irSeqNo);
+        irCaseService.insert(message);
+
         return irSeqNo;
     }
 
     @GetMapping("/swift/{id}")
     @Operation(description = "電文檢核")
     public Boolean getValidateResult(String  irSeqNo) {
-        service.getByIRSeqNo(irSeqNo);
+        irCaseService.getByIRSeqNo(irSeqNo);
         // check 相關欄位
 
         return true;
@@ -47,7 +63,7 @@ public class IRCaseController {
     @GetMapping("/swift")
     @Operation(description = "取得seqNo電文資料",summary="取得seqNo電文資料")
     public IRCase getBySeqNo(String irSeqNo){
-        return service.getByIRSeqNo(irSeqNo);
+        return irCaseService.getByIRSeqNo(irSeqNo);
     }
 
 }

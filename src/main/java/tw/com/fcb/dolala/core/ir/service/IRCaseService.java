@@ -36,21 +36,16 @@ public class IRCaseService {
     private final String branch = "999";
 
 
-    public String insert(SwiftMessageSaveCmd saveCmd){
+    public boolean insert(SwiftMessageSaveCmd saveCmd){
         //beginTx
 
         IRCaseEntity irCaseEntity = new IRCaseEntity();
-        saveCmd.setSeqNo(serialNumberService.getIrSeqNo(systemType,branch));
 // 自動將saveCmd的屬性，對應到entity裡
         BeanUtils.copyProperties(saveCmd, irCaseEntity);
         irCaseRepository.save(irCaseEntity);
-        //更新取號檔
-        SerialNumber serialNumber;
-        serialNumber = serialNumberRepository.getBySystemTypeAndBranch(systemType,branch);
-        String serialNo = irCaseEntity.getSeqNo();
-        serialNumberService.updateSerialNumber(serialNumber, Long.valueOf(serialNo));
+
         //commitTx
-        return irCaseEntity.getSeqNo();
+        return true;
     }
 
     //傳入seqNo編號查詢案件
