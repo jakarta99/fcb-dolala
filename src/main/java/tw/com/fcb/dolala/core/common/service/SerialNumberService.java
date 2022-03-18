@@ -48,9 +48,10 @@ public class SerialNumberService {
         //取得字軌
         BranchInformation branchInformation = branchInformationRepository.findByBranch(branch).orElseThrow(() -> new Exception("找不到此分行別"+ branch));
         String branchCode = branchInformation.getBranchCode();
+        System.out.println("BranchInformation !!! line " + branchCode );
         //讀取取號檔
         SerialNumber serialNumber;
-        serialNumber = serialNumberRepository.findBySystemTypeAndBranch(systemType,branch).orElseThrow();
+        serialNumber = serialNumberRepository.findBySystemTypeAndBranch(systemType,branch).orElseThrow(() -> new Exception("找不到取號檔資料"+ systemType + branch));
         System.out.println("SerialNumberService !!! line 53" + serialNumber );
         log.info("讀取取號檔號碼 = " +serialNumber.getSerialNo());
         //取得流水號

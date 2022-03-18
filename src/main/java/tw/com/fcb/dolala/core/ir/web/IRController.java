@@ -38,7 +38,7 @@ public class IRController {
     @Autowired
     SerialNumberService serialNumberService;
     //取號檔 SystemType,branch
-    private final String systemType = "IR_SEQ";
+    private final String systemType = "IR";
     private final String noCode = "S";
 
     @PostMapping
