@@ -2,18 +2,17 @@ package tw.com.fcb.dolala.core.ir.service;
 
 import java.time.LocalDate;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import tw.com.fcb.dolala.core.common.service.ExchgRateService;
-import tw.com.fcb.dolala.core.common.service.SerialNumberService;
 import tw.com.fcb.dolala.core.ir.repository.IRMasterRepository;
 import tw.com.fcb.dolala.core.common.repository.SerialNumberRepository;
-import tw.com.fcb.dolala.core.common.repository.entity.ExchgRate;
+
 import tw.com.fcb.dolala.core.ir.repository.entity.IRMaster;
-import tw.com.fcb.dolala.core.common.repository.entity.SerialNumber;
+
 import tw.com.fcb.dolala.core.ir.web.cmd.IRSaveCmd;
 import tw.com.fcb.dolala.core.ir.web.dto.IR;
 
@@ -28,15 +27,13 @@ import tw.com.fcb.dolala.core.ir.web.dto.IR;
  * <author>     <time>       <version>     <desc>
  * 作者姓名       修改時間       版本編號       描述
  */
+@Slf4j
 @Transactional
 @Service
 public class IRService {
     @Autowired
     IRMasterRepository irMasterRepository;
-    @Autowired
-    ExchgRateService rateService;
-	@Autowired
-	SerialNumberService serialNumberService;
+
 	@Autowired
 	SerialNumberRepository serialNumberRepository;
 
@@ -47,17 +44,9 @@ public class IRService {
 		IRMaster irMaster = new IRMaster();
 		// 自動將saveCmd的屬性，對應到entity裡
 		BeanUtils.copyProperties(saveCmd, irMaster);
-		// 從匯率資料檔取得ExchgRate
-		irMaster.setExchangeRate(rateService.getRate(ExchgRate.EXCHG_RATE_TYPE_BUY, irMaster.getCurency(), "TWD"));
-		//取號
-		String irNo = serialNumberService.getFxNo(noCode,systemType,saveCmd.getBeAdvBranch());
-		irMaster.setIrNo(irNo);
+
 		irMasterRepository.save(irMaster);
-		//更新取號檔
-		SerialNumber serialNumber;
-		serialNumber = serialNumberRepository.findBySystemTypeAndBranch(systemType,irMaster.getBeAdvBranch()).orElseThrow();
-		String numberSerial = irNo.substring(5,10);
-		serialNumberService.updateSerialNumber(systemType,saveCmd.getBeAdvBranch(), Long.valueOf(numberSerial));
+
 		return irMaster.getIrNo();
 	}
     

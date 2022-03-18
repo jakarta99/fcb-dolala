@@ -1,5 +1,6 @@
 package tw.com.fcb.dolala.core.common.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +22,7 @@ import java.util.Date;
  * <author>     <time>       <version>     <desc>
  * 作者姓名       修改時間       版本編號       描述
  */
-
+@Slf4j
 @Transactional
 @Service
 public class SerialNumberService {
@@ -33,10 +34,10 @@ public class SerialNumberService {
 
 
 //取得irCase seqNO
-    public String getIrSeqNo(String systemType,String branch){
+    public String getIrSeqNo(String systemType,String branch) throws Exception {
 
         SerialNumber serialNumber;
-        serialNumber = serialNumberRepository.findBySystemTypeAndBranch(systemType,branch).orElseThrow();
+        serialNumber = serialNumberRepository.findBySystemTypeAndBranch(systemType,branch).orElseThrow(() -> new Exception("找不到取號檔資料"+ systemType + branch));
         String seqNo = getNo(serialNumber.getSerialNo());
         return seqNo;
     }
@@ -50,10 +51,16 @@ public class SerialNumberService {
         //讀取取號檔
         SerialNumber serialNumber;
         serialNumber = serialNumberRepository.findBySystemTypeAndBranch(systemType,branch).orElseThrow();
+        System.out.println("SerialNumberService !!! line 53" + serialNumber );
+        log.info("讀取取號檔號碼 = " +serialNumber.getSerialNo());
         //取得流水號
         String serialNo = getNo(serialNumber.getSerialNo());
         // noCode + 西元年最末碼+ 字軋+ 流水號六碼
         String fxNo = noCode + nowDate.substring(3,4)+ branchCode+ serialNo;
+
+
+        log.info("{取得外匯編號 }"+ fxNo);
+
         return fxNo;
     }
  // 讀取取號檔資料

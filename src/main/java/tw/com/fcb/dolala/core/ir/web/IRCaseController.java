@@ -39,7 +39,12 @@ public class IRCaseController {
     @Operation(description = "接收 swift 電文並存到 SwiftMessage", summary="儲存 swift")
     public String receiveSwift(SwiftMessageSaveCmd message) {
         //取號
-        String irSeqNo = serialNumberService.getIrSeqNo(systemType,branch);
+        String irSeqNo = null;
+        try {
+            irSeqNo = serialNumberService.getIrSeqNo(systemType,branch);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         //更新取號檔
         serialNumberService.updateSerialNumber(systemType,branch, Long.valueOf(irSeqNo));
         //檢核流程
