@@ -23,12 +23,34 @@ public class CommonController {
 	@Autowired
 	ExchgRateService fxService;
 	
+	//匯率處理
 	@GetMapping("/fxrate")
-	@Operation(description = "取得ExchgRate",summary="取得ExchgRate")
-	public BigDecimal getRate(String exchgRateType, String currency, String standardCurrency) {
+	@Operation(description = "依exchgRateType, currency, standardCurrency取得ExchgRate",summary="讀取買/賣匯匯率")
+	public BigDecimal getFxRate(String exchgRateType, String currency, String standardCurrency) {
 		BigDecimal exchangeRate = fxService.getRate(exchgRateType, currency, standardCurrency);
-		log.info("呼叫取匯率API：取得ExchgRate = "+exchangeRate);
-		
+		log.info("呼叫讀取匯率API：取得ExchgRate = "+exchangeRate);
 		return exchangeRate;
 	}
+	
+	@GetMapping("/checkfxrate")
+	@Operation(description = "檢核承作匯率",summary="檢核承作匯率")
+	public boolean checkFxRate(String exchgRateType) {
+		log.info("呼叫匯率處理API：檢核承作匯率是否超過權限範圍");
+		log.info("呼叫匯率處理API：檢核承作匯率是否超出合理範圍");
+		return true;
+	}
+	
+	
+	//顧客資料處理
+	
+	
+	//銀行資料處理
+	
+	
+	//分行資料處理
+	
+	
+	//國家資料處理
+	
+	
 }

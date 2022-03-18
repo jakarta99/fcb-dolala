@@ -11,7 +11,7 @@ import tw.com.fcb.dolala.core.common.repository.entity.ExchgRate;
 
 /**
  * @author sinjen
- * 
+ * 匯率處理服務
  */
 @Transactional
 @Service
