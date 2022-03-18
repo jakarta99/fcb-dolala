@@ -1,7 +1,8 @@
-package tw.com.fcb.dolala.core.ir.web.cmd;
+package tw.com.fcb.dolala.core.ir.web.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 import tw.com.fcb.dolala.core.ir.repository.enums.ChargeType;
 
 import java.math.BigDecimal;
@@ -9,17 +10,17 @@ import java.time.LocalDate;
 
 /**
  * Copyright (C),2022-2022,FirstBank
- * FileName: SwiftMessageSaveCmd
+ * FileName: IRCase
  * Author: Han-Ru
- * Date: 2022/3/10 下午 02:36
- * Description:
+ * Date: 2022/3/15 下午 02:24
+ * Description: 電文檔dto
  * Hisotry:
  * <author>     <time>       <version>     <desc>
  * 作者姓名       修改時間       版本編號       描述
  */
-@Schema(description = "匯入SWIFT資料")
+@Schema(description = "匯入匯款電文檔")
 @Data
-public class SwiftMessageSaveCmd {
+public class IRCase {
     @Schema(description = "swift序號")
     String seqNo;
     @Schema(description = "發電行swift代號")
@@ -27,6 +28,7 @@ public class SwiftMessageSaveCmd {
     @Schema(description = "發電行外匯編號(20欄位)")
     String referenceNo;
     @Schema(description = "生效日")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     LocalDate valueDate;
     @Schema(description = "金額")
     BigDecimal amount;

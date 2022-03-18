@@ -4,9 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6bce90cb-e58f-45d6-9968-a9c415f7c69e" name="Changes" comment="branchCode commit">
-      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
+    <list default="true" id="6bce90cb-e58f-45d6-9968-a9c415f7c69e" name="Changes" comment="BranchCheckService commit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/common/repository/entity/BranchInformation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/common/repository/entity/BranchInformation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/common/service/BranchCheckService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/common/service/BranchCheckService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/common/service/SerialNumberGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/common/service/SerialNumberGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/ir/service/IRService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/ir/service/IRService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/ir/web/IRController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/ir/web/IRController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/FcbCoreApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/FcbCoreApplication.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/IRController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/IRController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/IRSwiftController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/IRSwiftController.class" afterDir="false" />
@@ -14,6 +18,7 @@
       <change beforePath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/cmd/IRSaveCmd.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/cmd/IRSaveCmd.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/cmd/SwiftMessageSaveCmd.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/cmd/SwiftMessageSaveCmd.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/dto/IR.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/dto/IR.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,15 +30,28 @@
       <list>
         <option value="Interface" />
         <option value="Class" />
-        <option value="Enum" />
+        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="MarkdownSettingsMigration">
-    <option name="stateVersion" value="1" />
+  <component name="JpbToolWindowState">
+    <option name="myId2FirstActivated">
+      <map>
+        <entry key="JPA Inspector" value="true" />
+        <entry key="JPA Palette" value="true" />
+        <entry key="JPA Structure" value="true" />
+      </map>
+    </option>
+    <option name="myId2Visible">
+      <map>
+        <entry key="JPA Inspector" value="false" />
+        <entry key="JPA Palette" value="false" />
+        <entry key="JPA Structure" value="false" />
+      </map>
+    </option>
   </component>
   <component name="ProjectId" id="26BHs4nTHSidcmTIlbKna7vOMQJ" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -46,17 +64,28 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
+    <property name="create.test.in.the.same.root" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
-      <recent name="tw.com.fcb.dolala.core.ir" />
       <recent name="tw.com.fcb.dolala.core.ir.repository.entity" />
       <recent name="tw.com.fcb.dolala.core.ir.web.dto" />
       <recent name="tw.com.fcb.dolala.core.ir.web.cmd" />
     </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="tw.com.fcb.dolala.core.common" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="tw.com.fcb.dolala.core.common.repository" />
+    </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.SerialNumberRepositoryTest">
     <configuration name="FcbCoreApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="tw.com.fcb.dolala.core.FcbCoreApplication" />
       <module name="inward-remittance" />
@@ -70,19 +99,24 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="JetRunConfigurationType">
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <option name="filePath" />
+    <configuration name="SerialNumberRepositoryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="inward-remittance" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="tw.com.fcb.dolala.core.common.repository.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="tw.com.fcb.dolala.core.common.repository" />
+      <option name="MAIN_CLASS_NAME" value="tw.com.fcb.dolala.core.common.repository.SerialNumberRepositoryTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.SerialNumberRepositoryTest" />
         <item itemvalue="Application.FcbCoreApplication" />
       </list>
     </recent_temporary>
@@ -103,28 +137,98 @@
       <option name="project" value="LOCAL" />
       <updated>1646895338038</updated>
     </task>
-    <task id="LOCAL-00002" summary="BranchCode commit">
-      <created>1647187090202</created>
+    <task id="LOCAL-00002" summary="code commit">
+      <created>1646906165912</created>
       <option name="number" value="00002" />
       <option name="presentableId" value="LOCAL-00002" />
       <option name="project" value="LOCAL" />
-      <updated>1647187090202</updated>
+      <updated>1646906165912</updated>
     </task>
-    <task id="LOCAL-00003" summary="sql commit">
-      <created>1647187168740</created>
+    <task id="LOCAL-00003" summary="code commit 20220311">
+      <created>1646982580358</created>
       <option name="number" value="00003" />
       <option name="presentableId" value="LOCAL-00003" />
       <option name="project" value="LOCAL" />
-      <updated>1647187168740</updated>
+      <updated>1646982580358</updated>
     </task>
-    <task id="LOCAL-00004" summary="branchCode commit">
-      <created>1647187205945</created>
+    <task id="LOCAL-00004" summary="code commit 20220311">
+      <created>1646989202664</created>
       <option name="number" value="00004" />
       <option name="presentableId" value="LOCAL-00004" />
       <option name="project" value="LOCAL" />
-      <updated>1647187205945</updated>
+      <updated>1646989202664</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="code commit 20220311">
+      <created>1646989328817</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1646989328817</updated>
+    </task>
+    <task id="LOCAL-00006" summary="code commit 20220311">
+      <created>1646991102143</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1646991102143</updated>
+    </task>
+    <task id="LOCAL-00007" summary="code commit 20220311">
+      <created>1646991142408</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1646991142408</updated>
+    </task>
+    <task id="LOCAL-00008" summary="code commit 20220311">
+      <created>1646992660524</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1646992660524</updated>
+    </task>
+    <task id="LOCAL-00009" summary="code commit 20220311">
+      <created>1647235241335</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1647235241335</updated>
+    </task>
+    <task id="LOCAL-00010" summary="BranchInformation commit">
+      <created>1647237669465</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1647237669465</updated>
+    </task>
+    <task id="LOCAL-00011" summary="SerialNumber commit">
+      <created>1647332498780</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1647332498780</updated>
+    </task>
+    <task id="LOCAL-00012" summary="SerialNumber commit">
+      <created>1647334005867</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1647334005867</updated>
+    </task>
+    <task id="LOCAL-00013" summary="update commit">
+      <created>1647337694993</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1647337694993</updated>
+    </task>
+    <task id="LOCAL-00014" summary="BranchCheckService commit">
+      <created>1647337750963</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1647337750963</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -137,23 +241,28 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="init commit" />
-    <MESSAGE value="BranchCode commit" />
-    <MESSAGE value="sql commit" />
-    <MESSAGE value="branchCode commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="branchCode commit" />
+    <MESSAGE value="code commit" />
+    <MESSAGE value="code commit 20220311" />
+    <MESSAGE value="BranchInformation commit" />
+    <MESSAGE value="SerialNumber commit" />
+    <MESSAGE value="update commit" />
+    <MESSAGE value="BranchCheckService commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="BranchCheckService commit" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/ir/service/SerialNumberGenerator.java</url>
-          <line>50</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="num" />
+        <watch expression="String.valueOf(serialNumber.getNumberSerial())" />
+        <watch expression="serialNumber" />
+        <watch expression="updatedSerialNumber" />
+        <watch expression="count" />
+        <watch expression=" repository.findByBeAdvBranch(branch)" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

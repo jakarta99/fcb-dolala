@@ -3,11 +3,9 @@ package tw.com.fcb.dolala.core.ir.web.cmd;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import tw.com.fcb.dolala.core.ir.ChargeType;
+import tw.com.fcb.dolala.core.ir.repository.enums.ChargeType;
 
 /**
  * Copyright (C),2022-2022,FirstBank
@@ -108,19 +106,15 @@ public class IRSaveCmd {
 	String depositBank;
 	
 	@Schema(description = "有效日")
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	LocalDate valueDate;
 	
 	@Schema(description = "通知日")
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	LocalDate advDate;
 	
 	@Schema(description = "印製通知書日期")
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	LocalDate printAdvDate;
 	
 	@Schema(description = "付款日")
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	LocalDate processDate;
 	
 	@Schema(description = "客戶電話號碼")
@@ -160,7 +154,6 @@ public class IRSaveCmd {
 	String SubCode;
 	
 	@Schema(description = "受款人出生日期")
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	LocalDate cusBirthDate;
 	
 	@Schema(description = "分行注意事項一")
