@@ -4,18 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6bce90cb-e58f-45d6-9968-a9c415f7c69e" name="Changes" comment="init commit">
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/banner.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+    <list default="true" id="6bce90cb-e58f-45d6-9968-a9c415f7c69e" name="Changes" comment="branchCode commit">
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/FcbCoreApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/FcbCoreApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/IRController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/IRController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/IRSwiftController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/IRSwiftController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/cmd/IRCriteriaCmd.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/cmd/IRCriteriaCmd.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/cmd/IRSaveCmd.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/cmd/IRSaveCmd.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/cmd/SwiftMessageSaveCmd.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/cmd/SwiftMessageSaveCmd.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/dto/IR.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/dto/IR.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,12 +23,17 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="26BHs4nTHSidcmTIlbKna7vOMQJ" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -47,6 +50,8 @@
   </component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
+      <recent name="tw.com.fcb.dolala.core.ir" />
+      <recent name="tw.com.fcb.dolala.core.ir.repository.entity" />
       <recent name="tw.com.fcb.dolala.core.ir.web.dto" />
       <recent name="tw.com.fcb.dolala.core.ir.web.cmd" />
     </key>
@@ -61,6 +66,17 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <option name="filePath" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -87,7 +103,28 @@
       <option name="project" value="LOCAL" />
       <updated>1646895338038</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="BranchCode commit">
+      <created>1647187090202</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1647187090202</updated>
+    </task>
+    <task id="LOCAL-00003" summary="sql commit">
+      <created>1647187168740</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1647187168740</updated>
+    </task>
+    <task id="LOCAL-00004" summary="branchCode commit">
+      <created>1647187205945</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1647187205945</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -103,6 +140,20 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="init commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="init commit" />
+    <MESSAGE value="BranchCode commit" />
+    <MESSAGE value="sql commit" />
+    <MESSAGE value="branchCode commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="branchCode commit" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/ir/service/SerialNumberGenerator.java</url>
+          <line>50</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
