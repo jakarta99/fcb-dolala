@@ -40,7 +40,7 @@ public class CommonController {
 
 	@GetMapping("/checkfxrate")
 	@Operation(description = "檢核承作匯率", summary = "檢核承作匯率")
-	public boolean checkFxRate(String exchgRateType) {
+	public boolean checkFxRate(BigDecimal exchgRate) {
 		log.info("呼叫匯率處理API：檢核承作匯率是否超過權限範圍");
 		log.info("呼叫匯率處理API：檢核承作匯率是否超出合理範圍");
 		return true;
