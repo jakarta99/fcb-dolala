@@ -10,8 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import tw.com.fcb.dolala.core.common.service.CountryService;
+import tw.com.fcb.dolala.core.common.service.CustomerAccountService;
+import tw.com.fcb.dolala.core.common.service.CustomerService;
 import tw.com.fcb.dolala.core.common.service.ExchgRateService;
 import tw.com.fcb.dolala.core.common.service.IDNumberCheckService;
+import tw.com.fcb.dolala.core.common.web.dto.Customer;
+import tw.com.fcb.dolala.core.common.web.dto.CustomerAccount;
 
 /**
  * @author sinjen
@@ -28,6 +32,10 @@ public class CommonController {
 	CountryService countryService;
 	@Autowired
 	IDNumberCheckService idNumberCheckService;
+	@Autowired
+	CustomerAccountService customerAccountService;
+	@Autowired
+	CustomerService customerService;
 
 	// 匯率處理
 	@GetMapping("/fxrate")
@@ -77,7 +85,18 @@ public class CommonController {
 	
 	
 	//顧客資料處理
-	
+	@GetMapping("/customer")
+	@Operation(description = "以顧客帳號讀取顧客資料", summary = "讀取顧客資料")
+	public Customer getCustomer(String accountNumber) {
+		CustomerAccount customerAccount = null;
+		customerAccount = customerAccountService.getCustomerAccount(accountNumber);
+		log.info("顧客帳戶資料："+customerAccount.toString());
+		
+		Customer customer= null;
+		customer = customerService.getCustomer(customerAccount.getCustomerSeqNo());
+		log.info("顧客資料："+customer.toString());
+		return customer;
+	}
 	
 	//銀行資料處理
 	

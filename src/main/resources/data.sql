@@ -70,12 +70,12 @@ INSERT INTO SERIAL_NUMBER(SYSTEM_TYPE,BRANCH,SERIAL_NO) VALUES ('IR','103',0);
 INSERT INTO SERIAL_NUMBER(SYSTEM_TYPE,BRANCH,SERIAL_NO) VALUES ('IR','301',0);
 
 --顧客資料檔
-INSERT INTO CUSTOMER(AMEND_DATE,BRANCH_ID,CHN_NAME,CONTACT_CHN_ADDR,COUNTRY,CREATE_DATE,EMAIL,ENG_NAME,FCB_AGENT_ID,STATUS)
-VALUES('2022-03-11','093','胡小翔','台北市','中華民國','2022-03-11','i18002@firstbank.com.tw','HsiangLin','i18002','Y'),
-('2022-02-16','102','普小丁','莫斯科','俄羅斯','1952-10-07','i19030@firstbank.com.tw','KGB','i19030','Y'),
-('2022-02-20','222','澤小基','基輔','烏克蘭','1978-03-11','i20402@firstbank.com.tw','Ukrayina','i20402','Y'),
-('2021-12-25','158','馬小克','加州','美國','1971-06-28','i21503@firstbank.com.tw','Musk','i21503','Y'),
-('2021-06-06','166','宥小又','宜蘭縣','中華民國','2020-04-20','i22002@firstbank.com.tw','WillYo','i22002','Y');
+INSERT INTO CUSTOMER(AMEND_DATE,CUSTOMER_ID,BRANCH_ID,CHN_NAME,CONTACT_CHN_ADDR,COUNTRY,BENE_KIND,CREATE_DATE,EMAIL,CUST_TEL_NO,CUS_BIRTH_DATE,ENG_NAME,FCB_AGENT_ID,STATUS)
+VALUES('2022-03-11','A123668221','093','胡小翔','台北市','中華民國','本國自然人','2022-03-11','i18002@firstbank.com.tw','0939999111','1985-02-09','HsiangLin','i18002','Y'),
+('2022-02-16','M123886321','102','普小丁','莫斯科','俄羅斯','本國自然人','1952-10-07','i19030@firstbank.com.tw','0932123456','1952-10-07','KGB','i19030','Y'),
+('2022-02-20','K123567789','222','澤小基','基輔','烏克蘭','本國自然人','1978-03-11','i20402@firstbank.com.tw','0937666555','1978-03-11','Ukrayina','i20402','Y'),
+('2021-12-25','U123432654','158','馬小克','加州','美國','本國自然人','1971-06-28','i21503@firstbank.com.tw','0935235680','1971-06-28','Musk','i21503','Y'),
+('2021-06-06','G123120999','166','宥小又','宜蘭縣','中華民國','本國自然人','2020-04-20','i22002@firstbank.com.tw','0933123321','2020-04-20','WillYo','i22002','Y');
 
 --顧客帳號檔
 INSERT INTO CUSTOMER_ACCOUNT(ACCOUNT_NUMBER,AMEND_DATE,BLACKLIST,BRANCH_ID,CREATE_DATE,CUSTOMER_SEQ_NO,FCB_AGENT_ID,STATUS)
