@@ -26,4 +26,8 @@ public class BranchCheckService {
         BranchInformation branchInformation =
                   branchInformationRepository.findByBranch(branch).orElseThrow(() -> new Exception("找不到此分行別"+ branch));
     }
+    public String getBranchCode(String branch) throws Exception {
+        BranchInformation branchInformation = branchInformationRepository.findByBranch(branch).orElseThrow(() -> new Exception("找不到此分行別"+ branch));
+        return branchInformation.getBranchCode();
+    }
 }
