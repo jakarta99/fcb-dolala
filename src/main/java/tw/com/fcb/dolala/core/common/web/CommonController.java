@@ -2,6 +2,7 @@ package tw.com.fcb.dolala.core.common.web;
 
 import java.math.BigDecimal;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import tw.com.fcb.dolala.core.common.repository.entity.SerialNumber;
 import tw.com.fcb.dolala.core.common.service.*;
+import tw.com.fcb.dolala.core.common.web.dto.BankAddressDto;
 import tw.com.fcb.dolala.core.common.web.dto.BankDto;
 import tw.com.fcb.dolala.core.common.service.CountryService;
 import tw.com.fcb.dolala.core.common.service.CustomerAccountService;
@@ -125,12 +127,52 @@ public class CommonController {
 		BankDto bankDto = new BankDto();
 		try {
 			bankDto = bankService.findBySwiftCode(swiftCode);
-			log.info("取得銀行檔 "+swiftCode);
+			log.info("呼叫讀取銀行檔API查詢 "+swiftCode);
 		}catch(Exception e) {
 			log.info(String.valueOf(e));
 		}
 
 		return bankDto;
-	}	
+	}
+
+	// TCTYR02 以匯款行/付款行國家代號查詢名稱
+	@GetMapping("/bank/countryname/{countrycode}")
+	@Operation(description = "傳入CountryCode查詢國家名稱", summary="以CountryCode查詢國家名稱")
+	public String getCountryName(String countryCode) {
+
+		log.info("呼叫讀取國家名稱API查詢 "+countryCode);
+
+		return "CountryName";
+	}
+
+	// TBNMR12 依劃帳行ID+幣別代碼 查詢劃帳行名稱地址
+	@GetMapping("/bank/countryadd/{swiftcode}/{currency}")
+	@Operation(description = "傳入劃帳行ID+幣別代碼查詢劃帳行名稱地址", summary="以劃帳行ID+幣別代碼查詢劃帳行名稱地址")
+	public BankAddressDto getBankAdd(String swiftCode,String currency) {
+		BankAddressDto bankAddressDto = new BankAddressDto();
+
+		log.info("呼叫劃帳行名稱地址API查詢 "+swiftCode+"+"+currency);
+
+		bankAddressDto.setName("ABank");
+		bankAddressDto.setAddress("No.1, X st.,Tapei City 106");
+		return bankAddressDto;
+	}
+
+	// TBNMR13 依劃帳行ID 查詢劃帳行名稱地址 (幣別代碼=99)
+	@GetMapping("/bank/countryadd/{swiftcode}/99")
+	@Operation(description = "傳入劃帳行ID+99查詢劃帳行名稱地址", summary="以劃帳行ID+99查詢劃帳行名稱地址")
+	public BankAddressDto getBankAdd(String swiftCode) {
+		BankAddressDto bankAddressDto = new BankAddressDto();
+		BankDto bankDto = new BankDto();
+
+		try {
+			bankDto = bankService.findBySwiftCode(swiftCode);
+			BeanUtils.copyProperties(bankDto, bankAddressDto);
+			log.info("呼叫劃帳行名稱地址API查詢 "+swiftCode+"+"+99);
+		}catch(Exception e) {
+			log.info(String.valueOf(e));
+		}
+		return bankAddressDto;
+	}
 	
 }
