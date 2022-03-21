@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
+import tw.com.fcb.dolala.core.common.service.BankService;
 import tw.com.fcb.dolala.core.common.service.CountryService;
 import tw.com.fcb.dolala.core.common.service.ExchgRateService;
 import tw.com.fcb.dolala.core.common.service.IDNumberCheckService;
+import tw.com.fcb.dolala.core.common.web.dto.BankDto;
 
 /**
  * @author sinjen
@@ -28,6 +30,8 @@ public class CommonController {
 	CountryService countryService;
 	@Autowired
 	IDNumberCheckService idNumberCheckService;
+	@Autowired
+	BankService bankService;
 
 	// 匯率處理
 	@GetMapping("/fxrate")
@@ -83,6 +87,21 @@ public class CommonController {
 	
 	
 	//分行資料處理
+
+	//讀銀行檔
+	@GetMapping("/bank/{swiftcode}")
+	@Operation(description = "傳入SwiftCode查詢銀行檔", summary="以SwiftCode查詢銀行檔")
+	public BankDto getBank(String swiftCode) {
+		BankDto bankDto = new BankDto();
+		try {
+			bankDto = bankService.findBySwiftCode(swiftCode);
+			log.info("取得銀行檔 "+swiftCode);
+		}catch(Exception e) {
+			log.info(String.valueOf(e));
+		}
+
+		return bankDto;
+	}
 	
 	
 }
