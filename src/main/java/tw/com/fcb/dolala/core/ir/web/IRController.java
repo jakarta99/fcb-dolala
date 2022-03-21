@@ -54,7 +54,11 @@ public class IRController {
             ir.setIrNo(irNo);
             //更新取號檔
             String numberSerial;
-            numberSerial = irNo.substring(5, 10);
+            if (ir.getBeAdvBranch() == "093"){
+                numberSerial = irNo.substring(6, 11);
+            }else {
+                numberSerial = irNo.substring(5, 10);
+            }
             serialNumberService.updateSerialNumber(systemType,ir.getBeAdvBranch(), Long.valueOf(numberSerial));
 
             // insert irMaster
