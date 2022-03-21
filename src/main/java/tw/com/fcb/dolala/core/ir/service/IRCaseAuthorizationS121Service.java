@@ -24,27 +24,27 @@ public class IRCaseAuthorizationS121Service {
 	@Autowired
 	IRMasterRepository irMasterRepository;
 	
-	IRCase irCase = new IRCase();
+	//IRCase irCase = new IRCase();
+	IRCaseEntity irCaseEntity;
 	
-	public IRCase qryWaitForAuthorization(String seqNo)
+	public IRCaseEntity qryWaitForAuthorization(String seqNo)
 	{
 		IRCaseEntity irCaseEntity = irCaseRepository.findBySeqNo(seqNo);
-		BeanUtils.copyProperties(irCaseEntity, irCase);
-		return irCase;
+		return irCaseEntity;
 	}
 	
 	public String exeCaseAuthorization(String seqNo) {
 		
 		String returnMsg = "";
-		irCase = this.qryWaitForAuthorization(seqNo);		
+		irCaseEntity = this.qryWaitForAuthorization(seqNo);		
 		
-		if (irCase != null)
+		if (irCaseEntity != null)
 		{
 			//從電文檔搬移到主檔
 			IR ir = new IR();
-			ir.setValueDate(irCase.getValueDate());
-			ir.setIrAmt(irCase.getAmount());
-			ir.setCurency(irCase.getCurrency());
+			ir.setValueDate(irCaseEntity.getValueDate());
+			ir.setIrAmt(irCaseEntity.getAmount());
+			ir.setCurency(irCaseEntity.getCurrency());
 			
 			//新增主檔
 			IRMaster irMaster = new IRMaster();
@@ -54,7 +54,7 @@ public class IRCaseAuthorizationS121Service {
 		}
 		else
 		{
-			returnMsg = "查無資料";
+			returnMsg = "查無資料"; 
 		}
 		return returnMsg;
     }
