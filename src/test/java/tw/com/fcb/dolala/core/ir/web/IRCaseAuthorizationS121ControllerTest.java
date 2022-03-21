@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import tw.com.fcb.dolala.core.ir.repository.entity.IRCaseEntity;
 import tw.com.fcb.dolala.core.ir.web.dto.IRCase;
 
 /**
@@ -22,8 +23,8 @@ class IRCaseAuthorizationS121ControllerTest {
 	@Test
 	void testqryWaitForAuthorization() {
 		String seqNo = "123456789012345";
-		IRCase irCase = S121.qryWaitForAuthorization(seqNo);
-		assertNotNull(irCase);
+		String qryReturnMsg = S121.qryWaitForAuthorization(seqNo);
+		assertNotNull(qryReturnMsg);
 	}
 
 

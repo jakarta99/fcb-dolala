@@ -54,7 +54,7 @@ public class IRCaseAuthorizationS121Service {
 		}
 		else
 		{
-			returnMsg = "查無資料";
+			returnMsg = "查無資料"; 
 		}
 		return returnMsg;
     }

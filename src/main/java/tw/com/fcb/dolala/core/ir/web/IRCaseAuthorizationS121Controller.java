@@ -54,6 +54,6 @@ public class IRCaseAuthorizationS121Controller {
     public String exeCaseAuthorization(String seqNo) {
 		String exeReturnMsg = irCaseAuthorizationS121Service.exeCaseAuthorization(seqNo);
 		log.info(exeReturnMsg);
-		return exeReturnMsg;
+		return exeReturnMsg; 
     }
 }
