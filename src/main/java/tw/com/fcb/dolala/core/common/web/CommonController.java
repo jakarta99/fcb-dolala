@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
+import tw.com.fcb.dolala.core.common.repository.entity.SerialNumber;
+import tw.com.fcb.dolala.core.common.service.*;
+import tw.com.fcb.dolala.core.common.web.dto.BankDto;
 import tw.com.fcb.dolala.core.common.service.CountryService;
 import tw.com.fcb.dolala.core.common.service.CustomerAccountService;
 import tw.com.fcb.dolala.core.common.service.CustomerService;
@@ -32,6 +35,10 @@ public class CommonController {
 	CountryService countryService;
 	@Autowired
 	IDNumberCheckService idNumberCheckService;
+	@Autowired
+	SerialNumberService serialNumberService;
+	@Autowired
+	BankService bankService;
 	@Autowired
 	CustomerAccountService customerAccountService;
 	@Autowired
@@ -83,7 +90,15 @@ public class CommonController {
 		return check;
 	}
 	
-	
+	//讀取取號檔
+	@GetMapping("/numberSerial")
+	@Operation(description = "查詢取號檔資訊",summary = "BY業務別查詢取號檔已使用到之號碼")
+	public Long getNumberSerial(String systemType, String branch){
+		SerialNumber serialNumber = serialNumberService.getNumberSerial(systemType,branch);
+		log.info("呼叫讀取取號檔API查詢"+ systemType + "現已使用到第"+ serialNumber.getSerialNo()+ "號");
+		return serialNumber.getSerialNo();
+	}
+		
 	//顧客資料處理
 	@GetMapping("/customer")
 	@Operation(description = "以顧客帳號讀取顧客資料", summary = "讀取顧客資料")
@@ -102,6 +117,20 @@ public class CommonController {
 	
 	
 	//分行資料處理
-	
+
+	//讀銀行檔
+	@GetMapping("/bank/{swiftcode}")
+	@Operation(description = "傳入SwiftCode查詢銀行檔", summary="以SwiftCode查詢銀行檔")
+	public BankDto getBank(String swiftCode) {
+		BankDto bankDto = new BankDto();
+		try {
+			bankDto = bankService.findBySwiftCode(swiftCode);
+			log.info("取得銀行檔 "+swiftCode);
+		}catch(Exception e) {
+			log.info(String.valueOf(e));
+		}
+
+		return bankDto;
+	}	
 	
 }
