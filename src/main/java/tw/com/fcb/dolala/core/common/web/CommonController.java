@@ -9,11 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
-import tw.com.fcb.dolala.core.common.service.BankService;
 import tw.com.fcb.dolala.core.common.service.CountryService;
 import tw.com.fcb.dolala.core.common.service.ExchgRateService;
 import tw.com.fcb.dolala.core.common.service.IDNumberCheckService;
-import tw.com.fcb.dolala.core.common.web.dto.BankDto;
 
 /**
  * @author sinjen
@@ -30,8 +28,6 @@ public class CommonController {
 	CountryService countryService;
 	@Autowired
 	IDNumberCheckService idNumberCheckService;
-	@Autowired
-	BankService bankService;
 
 	// 匯率處理
 	@GetMapping("/fxrate")
@@ -78,8 +74,16 @@ public class CommonController {
 		log.info("呼叫身分證號檢核API：檢核" + number + "是否符合編碼規則:" + check);
 		return check;
 	}
-	
-	
+	//讀取取號檔
+	@GetMapping("/numberSerial")
+	@Operation(description = "查詢取號檔資訊",summary = "BY業務別查詢取號檔已使用到之號碼")
+	public Long getNumberSerial(String systemType, String branch){
+		SerialNumber serialNumber = serialNumberService.getNumberSerial(systemType,branch);
+		log.info("呼叫讀取取號檔API查詢"+ systemType + "現已使用到第"+ serialNumber.getSerialNo()+ "號");
+		return serialNumber.getSerialNo();
+	}
+
+
 	//顧客資料處理
 	
 	
@@ -102,6 +106,6 @@ public class CommonController {
 
 		return bankDto;
 	}
-	
+
 	
 }
