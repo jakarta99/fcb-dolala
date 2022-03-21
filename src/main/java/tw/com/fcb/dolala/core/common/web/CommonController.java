@@ -108,9 +108,15 @@ public class CommonController {
 		String fxNo = null;
 		try {
 			 fxNo =  serialNumberService.getFxNo(noCode,systemType,branch);
-
-			serialNumberService.updateSerialNumber(systemType,branch, Long.valueOf(fxNo.substring(5,10)));
-			log.info("呼叫取得外匯編號API,FXNO = "+fxNo+ ", 並更新取號檔成功"  );
+			String numberSerial = null;
+			if (branch.equals("093")){
+				numberSerial = fxNo.substring(5, 11);
+				log.info("取得serialno = " + fxNo.substring(6,11));
+			}else {
+				numberSerial = fxNo.substring(5, 10);
+			}
+			serialNumberService.updateSerialNumber(systemType,branch, Long.valueOf(numberSerial));
+			log.info("呼叫取得外匯編號API,FXNO = "+fxNo+ ", 並更新取號檔成功 = " + numberSerial );
 
 		} catch (Exception e) {
 			log.info("取得外匯編號錯誤" + e);
