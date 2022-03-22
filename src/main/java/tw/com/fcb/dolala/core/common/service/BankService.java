@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tw.com.fcb.dolala.core.common.repository.BankRepository;
 import tw.com.fcb.dolala.core.common.repository.entity.Bank;
 import tw.com.fcb.dolala.core.common.web.dto.BankDto;
+import tw.com.fcb.dolala.core.common.web.vo.BankVo;
 
 @Transactional
 @Service
@@ -15,12 +16,12 @@ public class BankService {
     @Autowired
     BankRepository bankRepository;
 
-    public BankDto findBySwiftCode(String swiftCode) throws Exception {
-        BankDto bankDto = new BankDto();
+    public BankVo findBySwiftCode(String swiftCode) throws Exception {
+        BankVo bankVo = new BankVo();
         Bank bank =
                 bankRepository.findBySwiftCode(swiftCode).orElseThrow(() -> new Exception("找不到此swiftCode "+ swiftCode));
-        BeanUtils.copyProperties(bank, bankDto);
-        return bankDto;
+        BeanUtils.copyProperties(bank, bankVo);
+        return bankVo;
     }
 
 }

@@ -22,6 +22,7 @@ import tw.com.fcb.dolala.core.common.service.ExchgRateService;
 import tw.com.fcb.dolala.core.common.service.IDNumberCheckService;
 import tw.com.fcb.dolala.core.common.web.dto.Customer;
 import tw.com.fcb.dolala.core.common.web.dto.CustomerAccount;
+import tw.com.fcb.dolala.core.common.web.vo.BankVo;
 
 /**
  * @author sinjen
@@ -183,8 +184,10 @@ public class CommonController {
 	@Operation(description = "傳入SwiftCode查詢銀行檔", summary="以SwiftCode查詢銀行檔")
 	public BankDto getBank(String swiftCode) {
 		BankDto bankDto = new BankDto();
+		BankVo bankVo = new BankVo();
 		try {
-			bankDto = bankService.findBySwiftCode(swiftCode);
+			bankVo = bankService.findBySwiftCode(swiftCode);
+			BeanUtils.copyProperties(bankVo, bankDto);
 			log.info("呼叫取得銀行檔API：取得swiftCode = " + swiftCode + "之銀行檔");
 		}catch(Exception e) {
 			log.info(String.valueOf(e));
@@ -221,11 +224,11 @@ public class CommonController {
 	@Operation(description = "傳入劃帳行ID+99查詢劃帳行名稱地址", summary="以劃帳行ID+99查詢劃帳行名稱地址")
 	public BankAddressDto getBankAdd(String swiftCode) {
 		BankAddressDto bankAddressDto = new BankAddressDto();
-		BankDto bankDto = new BankDto();
+		BankVo bankVo = new BankVo();
 
 		try {
-			bankDto = bankService.findBySwiftCode(swiftCode);
-			BeanUtils.copyProperties(bankDto, bankAddressDto);
+			bankVo = bankService.findBySwiftCode(swiftCode);
+			BeanUtils.copyProperties(bankVo, bankAddressDto);
 			log.info("呼叫劃帳行名稱地址API查詢 "+swiftCode+"+"+99);
 		}catch(Exception e) {
 			log.info(String.valueOf(e));
