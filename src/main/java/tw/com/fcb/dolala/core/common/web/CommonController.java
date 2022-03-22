@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
+import tw.com.fcb.dolala.core.common.enums.ResponseStatus;
+import tw.com.fcb.dolala.core.common.http.Response;
 import tw.com.fcb.dolala.core.common.repository.entity.SerialNumber;
 import tw.com.fcb.dolala.core.common.service.*;
 import tw.com.fcb.dolala.core.common.web.dto.BankAddressDto;
@@ -222,18 +224,25 @@ public class CommonController {
 	// TBNMR13 依劃帳行ID 查詢劃帳行名稱地址 (幣別代碼=99)
 	@GetMapping("/bank/countryadd/{swiftcode}/99")
 	@Operation(description = "傳入劃帳行ID+99查詢劃帳行名稱地址", summary="以劃帳行ID+99查詢劃帳行名稱地址")
-	public BankAddressDto getBankAdd(String swiftCode) {
+	public Response<BankAddressDto> getBankAdd(String swiftCode) {
 		BankAddressDto bankAddressDto = new BankAddressDto();
 		BankVo bankVo = new BankVo();
+		Response<BankAddressDto> response = new Response<BankAddressDto>();
 
 		try {
 			bankVo = bankService.findBySwiftCode(swiftCode);
 			BeanUtils.copyProperties(bankVo, bankAddressDto);
 			log.info("呼叫劃帳行名稱地址API查詢 "+swiftCode+"+"+99);
+			response.setStatus(ResponseStatus.SUCCESS);
+			response.setCode("0000");
 		}catch(Exception e) {
 			log.info(String.valueOf(e));
+			response.setStatus(ResponseStatus.ERROR);
+			response.setCode("D001");
+			response.setMessage(String.valueOf(e));
 		}
-		return bankAddressDto;
+		response.setData(bankAddressDto);
+		return response;
 	}
 
 
