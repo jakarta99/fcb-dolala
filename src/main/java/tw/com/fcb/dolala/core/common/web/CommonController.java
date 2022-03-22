@@ -95,15 +95,16 @@ public class CommonController {
 		return check;
 	}
 	
-	//讀取取號檔
+	// 讀取取號檔
 	@GetMapping("/numberSerial")
 	@Operation(description = "查詢取號檔資訊",summary = "BY業務別查詢取號檔已使用到之號碼")
 	public Long getNumberSerial(String systemType, String branch){
 		SerialNumber serialNumber = serialNumberService.getNumberSerial(systemType,branch);
-		log.info("呼叫讀取取號檔API查詢"+ systemType + "現已使用到第"+ serialNumber.getSerialNo()+ "號");
+		log.info("呼叫讀取取號檔API：查詢"+ systemType + "現已使用到第"+ serialNumber.getSerialNo()+ "號");
 		return serialNumber.getSerialNo();
 	}
-	//取得外匯編號 FXNO
+
+	// 取得外匯編號 FXNO
 	@PutMapping("/numberSerial")
 	@Operation(description = "取得外匯編號",summary = "取得外匯編號並更新取號檔")
 	public String getFxNo(String noCode,String systemType,String branch)  {
@@ -113,12 +114,12 @@ public class CommonController {
 			String numberSerial = null;
 			if (branch.equals("093")){
 				numberSerial = fxNo.substring(5, 11);
-				log.info("取得serialno = " + fxNo.substring(6,11));
+				log.info("呼叫取得外匯編號API：取得serialno = " + fxNo.substring(6,11));
 			}else {
 				numberSerial = fxNo.substring(5, 10);
 			}
 			serialNumberService.updateSerialNumber(systemType,branch, Long.valueOf(numberSerial));
-			log.info("呼叫取得外匯編號API,FXNO = "+fxNo+ ", 並更新取號檔成功 = " + numberSerial );
+			log.info("呼叫取得外匯編號API：FXNO = "+fxNo+ ", 並更新取號檔成功 = " + numberSerial );
 
 		} catch (Exception e) {
 			log.info("取得外匯編號錯誤" + e);
@@ -126,7 +127,8 @@ public class CommonController {
 		}
 		return  fxNo;
 	}
-	//取得IRCase seqNo
+
+	// 取得IRCase seqNo
 	@PutMapping("/")
 	@Operation(description = "取得匯入IRCase SEQ_NO",summary = "取得匯入IRCase SEQ_NO並更新取號檔")
 	public String getSeqNo()  {
@@ -137,7 +139,7 @@ public class CommonController {
 			irSeq =  serialNumberService.getIrSeqNo(systemType,branch);
 
 			serialNumberService.updateSerialNumber(systemType,branch, Long.valueOf(irSeq));
-			log.info("呼叫取得IRCase SEQ_NO API,SEQ_NO = "+irSeq+ ", 並更新取號檔成功"  );
+			log.info("呼叫取得IRCase SEQ_NO API：SEQ_NO = "+irSeq+ ", 並更新取號檔成功");
 
 		} catch (Exception e) {
 			log.info("取得SEQ_NO錯誤" + e);
@@ -153,25 +155,22 @@ public class CommonController {
 	public Customer getCustomer(String accountNumber) {
 		CustomerAccount customerAccount = null;
 		customerAccount = customerAccountService.getCustomerAccount(accountNumber);
-		log.info("顧客帳戶資料："+customerAccount.toString());
+		log.info("呼叫讀取顧客帳戶API：顧客帳戶資料："+customerAccount.toString());
 		
 		Customer customer= null;
 		customer = customerService.getCustomer(customerAccount.getCustomerSeqNo());
-		log.info("顧客資料："+customer.toString());
+		log.info("呼叫讀取顧客檔API：顧客資料："+customer.toString());
 		return customer;
 	}
 	
-	//銀行資料處理
-	
-	
-	//分行資料處理
+	// 分行資料處理
 	@GetMapping("/branch")
 	@Operation(description = "傳入分行號碼取得分行字軌",summary = "以分行代號取得分行字軌")
 	public String getBranchCode(String branch){
 		String branchCode = null;
 		try {
 			branchCode = branchCheckService.getBranchCode(branch);
-			log.info("呼叫取得分行字軌API branch = " + branch + "字軌 = " + branchCode);
+			log.info("呼叫取得分行字軌API：branch = " + branch + "字軌 = " + branchCode);
 		} catch (Exception e) {
 			log.info("讀取branchService錯誤" + e);
 
@@ -179,15 +178,14 @@ public class CommonController {
 		return branchCode;
 	}
 
-
-	//讀銀行檔
+	// 讀銀行檔
 	@GetMapping("/bank/{swiftcode}")
 	@Operation(description = "傳入SwiftCode查詢銀行檔", summary="以SwiftCode查詢銀行檔")
 	public BankDto getBank(String swiftCode) {
 		BankDto bankDto = new BankDto();
 		try {
 			bankDto = bankService.findBySwiftCode(swiftCode);
-			log.info("呼叫讀取銀行檔API查詢 "+swiftCode);
+			log.info("呼叫取得銀行檔API：取得swiftCode = " + swiftCode + "之銀行檔");
 		}catch(Exception e) {
 			log.info(String.valueOf(e));
 		}
