@@ -4,11 +4,11 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tw.com.fcb.dolala.core.common.service.SerialNumberService;
+import tw.com.fcb.dolala.core.common.web.dto.Customer;
+import tw.com.fcb.dolala.core.common.web.dto.CustomerAccount;
 import tw.com.fcb.dolala.core.ir.repository.IRCaseRepository;
-import tw.com.fcb.dolala.core.common.repository.SerialNumberRepository;
 import tw.com.fcb.dolala.core.ir.repository.entity.IRCaseEntity;
-import tw.com.fcb.dolala.core.common.repository.entity.SerialNumber;
+import tw.com.fcb.dolala.core.ir.vo.IRCaseVo;
 import tw.com.fcb.dolala.core.ir.web.cmd.SwiftMessageSaveCmd;
 import tw.com.fcb.dolala.core.ir.web.dto.IRCase;
 
@@ -27,10 +27,11 @@ import tw.com.fcb.dolala.core.ir.web.dto.IRCase;
 public class IRCaseService {
     @Autowired
     IRCaseRepository irCaseRepository;
+
+
     @Autowired
-    SerialNumberService serialNumberService;
-    @Autowired
-    SerialNumberRepository serialNumberRepository;
+    IRCaseCheckService irCaseCheckService;
+
     //取號檔 SystemType,branch
     private final String systemType = "IR_SEQ";
     private final String branch = "999";
@@ -39,13 +40,28 @@ public class IRCaseService {
     public boolean insert(SwiftMessageSaveCmd saveCmd){
         //beginTx
 
+
         IRCaseEntity irCaseEntity = new IRCaseEntity();
-// 自動將saveCmd的屬性，對應到entity裡
-        BeanUtils.copyProperties(saveCmd, irCaseEntity);
+        IRCaseVo irCaseVo = this.saveIRCaseData(saveCmd);
+// 將irCaseVo，對應到entity裡
+        BeanUtils.copyProperties(irCaseVo, irCaseEntity);
         irCaseRepository.save(irCaseEntity);
 
         //commitTx
         return true;
+    }
+
+    public IRCaseVo  saveIRCaseData(SwiftMessageSaveCmd saveCmd){
+        IRCaseVo irCaseVo = new IRCaseVo();
+        CustomerAccount customerAccount = irCaseCheckService.getCustomerAccount(saveCmd.getReceiverAccount().substring(1,12));
+        Customer customer =   irCaseCheckService.getCustomerInfo(customerAccount.getCustomerSeqNo());
+        BeanUtils.copyProperties(saveCmd, irCaseVo);
+        irCaseVo.setBeAdvBranch(customerAccount.getBranchID());
+        irCaseVo.setCustomerID(customer.getCustomerId());
+        if (saveCmd.getReceiverInfo1().length() == 0){
+            irCaseVo.setReceiverInfo1(customer.getEnglishName());
+        }
+        return irCaseVo;
     }
 
     //傳入seqNo編號查詢案件

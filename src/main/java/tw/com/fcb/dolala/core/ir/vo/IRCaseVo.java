@@ -1,34 +1,30 @@
-package tw.com.fcb.dolala.core.ir.repository.entity;
+package tw.com.fcb.dolala.core.ir.vo;
 
-
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 import tw.com.fcb.dolala.core.ir.repository.enums.ChargeType;
 
-
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 /**
  * Copyright (C),2022-2022,FirstBank
- * FileName: IRCaseEntity
+ * FileName: IRCaseVo
  * Author: Han-Ru
- * Date: 2022/3/10 下午 04:44
- * Description: 匯入電文檔
+ * Date: 2022/3/22 下午 04:00
+ * Description:
  * Hisotry:
  * <author>     <time>       <version>     <desc>
  * 作者姓名       修改時間       版本編號       描述
  */
-@Entity
-@Table(name = "IR_CASE")
+
+@Schema(description = "匯入匯款電文檔Vo")
 @Data
-public class IRCaseEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
-    Long id;
-
+public class IRCaseVo {
 
     @Column(name = "SEQ_NO")
     String seqNo;
@@ -102,4 +98,6 @@ public class IRCaseEntity {
     @Column(name = "CHARGE_FEE_AMOUNT3")
     BigDecimal chargeFeeAmount3;
 
+
 }
+
