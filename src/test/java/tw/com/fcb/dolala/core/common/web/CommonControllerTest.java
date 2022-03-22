@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import tw.com.fcb.dolala.core.common.repository.entity.ExchgRate;
+import tw.com.fcb.dolala.core.common.web.dto.BankDto;
+import tw.com.fcb.dolala.core.common.web.dto.Customer;
 
 @SpringBootTest
 class CommonControllerTest {
@@ -64,13 +66,56 @@ class CommonControllerTest {
 		assertTrue(check2);
 	}
 
+	// 讀取取號檔
+	@Test
+	void testGetNumberSerial() {
+		String systemType = "IR";
+		String branch = "091";
+		Long serialNo = common.getNumberSerial(systemType, branch);
+		assertNotNull(serialNo);
+	}
+	
+	// 取得外匯編號FXNO
+	@Test
+	void testGetFxNo() {
+		String noCode = "S";
+		String systemType = "IR";
+		String branch = "093";
+		String fxNo = common.getFxNo(noCode, systemType, branch);
+		assertNotNull(fxNo);
+	}
+	
+	// 取得IRCase seqNo
+	@Test
+	void testGetSeqNo() {
+		String irSeq = common.getSeqNo();
+		assertNotNull(irSeq);
+	}
+	
 	// 顧客資料處理
-
-	
-	// 銀行資料處理
-
-	
+	@Test
+	void testGetCustomer() {
+		Customer customer = null;
+		String accountNumber = "09368123456";
+		customer = common.getCustomer(accountNumber);
+		assertNotNull(customer);
+	}
+		
 	// 分行資料處理
+	@Test
+	void testGetBranchCode() {
+		String result = "NHA";
+		String branch = "093";
+		String branchCode = common.getBranchCode(branch);
+		assertEquals(result, branchCode);
+	}
 	
+	// 讀銀行檔
+	@Test
+	void testGetBank() {
+		String swiftCode = "333";
+		BankDto bankDto = common.getBank(swiftCode);
+		assertNotNull(bankDto);
+	}
 	
 }
