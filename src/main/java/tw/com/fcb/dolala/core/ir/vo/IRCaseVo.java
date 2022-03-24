@@ -58,10 +58,11 @@ public class IRCaseVo {
     BigDecimal amount;
 
 
+    @Column(name = "AUTO_PASS_MK")
+    String autoPassMk;
 
     @Column(name = "VALUE_DATE")
     LocalDate valueDate;
-
 
     @Column(name = "SENDER_INFO1")
     String senderInfo1;

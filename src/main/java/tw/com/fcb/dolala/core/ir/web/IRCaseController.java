@@ -31,6 +31,7 @@ public class IRCaseController {
     @Autowired
     SerialNumberService serialNumberService;
 
+
     //取號檔 SystemType,branch
     private final String systemType = "IR_SEQ";
     private final String branch = "999";
@@ -61,6 +62,7 @@ public class IRCaseController {
     public Boolean getValidateResult(String  irSeqNo) {
         irCaseService.getByIRSeqNo(irSeqNo);
         // check 相關欄位
+
 
         return true;
     }

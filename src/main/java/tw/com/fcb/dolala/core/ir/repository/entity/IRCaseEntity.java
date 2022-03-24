@@ -61,7 +61,9 @@ public class IRCaseEntity {
     @Column(name = "AMOUNT")
     BigDecimal amount;
 
-
+    //電文是否可自動放行記號
+    @Column(name = "AUTO_PASS_MK")
+    String autoPassMk;
 
     @Column(name = "VALUE_DATE")
     LocalDate valueDate;
