@@ -19,7 +19,9 @@ public class BankService {
     public BankVo findBySwiftCode(String swiftCode) throws Exception {
         BankVo bankVo = new BankVo();
         Bank bank =
-                bankRepository.findBySwiftCode(swiftCode).orElseThrow(() -> new Exception("找不到此swiftCode "+ swiftCode));
+                bankRepository.findBySwiftCode(swiftCode).orElseThrow(() -> new Exception("D001"));
+                                                                //Exception("DZZZ:戶名欄位未輸入")
+                                                                //Exception("D001,(帶其他參數值)")
         BeanUtils.copyProperties(bank, bankVo);
         return bankVo;
     }

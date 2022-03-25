@@ -51,6 +51,8 @@ public class CommonController {
 	CustomerService customerService;
 	@Autowired
 	BranchCheckService branchCheckService;
+	@Autowired
+	ErrorMessageService errorMessageService;
 
 	// 匯率處理
 	@GetMapping("/fxrate")
@@ -238,13 +240,21 @@ public class CommonController {
 		}catch(Exception e) {
 			log.info(String.valueOf(e));
 			response.setStatus(ResponseStatus.ERROR);
-			response.setCode("D001");
-			response.setMessage(String.valueOf(e));
+			response.setCode(e.getMessage().substring(0,4));
+			response.setMessage(getErrorMessage(e.getMessage()));
 		}
 		response.setData(bankAddressDto);
 		return response;
 	}
 
-
+	// 查詢error code
+	@GetMapping("/errorcode/{errorcode}")
+	@Operation(description = "傳入errorcode查詢錯誤說明", summary="以errorcode查詢錯誤說明")
+	public String getErrorMessage(String errorCode) {
+		String errorMessage = null;
+		errorMessage = errorMessageService.findByErrorCode(errorCode);
+		return errorMessage;
+		
+	}
 
 }
