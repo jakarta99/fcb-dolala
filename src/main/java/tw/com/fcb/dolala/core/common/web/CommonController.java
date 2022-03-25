@@ -25,6 +25,7 @@ import tw.com.fcb.dolala.core.common.service.IDNumberCheckService;
 import tw.com.fcb.dolala.core.common.web.dto.Customer;
 import tw.com.fcb.dolala.core.common.web.dto.CustomerAccount;
 import tw.com.fcb.dolala.core.common.web.vo.BankVo;
+import tw.com.fcb.dolala.core.ir.web.IRCaseController;
 
 /**
  * @author sinjen
@@ -53,6 +54,7 @@ public class CommonController {
 	BranchCheckService branchCheckService;
 	@Autowired
 	ErrorMessageService errorMessageService;
+
 
 	// 匯率處理
 	@GetMapping("/fxrate")

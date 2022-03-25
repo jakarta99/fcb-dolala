@@ -11,4 +11,5 @@ package tw.com.fcb.dolala.core.ir.web;
  * 作者姓名       修改時間       版本編號       描述
  */
 public class AutoPassCheckService {
+
 }

@@ -9,10 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import tw.com.fcb.dolala.core.common.enums.ResponseStatus;
 import tw.com.fcb.dolala.core.common.http.Response;
-import tw.com.fcb.dolala.core.common.service.CustomerAccountService;
-import tw.com.fcb.dolala.core.common.service.CustomerService;
-import tw.com.fcb.dolala.core.common.service.ExchgRateService;
-import tw.com.fcb.dolala.core.common.service.SerialNumberService;
+import tw.com.fcb.dolala.core.common.service.*;
 import tw.com.fcb.dolala.core.common.web.dto.Customer;
 import tw.com.fcb.dolala.core.common.web.dto.CustomerAccount;
 import tw.com.fcb.dolala.core.ir.service.IRCaseService;
@@ -47,7 +44,8 @@ public class IRCaseController {
     IRMessageCheckSerivce irMessageCheckSerivce;
     @Autowired
     ExchgRateService exchgRateService;
-
+    @Autowired
+    ErrorMessageService errorMessageService;
 
     //取號檔 SystemType,branch
 private final String systemType = "IR_SEQ";
@@ -84,6 +82,7 @@ private final String systemType = "IR_SEQ";
             //讀取匯率
 
             //讀取銀行名稱地址
+
             //讀取都市檔
             //讀取存匯行關係
             //讀取是否為同存行
@@ -105,7 +104,7 @@ private final String systemType = "IR_SEQ";
         } catch (Exception e) {
             response.setStatus(ResponseStatus.ERROR);
             response.setCode(String.valueOf(e.getMessage()).substring(0,4));
-            response.setMessage(e.getMessage().substring(4));
+            response.setMessage(getErrorMessage(response.getCode()));
         }
 
 
@@ -128,5 +127,10 @@ private final String systemType = "IR_SEQ";
     public IRCase getBySeqNo(String irSeqNo){
         return irCaseService.getByIRSeqNo(irSeqNo);
     }
+    public String getErrorMessage(String errorCode) {
+        String errorMessage = null;
+        errorMessage = errorMessageService.findByErrorCode(errorCode);
+        return errorMessage;
 
+    }
 }
