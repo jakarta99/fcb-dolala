@@ -1,14 +1,23 @@
 package tw.com.fcb.dolala.core.ir.web;
 
 import io.swagger.v3.oas.annotations.Operation;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import tw.com.fcb.dolala.core.common.repository.entity.SerialNumber;
+import tw.com.fcb.dolala.core.common.enums.ResponseStatus;
+import tw.com.fcb.dolala.core.common.http.Response;
+import tw.com.fcb.dolala.core.common.service.CustomerAccountService;
+import tw.com.fcb.dolala.core.common.service.CustomerService;
+import tw.com.fcb.dolala.core.common.service.ExchgRateService;
 import tw.com.fcb.dolala.core.common.service.SerialNumberService;
+import tw.com.fcb.dolala.core.common.web.dto.Customer;
+import tw.com.fcb.dolala.core.common.web.dto.CustomerAccount;
 import tw.com.fcb.dolala.core.ir.service.IRCaseService;
+import tw.com.fcb.dolala.core.ir.service.IRMessageCheckSerivce;
+import tw.com.fcb.dolala.core.ir.vo.IRCaseVo;
 import tw.com.fcb.dolala.core.ir.web.cmd.SwiftMessageSaveCmd;
 import tw.com.fcb.dolala.core.ir.web.dto.IRCase;
 
@@ -30,38 +39,85 @@ public class IRCaseController {
     IRCaseService irCaseService;
     @Autowired
     SerialNumberService serialNumberService;
+    @Autowired
+    CustomerAccountService customerAccountService;
+    @Autowired
+    CustomerService customerService;
+    @Autowired
+    IRMessageCheckSerivce irMessageCheckSerivce;
+    @Autowired
+    ExchgRateService exchgRateService;
 
 
     //取號檔 SystemType,branch
-    private final String systemType = "IR_SEQ";
+private final String systemType = "IR_SEQ";
     private final String branch = "999";
 
     @PostMapping("/swift")
     @Operation(description = "接收 swift 電文並存到 SwiftMessage", summary="儲存 swift")
-    public String receiveSwift(SwiftMessageSaveCmd message) {
+    public Response receiveSwift(SwiftMessageSaveCmd message) {
         //取號
         String irSeqNo = null;
+        Response response = new Response<>();
         try {
+            IRCaseVo irCaseVo = new IRCaseVo();
+            // STATUS 七日檔初始狀態
+            //      1 ：初值
+            //      2 ：印製放行工作單訖(經辦放行) (S111交易)
+            //          (受通知單位係其它外匯指定單位時放 2 ， ELSE 放 4 )
+            irCaseVo.setProcessStatus("1");
+            //欄位check
+            // check account
+            irCaseVo.setReceiverAccount(irMessageCheckSerivce.checkAccount(message.getReceiverAccount()));;
+            // check currency
+            irCaseVo.setCurrency(irMessageCheckSerivce.checkCurrency(message.getCurrency()));;
+
+            //顧客資料，受通知分行
+            CustomerAccount customerAccount = customerAccountService.getCustomerAccount(message.getReceiverAccount().substring(1,12));
+            Customer customer =   customerService.getCustomer(customerAccount.getCustomerSeqNo());
+
+            irCaseVo.setBeAdvBranch(customerAccount.getBranchID());
+            irCaseVo.setCustomerID(customer.getCustomerId());
+            if (message.getReceiverInfo1().length() == 0){
+                irCaseVo.setReceiverInfo1(customer.getEnglishName());
+            }
+            //讀取匯率
+
+            //讀取銀行名稱地址
+            //讀取都市檔
+            //讀取存匯行關係
+            //讀取是否為同存行
+            //取號
             irSeqNo = serialNumberService.getIrSeqNo(systemType,branch);
+            irCaseVo.setSeqNo(irSeqNo);
+            //更新取號檔
+            serialNumberService.updateSerialNumber(systemType,branch, Long.valueOf(irSeqNo));
+
+
+            //insert
+
+            irCaseService.insert(irCaseVo);
+
+            response.setCode("0000");
+            response.setStatus(ResponseStatus.SUCCESS);
+            response.setData(irSeqNo);
+
         } catch (Exception e) {
-            e.printStackTrace();
+            response.setStatus(ResponseStatus.ERROR);
+            response.setCode(String.valueOf(e.getMessage()).substring(0,4));
+            response.setMessage(e.getMessage().substring(4));
         }
-        //更新取號檔
-        serialNumberService.updateSerialNumber(systemType,branch, Long.valueOf(irSeqNo));
-        //檢核流程
 
-        //insert
-        message.setSeqNo(irSeqNo);
-        irCaseService.insert(message);
 
-        return irSeqNo;
+        return response;
     }
 
     @GetMapping("/swift/{id}")
-    @Operation(description = "電文檢核")
-    public Boolean getValidateResult(String  irSeqNo) {
+    @Operation(description = "檢核是否可自動放行", summary="更新AUTO_PASS欄位")
+    public Boolean checkAutoPassMK(String  irSeqNo) {
         irCaseService.getByIRSeqNo(irSeqNo);
         // check 相關欄位
+
 
 
         return true;

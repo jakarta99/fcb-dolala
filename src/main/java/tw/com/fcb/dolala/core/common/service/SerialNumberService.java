@@ -37,7 +37,7 @@ public class SerialNumberService {
     public String getIrSeqNo(String systemType,String branch) throws Exception {
 
         SerialNumber serialNumber;
-        serialNumber = serialNumberRepository.findBySystemTypeAndBranch(systemType,branch).orElseThrow(() -> new Exception("找不到取號檔資料"+ systemType + branch));
+        serialNumber = serialNumberRepository.findBySystemTypeAndBranch(systemType,branch).orElseThrow(() -> new Exception("SF01"+ systemType + branch));
         String seqNo = getNo(serialNumber.getSerialNo());
         return seqNo;
     }

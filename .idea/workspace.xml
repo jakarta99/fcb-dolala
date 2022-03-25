@@ -4,21 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6bce90cb-e58f-45d6-9968-a9c415f7c69e" name="Changes" comment="BranchCheckService commit">
+    <list default="true" id="6bce90cb-e58f-45d6-9968-a9c415f7c69e" name="Changes" comment="update">
+      <change afterPath="$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/ir/service/IRMessageCheckSerivce.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/ir/web/AutoPassCheckService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/common/repository/entity/BranchInformation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/common/repository/entity/BranchInformation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/common/service/BranchCheckService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/common/service/BranchCheckService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/common/service/SerialNumberGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/common/service/SerialNumberGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/ir/service/IRService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/ir/service/IRService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/ir/web/IRController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/ir/web/IRController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/FcbCoreApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/FcbCoreApplication.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/IRController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/IRController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/IRSwiftController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/IRSwiftController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/cmd/IRCriteriaCmd.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/cmd/IRCriteriaCmd.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/cmd/IRSaveCmd.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/cmd/IRSaveCmd.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/cmd/SwiftMessageSaveCmd.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/cmd/SwiftMessageSaveCmd.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/dto/IR.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tw/com/fcb/dolala/core/ir/web/dto/IR.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/common/service/SerialNumberService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/common/service/SerialNumberService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/ir/service/IRCaseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/ir/service/IRCaseService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/ir/web/IRCaseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/ir/web/IRCaseController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,8 +21,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Class" />
+        <option value="Enum" />
         <option value="JUnit5 Test Class" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -67,25 +60,36 @@
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
     <property name="create.test.in.the.same.root" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../vaccine-1922" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
   </component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
+      <recent name="tw.com.fcb.dolala.core.ir.service" />
+      <recent name="tw.com.fcb.dolala.core.ir.web" />
+      <recent name="tw.com.fcb.dolala.core.ir.vo" />
       <recent name="tw.com.fcb.dolala.core.ir.repository.entity" />
       <recent name="tw.com.fcb.dolala.core.ir.web.dto" />
-      <recent name="tw.com.fcb.dolala.core.ir.web.cmd" />
     </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="tw.com.fcb.dolala.core.ir.repository.euum" />
+      <recent name="tw.com.fcb.dolala.core.ir.repository" />
+      <recent name="tw.com.fcb.dolala.core.common.repository" />
+      <recent name="tw.com.fcb.dolala.core.common.euum" />
       <recent name="tw.com.fcb.dolala.core.common" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
+      <recent name="tw.com.fcb.dolala.core.common.service" />
+      <recent name="tw.com.fcb.dolala.core.common.http" />
       <recent name="tw.com.fcb.dolala.core.common.repository" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.SerialNumberRepositoryTest">
+  <component name="RunManager" selected="Application.FcbCoreApplication">
     <configuration name="FcbCoreApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="tw.com.fcb.dolala.core.FcbCoreApplication" />
       <module name="inward-remittance" />
@@ -95,6 +99,36 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BranchInformationRepositoryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="inward-remittance" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="tw.com.fcb.dolala.core.common.repository.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="tw.com.fcb.dolala.core.common.repository" />
+      <option name="MAIN_CLASS_NAME" value="tw.com.fcb.dolala.core.common.repository.BranchInformationRepositoryTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ExchgRateRepositoryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="inward-remittance" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="tw.com.fcb.dolala.core.common.repository.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="tw.com.fcb.dolala.core.common.repository" />
+      <option name="MAIN_CLASS_NAME" value="tw.com.fcb.dolala.core.common.repository.ExchgRateRepositoryTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -114,10 +148,28 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="SerialNumberServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="inward-remittance" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="tw.com.fcb.dolala.core.common.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="tw.com.fcb.dolala.core.common.service" />
+      <option name="MAIN_CLASS_NAME" value="tw.com.fcb.dolala.core.common.service.SerialNumberServiceTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.SerialNumberRepositoryTest" />
         <item itemvalue="Application.FcbCoreApplication" />
+        <item itemvalue="JUnit.SerialNumberServiceTest" />
+        <item itemvalue="JUnit.ExchgRateRepositoryTest" />
+        <item itemvalue="JUnit.BranchInformationRepositoryTest" />
+        <item itemvalue="JUnit.SerialNumberRepositoryTest" />
       </list>
     </recent_temporary>
   </component>
@@ -228,7 +280,133 @@
       <option name="project" value="LOCAL" />
       <updated>1647337750963</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="UnitTest">
+      <created>1647415046401</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1647415046401</updated>
+    </task>
+    <task id="LOCAL-00016" summary="UnitTest">
+      <created>1647415077471</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1647415077471</updated>
+    </task>
+    <task id="LOCAL-00017" summary="ffff">
+      <created>1647415100268</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1647415100268</updated>
+    </task>
+    <task id="LOCAL-00018" summary="update">
+      <created>1647494028229</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1647494028229</updated>
+    </task>
+    <task id="LOCAL-00019" summary="update">
+      <created>1647494318704</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1647494318705</updated>
+    </task>
+    <task id="LOCAL-00020" summary="move Catorerty">
+      <created>1647502791862</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1647502791862</updated>
+    </task>
+    <task id="LOCAL-00021" summary="DateConverter commit">
+      <created>1647507037460</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1647507037460</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Response commit">
+      <created>1647507062447</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1647507062447</updated>
+    </task>
+    <task id="LOCAL-00023" summary="更改目錄名稱及位置">
+      <created>1647507263445</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1647507263445</updated>
+    </task>
+    <task id="LOCAL-00024" summary="add Slf4j">
+      <created>1647507322478</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1647507322478</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Rename SerialNumberGenerator to SerialNumberService">
+      <created>1647510186346</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1647510186347</updated>
+    </task>
+    <task id="LOCAL-00026" summary="調整由I&#10;調整由IRCaseController發動執行各service">
+      <created>1647592973526</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1647592973526</updated>
+    </task>
+    <task id="LOCAL-00027" summary="調整由I&#10;調整由IRController發動執行各service">
+      <created>1647597245751</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1647597245751</updated>
+    </task>
+    <task id="LOCAL-00028" summary="調整由I&#10;SerialNumberRepository,serialNumberRepositoryTest Commit">
+      <created>1647598227028</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1647598227028</updated>
+    </task>
+    <task id="LOCAL-00029" summary="調整由I&#10;SerialNumberService update, add SerialNumberServiceTest">
+      <created>1647842265628</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1647842265628</updated>
+    </task>
+    <task id="LOCAL-00030" summary="調整由I&#10;新增讀取取號檔API">
+      <created>1647843489476</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1647843489476</updated>
+    </task>
+    <task id="LOCAL-00031" summary="新增IRCaseCheckService,IRCaseEntity新增欄位,IRCaseService新增call IRCaseCheckService,新增IRCaseVo">
+      <created>1647940419752</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1647940419752</updated>
+    </task>
+    <task id="LOCAL-00032" summary="update">
+      <created>1648101919630</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1648101919630</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -251,9 +429,99 @@
     <MESSAGE value="SerialNumber commit" />
     <MESSAGE value="update commit" />
     <MESSAGE value="BranchCheckService commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="BranchCheckService commit" />
+    <MESSAGE value="UnitTest" />
+    <MESSAGE value="ffff" />
+    <MESSAGE value="move Catorerty" />
+    <MESSAGE value="DateConverter commit" />
+    <MESSAGE value="Response commit" />
+    <MESSAGE value="更改目錄名稱及位置" />
+    <MESSAGE value="add Slf4j" />
+    <MESSAGE value="Rename SerialNumberGenerator to SerialNumberService" />
+    <MESSAGE value="調整由I&#10;調整由IRCaseController發動執行各service" />
+    <MESSAGE value="調整由I&#10;調整由IRController發動執行各service" />
+    <MESSAGE value="調整由I&#10;SerialNumberRepository,serialNumberRepositoryTest Commit" />
+    <MESSAGE value="調整由I&#10;SerialNumberService update, add SerialNumberServiceTest" />
+    <MESSAGE value="調整由I&#10;新增讀取取號檔API" />
+    <MESSAGE value="新增IRCaseCheckService,IRCaseEntity新增欄位,IRCaseService新增call IRCaseCheckService,新增IRCaseVo" />
+    <MESSAGE value="update" />
+    <option name="LAST_COMMIT_MESSAGE" value="update" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/ir/service/IRService.java</url>
+          <line>43</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/tw/com/fcb/dolala/core/common/service/SerialNumberServiceTest.java</url>
+          <line>29</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/tw/com/fcb/dolala/core/common/service/SerialNumberServiceTest.java</url>
+          <line>35</line>
+          <option name="timeStamp" value="19" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/tw/com/fcb/dolala/core/common/service/SerialNumberServiceTest.java</url>
+          <line>36</line>
+          <option name="timeStamp" value="20" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/tw/com/fcb/dolala/core/common/service/SerialNumberServiceTest.java</url>
+          <line>38</line>
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/tw/com/fcb/dolala/core/common/service/SerialNumberServiceTest.java</url>
+          <line>40</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/tw/com/fcb/dolala/core/common/service/SerialNumberServiceTest.java</url>
+          <line>44</line>
+          <option name="timeStamp" value="23" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/tw/com/fcb/dolala/core/common/service/SerialNumberServiceTest.java</url>
+          <line>41</line>
+          <option name="timeStamp" value="24" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/tw/com/fcb/dolala/core/common/service/SerialNumberServiceTest.java</url>
+          <line>30</line>
+          <option name="timeStamp" value="25" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/common/service/CustomerAccountService.java</url>
+          <line>19</line>
+          <option name="timeStamp" value="38" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/common/service/CustomerAccountService.java</url>
+          <line>20</line>
+          <option name="timeStamp" value="39" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/common/service/CustomerAccountService.java</url>
+          <line>21</line>
+          <option name="timeStamp" value="40" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/common/service/CustomerAccountService.java</url>
+          <line>22</line>
+          <option name="timeStamp" value="41" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/tw/com/fcb/dolala/core/ir/service/IRService.java</url>
+          <line>42</line>
+          <properties class="tw.com.fcb.dolala.core.ir.service.IRService" />
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="num" />
@@ -262,6 +530,9 @@
         <watch expression="updatedSerialNumber" />
         <watch expression="count" />
         <watch expression=" repository.findByBeAdvBranch(branch)" />
+        <watch expression="numberSerial" />
+        <watch expression="irNo" />
+        <watch expression="customerAccountEntity" />
       </configuration>
     </watches-manager>
   </component>

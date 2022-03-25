@@ -42,12 +42,12 @@ public class IRCaseService {
     private final String branch = "999";
 
 
-    public boolean insert(SwiftMessageSaveCmd saveCmd){
+    public boolean insert(IRCaseVo irCaseVo){
         //beginTx
 
 
         IRCaseEntity irCaseEntity = new IRCaseEntity();
-        IRCaseVo irCaseVo = this.saveIRCaseData(saveCmd);
+
 // 將irCaseVo，對應到entity裡
         BeanUtils.copyProperties(irCaseVo, irCaseEntity);
         irCaseRepository.save(irCaseEntity);
