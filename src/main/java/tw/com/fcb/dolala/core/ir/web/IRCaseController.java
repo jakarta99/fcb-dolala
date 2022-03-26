@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import tw.com.fcb.dolala.core.common.repository.entity.SerialNumber;
 import tw.com.fcb.dolala.core.common.service.SerialNumberService;
+import tw.com.fcb.dolala.core.ir.http.IRFieignClient;
 import tw.com.fcb.dolala.core.ir.service.IRCaseService;
 import tw.com.fcb.dolala.core.ir.web.cmd.SwiftMessageSaveCmd;
 import tw.com.fcb.dolala.core.ir.web.dto.IRCase;
@@ -30,6 +31,8 @@ public class IRCaseController {
     IRCaseService irCaseService;
     @Autowired
     SerialNumberService serialNumberService;
+    @Autowired
+    IRFieignClient irFieignClient;
 
     //取號檔 SystemType,branch
     private final String systemType = "IR_SEQ";
@@ -41,7 +44,8 @@ public class IRCaseController {
         //取號
         String irSeqNo = null;
         try {
-            irSeqNo = serialNumberService.getIrSeqNo(systemType,branch);
+            irSeqNo =  irFieignClient.isGetSeqNo(branch);
+//            irSeqNo = serialNumberService.getIrSeqNo(systemType,branch);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -19,8 +19,8 @@ class CommonControllerTest {
 	// 讀取買賣匯匯率
 	@Test
 	void testGetFxRate() {
-		BigDecimal exchangeRateB = common.getFxRate(ExchgRate.EXCHG_RATE_TYPE_BUY, "USD", "TWD");
-		BigDecimal exchangeRateS = common.getFxRate(ExchgRate.EXCHG_RATE_TYPE_SELL, "USD", "TWD");
+		BigDecimal exchangeRateB = common.isGetFxRate(ExchgRate.EXCHG_RATE_TYPE_BUY, "USD", "TWD");
+		BigDecimal exchangeRateS = common.isGetFxRate(ExchgRate.EXCHG_RATE_TYPE_SELL, "USD", "TWD");
 		assertNotNull(exchangeRateB);
 		assertNotNull(exchangeRateS);
 	}
@@ -29,7 +29,7 @@ class CommonControllerTest {
 	@Test
 	void testCheckFxRate() {
 		BigDecimal exchgRate = new BigDecimal("28.34");
-		boolean check = common.checkFxRate(exchgRate);
+		boolean check = common.isCheckFxRate(exchgRate);
 		assertTrue(check);
 	}
 	
@@ -39,7 +39,7 @@ class CommonControllerTest {
 		String result = "1001";
 		String countryCode = "TW";
 		String countryNumber = null;
-		countryNumber = common.getCountryNumber(countryCode);
+		countryNumber = common.isGetCountryNumber(countryCode);
 		assertEquals(result, countryNumber);
 	}
 	
@@ -49,7 +49,7 @@ class CommonControllerTest {
 		String result = "TW";
 		String countryCode = null;
 		String countryNumber = "1001";
-		countryCode = common.getCountryCode(countryNumber);
+		countryCode = common.isGetCountryCode(countryNumber);
 		assertEquals(result, countryCode);
 	}
 	
@@ -58,8 +58,8 @@ class CommonControllerTest {
 	void testCheckId() {
 		String id1 = "A123456789";
 		String id2 = "A800000014";
-		boolean check1 = common.checkId(id1);
-		boolean check2 = common.checkId(id2);
+		boolean check1 = common.isCheckId(id1);
+		boolean check2 = common.isCheckId(id2);
 		assertTrue(check1);
 		assertTrue(check2);
 	}

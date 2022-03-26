@@ -7,14 +7,12 @@ import org.springframework.web.bind.annotation.*;
 
 import io.swagger.v3.oas.annotations.Operation;
 import tw.com.fcb.dolala.core.common.repository.entity.ExchgRate;
-import tw.com.fcb.dolala.core.common.repository.entity.SerialNumber;
 import tw.com.fcb.dolala.core.common.service.ExchgRateService;
 import tw.com.fcb.dolala.core.common.service.SerialNumberService;
+import tw.com.fcb.dolala.core.ir.http.IRFieignClient;
 import tw.com.fcb.dolala.core.ir.service.IRService;
 import tw.com.fcb.dolala.core.ir.web.cmd.IRSaveCmd;
 import tw.com.fcb.dolala.core.ir.web.dto.IR;
-
-import java.math.BigDecimal;
 
 /**
  * Copyright (C),2022-2022,FirstBank
@@ -37,19 +35,29 @@ public class IRController {
     ExchgRateService rateService;
     @Autowired
     SerialNumberService serialNumberService;
+    final   IRFieignClient irFieignClient;
     //取號檔 SystemType,branch
     private final String systemType = "IR";
     private final String noCode = "S";
+
+    public IRController(IRFieignClient irFieignClient) {
+        this.irFieignClient = irFieignClient;
+    }
 
     @PostMapping
     @Operation(description = "匯入匯款主檔資料寫入", summary="新增匯入匯款主檔")
     public String insert(IRSaveCmd ir, BindingResult rs) {
 
         String irNo = null;
+
         try {
             // 從匯率資料檔取得ExchgRate
-            ir.setExchangeRate(rateService.getRate(ExchgRate.EXCHG_RATE_TYPE_BUY, ir.getCurency(), "TWD"));
+//            ir.setExchangeRate(rateService.getRate(ExchgRate.EXCHG_RATE_TYPE_BUY, ir.getCurency(), "TWD"));
+            String currency = ir.getCurency();
+            ir.setExchangeRate(irFieignClient.isGetFxRate(ExchgRate.EXCHG_RATE_TYPE_BUY,currency,"TWD"));
             //取號
+            String branch = ir.getBeAdvBranch();
+            irNo = irFieignClient.isGetFxNo(ir.getBeAdvBranch());
             irNo = serialNumberService.getFxNo(noCode, systemType, ir.getBeAdvBranch());
             ir.setIrNo(irNo);
             //更新取號檔
