@@ -53,21 +53,14 @@ public class IRController {
         try {
             // 從匯率資料檔取得ExchgRate
 //            ir.setExchangeRate(rateService.getRate(ExchgRate.EXCHG_RATE_TYPE_BUY, ir.getCurency(), "TWD"));
-            String currency = ir.getCurency();
-            ir.setExchangeRate(irFieignClient.isGetFxRate(ExchgRate.EXCHG_RATE_TYPE_BUY,currency,"TWD"));
+
+            ir.setExchangeRate(irFieignClient.isGetFxRate(ExchgRate.EXCHG_RATE_TYPE_BUY, ir.getCurency(),"TWD"));
             //取號
             String branch = ir.getBeAdvBranch();
-            irNo = irFieignClient.isGetFxNo(ir.getBeAdvBranch());
-            irNo = serialNumberService.getFxNo(noCode, systemType, ir.getBeAdvBranch());
+            irNo = irFieignClient.getFxNo(noCode,systemType,ir.getBeAdvBranch());
+//            irNo = serialNumberService.getFxNo("S", "IR", ir.getBeAdvBranch());
             ir.setIrNo(irNo);
-            //更新取號檔
-            String numberSerial;
-            if (ir.getBeAdvBranch() == "093"){
-                numberSerial = irNo.substring(6, 11);
-            }else {
-                numberSerial = irNo.substring(5, 10);
-            }
-            serialNumberService.updateSerialNumber(systemType,ir.getBeAdvBranch(), Long.valueOf(numberSerial));
+
 
             // insert irMaster
             irService.insert(ir);

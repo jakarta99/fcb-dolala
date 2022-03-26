@@ -11,7 +11,6 @@ import tw.com.fcb.dolala.core.ir.repository.IRMasterRepository;
 import tw.com.fcb.dolala.core.ir.repository.entity.IRCaseEntity;
 import tw.com.fcb.dolala.core.ir.repository.entity.IRMaster;
 import tw.com.fcb.dolala.core.ir.web.dto.IR;
-import tw.com.fcb.dolala.core.ir.web.dto.IRCase;
 
 @Slf4j
 @Transactional
@@ -43,7 +42,7 @@ public class IRCaseAuthorizationS121Service {
 			//從電文檔搬移到主檔
 			IR ir = new IR();
 			ir.setValueDate(irCaseEntity.getValueDate());
-			ir.setIrAmt(irCaseEntity.getAmount());
+			ir.setIrAmt(irCaseEntity.getIrAmount());
 			ir.setCurency(irCaseEntity.getCurrency());
 			
 			//新增主檔

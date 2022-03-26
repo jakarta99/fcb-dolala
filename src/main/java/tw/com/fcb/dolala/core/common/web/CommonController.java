@@ -58,8 +58,8 @@ public class CommonController {
 	// 匯率處理
 	@GetMapping("/GetFxRate")
 	@Operation(description = "依exchgRateType, currency, standardCurrency取得ExchgRate", summary = "讀取買/賣匯匯率")
-	public BigDecimal isGetFxRate(String exchgRateType, String currency, String standardCurrency) {
-		BigDecimal exchangeRate = fxService.getRate(exchgRateType, currency, standardCurrency);
+	public BigDecimal isGetFxRate(String fxRateType, String currency, String standardCurrency) {
+		BigDecimal exchangeRate = fxService.getRate(fxRateType, currency, standardCurrency);
 		log.info("呼叫讀取匯率API：取得ExchgRate = " + exchangeRate);
 		return exchangeRate;
 	}
@@ -130,6 +130,7 @@ public class CommonController {
 		} catch (Exception e) {
 			log.info("取得外匯編號錯誤" + e);
 
+
 		}
 		return  fxNo;
 	}
@@ -159,6 +160,7 @@ public class CommonController {
 	@GetMapping("/customer")
 	@Operation(description = "以顧客帳號讀取顧客資料", summary = "讀取顧客資料")
 	public Customer getCustomer(String accountNumber) {
+		log.info("接收accountNumber = " + accountNumber);
 		CustomerAccount customerAccount = null;
 		customerAccount = customerAccountService.getCustomerAccount(accountNumber);
 		log.info("呼叫讀取顧客帳戶API：顧客帳戶資料："+customerAccount.toString());

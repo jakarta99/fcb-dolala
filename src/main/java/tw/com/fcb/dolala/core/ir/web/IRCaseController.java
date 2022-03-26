@@ -6,9 +6,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import tw.com.fcb.dolala.core.common.repository.entity.SerialNumber;
-import tw.com.fcb.dolala.core.common.service.SerialNumberService;
+import tw.com.fcb.dolala.core.common.enums.ResponseStatus;
+import tw.com.fcb.dolala.core.common.http.Response;
+import tw.com.fcb.dolala.core.common.service.*;
+import tw.com.fcb.dolala.core.common.web.dto.BankDto;
+import tw.com.fcb.dolala.core.common.web.dto.Customer;
+import tw.com.fcb.dolala.core.ir.http.IRFieignClient;
 import tw.com.fcb.dolala.core.ir.service.IRCaseService;
+import tw.com.fcb.dolala.core.ir.service.IRMessageCheckSerivce;
+import tw.com.fcb.dolala.core.ir.vo.IRCaseVo;
 import tw.com.fcb.dolala.core.ir.web.cmd.SwiftMessageSaveCmd;
 import tw.com.fcb.dolala.core.ir.web.dto.IRCase;
 
@@ -67,10 +73,12 @@ public class IRCaseController {
             irCaseVo.setCurrency(irMessageCheckSerivce.checkCurrency(message.getCurrency()));;
 
             //顧客資料，受通知分行
-            CustomerAccount customerAccount = customerAccountService.getCustomerAccount(message.getReceiverAccount().substring(1,12));
-            Customer customer =   customerService.getCustomer(customerAccount.getCustomerSeqNo());
+            System.out.println("message.ReceiverAccount = " + message.getReceiverAccount());
+            Customer customer = irFieignClient.getCustomer(message.getReceiverAccount().substring(1,12));
+//            CustomerAccount customerAccount = customerAccountService.getCustomerAccount(message.getReceiverAccount().substring(1,12));
+//            Customer customer =   customerService.getCustomer(customerAccount.getCustomerSeqNo());
 
-            irCaseVo.setBeAdvBranch(customerAccount.getBranchID());
+            irCaseVo.setBeAdvBranch(customer.getBranchID());
             irCaseVo.setCustomerID(customer.getCustomerId());
             if (message.getReceiverInfo1().length() == 0){
                 irCaseVo.setReceiverInfo1(customer.getEnglishName());
@@ -78,24 +86,22 @@ public class IRCaseController {
             //讀取匯率
 
             //讀取銀行名稱地址
-
+            BankDto bankDto = irFieignClient.getBank(message.getSenderSwiftCode());
+            irCaseVo.setSenderInfo1(bankDto.getName());
+            irCaseVo.setSenderInfo3(bankDto.getAddress());
             //讀取都市檔
+
             //讀取存匯行關係
+
             //讀取是否為同存行
+
             //取號
             irSeqNo = serialNumberService.getIrSeqNo(systemType,branch);
             irCaseVo.setSeqNo(irSeqNo);
             //更新取號檔
-            serialNumberService.updateSerialNumber(systemType,branch, Long.valueOf(irSeqNo));
-
-            irSeqNo =  irFieignClient.isGetSeqNo(branch);
-//            irSeqNo = serialNumberService.getIrSeqNo(systemType,branch);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        //更新取號檔
-        serialNumberService.updateSerialNumber(systemType,branch, Long.valueOf(irSeqNo));
-        //檢核流程
+            //更新取號檔
+//            serialNumberService.updateSerialNumber(systemType,branch, Long.valueOf(irSeqNo));
+            //檢核流程
 
             //insert
 
@@ -103,13 +109,16 @@ public class IRCaseController {
 
             response.setCode("0000");
             response.setStatus(ResponseStatus.SUCCESS);
-            response.setData(irSeqNo);
+            response.setData(irCaseVo);
+            response.setMessage(getMessage(response.getCode()));
 
         } catch (Exception e) {
             response.setStatus(ResponseStatus.ERROR);
             response.setCode(String.valueOf(e.getMessage()).substring(0,4));
-            response.setMessage(getErrorMessage(response.getCode()));
+            response.setMessage(getMessage(response.getCode()));
         }
+
+
 
 
         return response;
@@ -131,7 +140,7 @@ public class IRCaseController {
     public IRCase getBySeqNo(String irSeqNo){
         return irCaseService.getByIRSeqNo(irSeqNo);
     }
-    public String getErrorMessage(String errorCode) {
+    public String getMessage(String errorCode) {
         String errorMessage = null;
         errorMessage = errorMessageService.findByErrorCode(errorCode);
         return errorMessage;

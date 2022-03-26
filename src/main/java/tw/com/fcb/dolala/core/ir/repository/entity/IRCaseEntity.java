@@ -1,6 +1,7 @@
 package tw.com.fcb.dolala.core.ir.repository.entity;
 
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import tw.com.fcb.dolala.core.ir.repository.enums.ChargeType;
 
@@ -43,29 +44,29 @@ public class IRCaseEntity {
     @Column(name = "CREDIT_MK")
     String creditMK;
     //受通知單位
-    @Column(name = "BE_ADV_BRANCH")
+    @Column(name = "BE_ADV_BRANCH",length = 3)
     String beAdvBranch;
     //顧客統編
     @Column(name = "CUSTOMER_ID")
     String customerID;
 
-    @Column(name = "SENDER_SWIFT_CODE")
+    @Column(name = "SENDER_SWIFT_CODE",length = 11)
     String senderSwiftCode;
 
     @Column(name = "REFERENCE_NO")
     String referenceNo;
 
-    @Column(name = "CURRENCY")
+    @Column(name = "CURRENCY",length = 3)
     String currency;
 
     @Column(name = "AMOUNT")
-    BigDecimal amount;
+    BigDecimal irAmount;
 
     //電文是否可自動放行記號
-    @Column(name = "AUTO_PASS_MK")
+    @Column(name = "AUTO_PASS_MK",length = 1)
     String autoPassMk;
 
-    @Column(name = "VALUE_DATE")
+    @Column(name = "VALUE_DATE",length = 12)
     LocalDate valueDate;
 
 
@@ -104,4 +105,18 @@ public class IRCaseEntity {
     @Column(name = "CHARGE_FEE_AMOUNT3")
     BigDecimal chargeFeeAmount3;
 
+    @Schema(description = "匯款行一" )
+    String remitBankInfo1;
+
+    @Schema(description = "匯款行二" )
+    String remitBankInfo2;
+
+    @Schema(description = "匯款行三" )
+    String remitBankInfo3;
+
+    @Schema(description = "匯款行四" )
+    String remitBankInfo4;
+
+    @Schema(description = "存匯行 SWIFT-TID" )
+    String depositBank;
 }
