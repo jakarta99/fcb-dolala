@@ -4,6 +4,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tw.com.fcb.dolala.core.common.service.CustomerAccountService;
+import tw.com.fcb.dolala.core.common.service.CustomerService;
 import tw.com.fcb.dolala.core.common.web.dto.Customer;
 import tw.com.fcb.dolala.core.common.web.dto.CustomerAccount;
 import tw.com.fcb.dolala.core.ir.repository.IRCaseRepository;
@@ -29,20 +31,23 @@ public class IRCaseService {
     IRCaseRepository irCaseRepository;
 
 
+
     @Autowired
-    IRCaseCheckService irCaseCheckService;
+    CustomerAccountService customerAccountService;
+    @Autowired
+    CustomerService customerService;
 
     //取號檔 SystemType,branch
     private final String systemType = "IR_SEQ";
     private final String branch = "999";
 
 
-    public boolean insert(SwiftMessageSaveCmd saveCmd){
+    public boolean insert(IRCaseVo irCaseVo){
         //beginTx
 
 
         IRCaseEntity irCaseEntity = new IRCaseEntity();
-        IRCaseVo irCaseVo = this.saveIRCaseData(saveCmd);
+
 // 將irCaseVo，對應到entity裡
         BeanUtils.copyProperties(irCaseVo, irCaseEntity);
         irCaseRepository.save(irCaseEntity);
@@ -53,8 +58,8 @@ public class IRCaseService {
 
     public IRCaseVo  saveIRCaseData(SwiftMessageSaveCmd saveCmd){
         IRCaseVo irCaseVo = new IRCaseVo();
-        CustomerAccount customerAccount = irCaseCheckService.getCustomerAccount(saveCmd.getReceiverAccount().substring(1,12));
-        Customer customer =   irCaseCheckService.getCustomerInfo(customerAccount.getCustomerSeqNo());
+        CustomerAccount customerAccount = customerAccountService.getCustomerAccount(saveCmd.getReceiverAccount().substring(1,12));
+        Customer customer =   customerService.getCustomer(customerAccount.getCustomerSeqNo());
         BeanUtils.copyProperties(saveCmd, irCaseVo);
         irCaseVo.setBeAdvBranch(customerAccount.getBranchID());
         irCaseVo.setCustomerID(customer.getCustomerId());
