@@ -56,7 +56,7 @@ public class IRCaseAuthorizationS121Controller {
 		IRMaster irMaster = new IRMaster();
 		irMaster = irCaseAuthorizationS121Service.exeCaseAuthorization(seqNo);
 		
-		if (irCaseEntity != null)
+		if (irMaster != null)
 		{
 			log.info("MT103放行成功");			 
 		}

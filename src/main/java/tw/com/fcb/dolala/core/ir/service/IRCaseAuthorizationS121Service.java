@@ -35,12 +35,13 @@ public class IRCaseAuthorizationS121Service {
 	// s121a 執行MT103放行
 	public IRMaster exeCaseAuthorization(String seqNo) {
 		
-		IRMaster irMaster = new IRMaster();
+		IRMaster irMaster = null;
 		irCaseEntity = this.qryWaitForAuthorization(seqNo);		
 		
 		if (irCaseEntity != null)
 		{
-			//從電文檔搬移到主檔			
+			//從電文檔搬移到主檔	
+			irMaster = new IRMaster();
 			irMaster.setPaidStats(0);
 			irMaster.setValueDate(irCaseEntity.getValueDate());
 			irMaster.setIrAmt(irCaseEntity.getIrAmount());
