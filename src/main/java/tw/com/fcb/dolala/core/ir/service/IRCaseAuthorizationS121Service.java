@@ -46,6 +46,8 @@ public class IRCaseAuthorizationS121Service {
 			irMaster.setValueDate(irCaseEntity.getValueDate());
 			irMaster.setIrAmt(irCaseEntity.getIrAmount());
 			irMaster.setCurency(irCaseEntity.getCurrency());
+			irMaster.setBeAdvBranch("093");
+			irMaster.setPrintAdvMk("Y");
 		    //新增主檔
 		    irMasterRepository.save(irMaster);
 		    
