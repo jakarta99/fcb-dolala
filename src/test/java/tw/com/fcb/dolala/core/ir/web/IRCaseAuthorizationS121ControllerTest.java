@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import tw.com.fcb.dolala.core.ir.repository.entity.IRCaseEntity;
+import tw.com.fcb.dolala.core.ir.repository.entity.IRMaster;
 import tw.com.fcb.dolala.core.ir.web.dto.IRCase;
 
 /**
@@ -32,7 +33,8 @@ class IRCaseAuthorizationS121ControllerTest {
 	@Test
 	void testexeCaseAuthorization() {
 		String seqNo = "123456789012345";
-		String exeReturnMsg = S121.exeCaseAuthorization(seqNo);
-		assertNotNull(exeReturnMsg);
+		IRMaster irMaster = new IRMaster();
+		irMaster = S121.exeCaseAuthorization(seqNo);
+		assertNotNull(irMaster);
 	}
 }
