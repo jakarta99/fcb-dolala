@@ -5,6 +5,7 @@ import java.util.List;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import tw.com.fcb.dolala.core.common.repository.entity.CustomerAccountEntity;
 
 /**
  * Copyright (C),2022-2022,FirstBank
@@ -65,5 +66,5 @@ public class Customer {
 	String status;
 	
 	@Schema(description = "客戶帳戶資料")
-	List<CustomerAccount> CustomerAccount;
+	List<CustomerAccountEntity> CustomerAccount;
 }
