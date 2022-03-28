@@ -72,7 +72,7 @@ public class IRCaseController {
             irCaseVo.setProcessStatus("1");
             //欄位check
             // check account
-            if (message.getReceiverAccount()!= null || message.getReceiverAccount()!= "string") {
+            if (message.getReceiverAccount()!= null ) {
                 String accountNo = irMessageCheckSerivce.getAccountNo(message.getReceiverAccount());
                 irCaseVo.setReceiverAccount(accountNo);
                 //顧客資料，受通知分行
