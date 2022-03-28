@@ -18,8 +18,6 @@ public interface IRFieignClient {
     @Operation(description = "依exchgRateType, currency, standardCurrency取得ExchgRate", summary = "讀取買/賣匯匯率")
     BigDecimal isGetFxRate(@RequestParam("fxRateType") String exchgRateType,@RequestParam("currency")String currency,@RequestParam("standardCurrency")String standardCurrency);
 
-
-//
     @GetMapping("/CheckFxrate")
     @Operation(description = "檢核承作匯率", summary = "檢核承作匯率")
     boolean CheckFxRate(@RequestParam("checkFxrate") BigDecimal rate);
@@ -28,7 +26,6 @@ public interface IRFieignClient {
     @GetMapping("/CountryNumber")
     @Operation(description = "以國家代號英文2碼讀取國家代號4碼數字", summary = "讀取國家代號4碼數字")
     String GetCountryNumber(@RequestParam("countryNumber") String  countryCode);
-
 
     @GetMapping("/CountryCode")
     @Operation(description = "以國家代號4碼數字讀取國家代號英文2碼", summary = "讀取國家代號英文2碼")
@@ -49,7 +46,6 @@ public interface IRFieignClient {
     @PutMapping("/common/FxNo")
     @Operation(description = "取得外匯編號",summary = "取得外匯編號並更新取號檔")
     String getFxNo(@RequestParam("noCode")String nocode,@RequestParam("systemType")String systemType,@RequestParam("branch")String branch);
-//
 
     // 取得IRCase seqNo
     @PutMapping("/common/SeqNo")
@@ -63,9 +59,8 @@ public interface IRFieignClient {
     // 分行資料處理
     @GetMapping("/branch")
     @Operation(description = "傳入分行號碼取得分行字軌",summary = "以分行代號取得分行字軌")
-     String getBranchCode(@RequestParam("branch")String branch);
+	String getBranchCode(@RequestParam("branch")String branch);
 
-//
     // 讀銀行檔
     @GetMapping("/bank/{swiftcode}")
     @Operation(description = "傳入SwiftCode查詢銀行檔", summary="以SwiftCode查詢銀行檔")
@@ -86,6 +81,9 @@ public interface IRFieignClient {
     @Operation(description = "傳入劃帳行ID+99查詢劃帳行名稱地址", summary="以劃帳行ID+99查詢劃帳行名稱地址")
     BankAddressDto getBankAdd(@RequestParam("swiftCode") String swiftCode);
 
-
-
+    // 手續費計算
+    @GetMapping("/GetChargeFeeTWD")
+    @Operation(description = "依currency, amount取得chargeFee(新台幣)", summary = "手續費計算")
+    BigDecimal isGetChargeFeeTWD(@RequestParam("currency")String currency, @RequestParam("amount")String amount);
+    
 }

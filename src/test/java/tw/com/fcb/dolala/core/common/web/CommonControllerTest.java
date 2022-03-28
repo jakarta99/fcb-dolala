@@ -63,6 +63,15 @@ class CommonControllerTest {
 		assertTrue(check1);
 		assertTrue(check2);
 	}
+	
+	// 手續費計算
+	@Test
+	void testGetChargeFeeTWD() {
+		String currency = "USD";
+		BigDecimal amount = new BigDecimal("30000");
+		BigDecimal chargeFee = common.isGetChargeFeeTWD(currency, amount);
+		assertNotNull(chargeFee);
+	}
 
 	// 顧客資料處理
 
