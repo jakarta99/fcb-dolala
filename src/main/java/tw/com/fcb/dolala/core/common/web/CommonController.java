@@ -197,7 +197,7 @@ public class CommonController {
 	}
 
 	// 讀銀行檔
-	@GetMapping("/bank/{swiftcode}")
+	@GetMapping("/bank/{swiftCode}")
 	@Operation(description = "傳入SwiftCode查詢銀行檔", summary="以SwiftCode查詢銀行檔")
 	public BankDto getBank(String swiftCode) {
 		BankDto bankDto = new BankDto();

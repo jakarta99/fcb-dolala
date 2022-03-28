@@ -74,6 +74,7 @@ public class IRCaseController {
 
             //顧客資料，受通知分行
             System.out.println("message.ReceiverAccount = " + message.getReceiverAccount());
+
             Customer customer = irFieignClient.getCustomer(message.getReceiverAccount().substring(1,12));
 //            CustomerAccount customerAccount = customerAccountService.getCustomerAccount(message.getReceiverAccount().substring(1,12));
 //            Customer customer =   customerService.getCustomer(customerAccount.getCustomerSeqNo());
