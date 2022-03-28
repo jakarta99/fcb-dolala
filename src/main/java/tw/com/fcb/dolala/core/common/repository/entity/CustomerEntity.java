@@ -73,6 +73,6 @@ public class CustomerEntity {
     
 	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name = "CUSTOMER_SEQ_NO")
-	List<CustomerAccountEntity> CustomerAccountEntity;
+	List<CustomerAccountEntity> CustomerAccount;
 	//select * from CUSTOMER c join CUSTOMER_ACCOUNT d on  c.CUSTOMER_SEQ_NO = d.CUSTOMER_SEQ_NO
 }

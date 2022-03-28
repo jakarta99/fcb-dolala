@@ -53,6 +53,8 @@ public class CommonController {
 	BranchCheckService branchCheckService;
 	@Autowired
 	ErrorMessageService errorMessageService;
+	@Autowired
+	ChargeFeeCalculateService ChargeFeeCalculateService;
 
 
 	// 匯率處理
@@ -129,8 +131,6 @@ public class CommonController {
 
 		} catch (Exception e) {
 			log.info("取得外匯編號錯誤" + e);
-
-
 		}
 		return  fxNo;
 	}
@@ -150,7 +150,6 @@ public class CommonController {
 
 		} catch (Exception e) {
 			log.info("取得SEQ_NO錯誤" + e);
-
 		}
 		return  irSeq;
 	}
@@ -191,7 +190,6 @@ public class CommonController {
 			log.info("呼叫取得分行字軌API：branch = " + branch + "字軌 = " + branchCode);
 		} catch (Exception e) {
 			log.info("讀取branchService錯誤" + e);
-
 		}
 		return branchCode;
 	}
@@ -209,7 +207,6 @@ public class CommonController {
 		}catch(Exception e) {
 			log.info(String.valueOf(e));
 		}
-
 		return bankDto;
 	}
 
@@ -218,7 +215,7 @@ public class CommonController {
 	@Operation(description = "傳入CountryCode查詢國家名稱", summary="以CountryCode查詢國家名稱")
 	public String getCountryName(String countryCode) {
 
-		log.info("呼叫讀取國家名稱API查詢 "+countryCode);
+		log.info("呼叫讀取國家名稱API：查詢 "+countryCode);
 
 		return "CountryName";
 	}
@@ -229,7 +226,7 @@ public class CommonController {
 	public BankAddressDto getBankAdd(String swiftCode,String currency) {
 		BankAddressDto bankAddressDto = new BankAddressDto();
 
-		log.info("呼叫劃帳行名稱地址API查詢 "+swiftCode+"+"+currency);
+		log.info("呼叫劃帳行名稱地址API：查詢 "+swiftCode+"+"+currency);
 
 		bankAddressDto.setName("ABank");
 		bankAddressDto.setAddress("No.1, X st.,Tapei City 106");
@@ -247,7 +244,7 @@ public class CommonController {
 		try {
 			bankVo = bankService.findBySwiftCode(swiftCode);
 			BeanUtils.copyProperties(bankVo, bankAddressDto);
-			log.info("呼叫劃帳行名稱地址API查詢 "+swiftCode+"+"+99);
+			log.info("呼叫劃帳行名稱地址API：查詢 "+swiftCode+"+"+99);
 			response.setStatus(ResponseStatus.SUCCESS);
 			response.setCode("0000");
 		}catch(Exception e) {
@@ -259,6 +256,7 @@ public class CommonController {
 		response.setData(bankAddressDto);
 		return response;
 	}
+	
 	// 查詢error code
 	@GetMapping("/errorcode/{errorcode}")
 	@Operation(description = "傳入errorcode查詢錯誤說明", summary="以errorcode查詢錯誤說明")
@@ -266,8 +264,16 @@ public class CommonController {
 		String errorMessage = null;
 		errorMessage = errorMessageService.findByErrorCode(errorCode);
 		return errorMessage;
-
 	}
 
-
+	// 手續費計算
+	@GetMapping("/GetChargeFeeTWD")
+	@Operation(description = "依currency, amount取得chargeFee(新台幣)", summary = "手續費計算")
+	public BigDecimal isGetChargeFeeTWD(String currency, BigDecimal amount) {
+		BigDecimal chargeFee = null;
+		chargeFee = ChargeFeeCalculateService.chargeFeeTWDCalculat(currency, amount);
+		log.info("呼叫手續費計算API：輸入幣別" + currency + " 金額" + amount + " 取得新台幣手續費=" + chargeFee);
+		return chargeFee;
+	}
+	
 }

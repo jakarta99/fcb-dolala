@@ -63,7 +63,7 @@ public interface IRFieignClient {
     // 分行資料處理
     @GetMapping("/branch")
     @Operation(description = "傳入分行號碼取得分行字軌",summary = "以分行代號取得分行字軌")
-     String getBranchCode(@RequestParam("branch")String branch);
+	String getBranchCode(@RequestParam("branch")String branch);
 
 //
     // 讀銀行檔
@@ -86,6 +86,9 @@ public interface IRFieignClient {
     @Operation(description = "傳入劃帳行ID+99查詢劃帳行名稱地址", summary="以劃帳行ID+99查詢劃帳行名稱地址")
     BankAddressDto getBankAdd(@RequestParam("swiftCode") String swiftCode);
 
-
+    // 手續費計算
+    @GetMapping("/GetChargeFeeTWD")
+    @Operation(description = "依currency, amount取得chargeFee(新台幣)", summary = "手續費計算")
+    BigDecimal isGetChargeFeeTWD(@RequestParam("currency")String currency, @RequestParam("amount")String amount);
 
 }

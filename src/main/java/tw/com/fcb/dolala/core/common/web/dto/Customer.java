@@ -66,5 +66,5 @@ public class Customer {
 	String status;
 	
 	@Schema(description = "客戶帳戶資料")
-	List<CustomerAccountEntity> CustomerAccountEntity;
+	List<CustomerAccountEntity> CustomerAccount;
 }
