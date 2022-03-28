@@ -54,7 +54,7 @@ public class IRController {
             // 從匯率資料檔取得ExchgRate
 //            ir.setExchangeRate(rateService.getRate(ExchgRate.EXCHG_RATE_TYPE_BUY, ir.getCurency(), "TWD"));
 
-            ir.setExchangeRate(irFieignClient.isGetFxRate(ExchgRate.EXCHG_RATE_TYPE_BUY, ir.getCurency(),"TWD"));
+            ir.setExchangeRate(irFieignClient.getFxRate(ExchgRate.EXCHG_RATE_TYPE_BUY, ir.getCurency(),"TWD"));
             //取號
             String branch = ir.getBeAdvBranch();
             irNo = irFieignClient.getFxNo(noCode,systemType,ir.getBeAdvBranch());
@@ -62,8 +62,8 @@ public class IRController {
             ir.setIrNo(irNo);
 
 
-            // insert irMaster
-            irService.insert(ir);
+            // insert irMaster檢核完成，新增至主檔
+            irService.insertIRMaster(ir);
             Process log;
 
 

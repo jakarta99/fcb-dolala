@@ -16,7 +16,7 @@ public interface IRFieignClient {
     // 匯率處理
     @GetMapping("/common/GetFxRate")
     @Operation(description = "依exchgRateType, currency, standardCurrency取得ExchgRate", summary = "讀取買/賣匯匯率")
-    BigDecimal isGetFxRate(@RequestParam("fxRateType") String exchgRateType,@RequestParam("currency")String currency,@RequestParam("standardCurrency")String standardCurrency);
+    BigDecimal getFxRate(@RequestParam("fxRateType") String exchgRateType, @RequestParam("currency")String currency, @RequestParam("standardCurrency")String standardCurrency);
 
     @GetMapping("/common/CheckFxrate")
     @Operation(description = "檢核承作匯率", summary = "檢核承作匯率")
@@ -49,7 +49,7 @@ public interface IRFieignClient {
     // 取得IRCase seqNo
     @PutMapping("/common/SeqNo")
     @Operation(description = "取得匯入IRCase SEQ_NO",summary = "取得匯入IRCase SEQ_NO並更新取號檔")
-    String getSeqNo(@RequestParam("branch")String branch);
+    String getSeqNo(@RequestParam("systemType")String systemType,@RequestParam("branch")String branch);
 
     //顧客資料處理
     @GetMapping("/common/customeraccount/{accountNumber}")

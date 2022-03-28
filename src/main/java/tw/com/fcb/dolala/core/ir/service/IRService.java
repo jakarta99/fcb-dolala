@@ -40,7 +40,7 @@ public class IRService {
 	private final String  systemType = "IR";
 	private final String  noCode = "S";
 	// 新增匯入匯款主檔
-	public String insert(IRSaveCmd saveCmd) throws Exception {
+	public String insertIRMaster(IRSaveCmd saveCmd) throws Exception {
 		IRMaster irMaster = new IRMaster();
 		// 自動將saveCmd的屬性，對應到entity裡
 		BeanUtils.copyProperties(saveCmd, irMaster);

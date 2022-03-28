@@ -1,6 +1,7 @@
 package tw.com.fcb.dolala.core.ir.web;
 
 import io.swagger.v3.oas.annotations.Operation;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,8 @@ import tw.com.fcb.dolala.core.ir.service.IRMessageCheckSerivce;
 import tw.com.fcb.dolala.core.ir.vo.IRCaseVo;
 import tw.com.fcb.dolala.core.ir.web.cmd.SwiftMessageSaveCmd;
 import tw.com.fcb.dolala.core.ir.web.dto.IRCase;
+
+import java.math.BigDecimal;
 
 /**
  * Copyright (C),2022-2022,FirstBank
@@ -61,6 +64,7 @@ public class IRCaseController {
         Response response = new Response<>();
         try {
             IRCaseVo irCaseVo = new IRCaseVo();
+            BeanUtils.copyProperties(message, irCaseVo);
             // STATUS 七日檔初始狀態
             //      1 ：初值
             //      2 ：印製放行工作單訖(經辦放行) (S111交易)
@@ -68,28 +72,36 @@ public class IRCaseController {
             irCaseVo.setProcessStatus("1");
             //欄位check
             // check account
-            irCaseVo.setReceiverAccount(irMessageCheckSerivce.checkAccount(message.getReceiverAccount()));;
-            // check currency
-            irCaseVo.setCurrency(irMessageCheckSerivce.checkCurrency(message.getCurrency()));;
+            if (message.getReceiverAccount()!= null || message.getReceiverAccount()!= "string") {
+                String accountNo = irMessageCheckSerivce.getAccountNo(message.getReceiverAccount());
+                irCaseVo.setReceiverAccount(accountNo);
+                //顧客資料，受通知分行
+                System.out.println("message.ReceiverAccount = " + accountNo);
 
-            //顧客資料，受通知分行
-            System.out.println("message.ReceiverAccount = " + message.getReceiverAccount());
-
-            Customer customer = irFieignClient.getCustomer(message.getReceiverAccount().substring(1,12));
+                Customer customer = irFieignClient.getCustomer(accountNo);
 //            CustomerAccount customerAccount = customerAccountService.getCustomerAccount(message.getReceiverAccount().substring(1,12));
 //            Customer customer =   customerService.getCustomer(customerAccount.getCustomerSeqNo());
 
-            irCaseVo.setBeAdvBranch(customer.getBranchID());
-            irCaseVo.setCustomerID(customer.getCustomerId());
-            if (message.getReceiverInfo1().length() == 0){
-                irCaseVo.setReceiverInfo1(customer.getEnglishName());
+                irCaseVo.setBeAdvBranch(customer.getBranchID());
+                irCaseVo.setCustomerID(customer.getCustomerId());
+                if (message.getReceiverInfo1().length() == 0) {
+                    irCaseVo.setReceiverInfo1(customer.getEnglishName());
+                }
             }
-            //讀取匯率
+            // check currency
+            if (message.getCurrency()!= null) {
+                String currency = irMessageCheckSerivce.checkCurrency(message.getCurrency());
+                irCaseVo.setCurrency(currency);
 
+            //讀取匯率
+                 BigDecimal rate = irFieignClient.getFxRate("B",currency,"TWD");
+            }
             //讀取銀行名稱地址
-            BankDto bankDto = irFieignClient.getBank(message.getSenderSwiftCode());
-            irCaseVo.setSenderInfo1(bankDto.getName());
-            irCaseVo.setSenderInfo3(bankDto.getAddress());
+            if (message.getSenderSwiftCode()!= null) {
+                BankDto bankDto = irFieignClient.getBank(message.getSenderSwiftCode());
+                irCaseVo.setSenderInfo1(bankDto.getName());
+                irCaseVo.setSenderInfo3(bankDto.getAddress());
+            }
             //讀取都市檔
 
             //讀取存匯行關係
@@ -97,12 +109,12 @@ public class IRCaseController {
             //讀取是否為同存行
 
             //取號
-            irSeqNo = serialNumberService.getIrSeqNo(systemType,branch);
+            irSeqNo = irFieignClient.getSeqNo(systemType,branch);
+//            irSeqNo = serialNumberService.getIrSeqNo(systemType,branch);
             irCaseVo.setSeqNo(irSeqNo);
 
 
-            //insert
-
+            //insert，將電文資料新增至IRCase七日檔
             irCaseService.insert(irCaseVo);
 
             response.setCode("0000");
@@ -115,8 +127,6 @@ public class IRCaseController {
             response.setCode(String.valueOf(e.getMessage()).substring(0,4));
             response.setMessage(getMessage(e.getMessage()));
         }
-
-
 
 
         return response;

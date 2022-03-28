@@ -20,13 +20,26 @@ import tw.com.fcb.dolala.core.ir.repository.enums.ChargeType;
 @Builder
 public class IRMessageCheckSerivce {
 
-    public String  checkAccount(String account){
+    public String  getAccountNo(String account) {
         String accountNo = null;
-        if (account.substring(0,1).equals("/")){
-                accountNo = account.substring(1);
-            
+
+        if (account.substring(0, 1).equals("/")) {
+            accountNo = account.substring(1);
+
         }
         return  accountNo;
+    }
+
+
+    public boolean checkAccountNo(String account){
+        boolean checkMK = false;
+        if (account.length() == 12) {
+            checkMK = true;
+
+        } else{
+            checkMK = false;
+        }
+        return  checkMK;
     }
 
     public boolean checkValueDate() {
@@ -37,8 +50,10 @@ public class IRMessageCheckSerivce {
         return  true;
     }
     
-    public String checkCurrency(String currency){
-
+    public String checkCurrency(String currency) throws Exception {
+        if (currency.length()> 3){
+            throw new Exception("幣別資料有誤");
+        }
         return  currency;
     }
     public boolean checkChargeType(String chargeType){
