@@ -12,4 +12,6 @@ public interface CustomerRepository extends JpaRepository<CustomerEntity,Long>{
 
 	Optional<CustomerEntity> findByCustomerSeqNo(String customerSeqNo);
 
+	Optional<CustomerEntity> findByCustomerId(String customerId);
+
 }
