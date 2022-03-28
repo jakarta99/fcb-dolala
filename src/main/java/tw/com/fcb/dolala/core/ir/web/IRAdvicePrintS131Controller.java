@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import tw.com.fcb.dolala.core.ir.repository.entity.IRMaster;
 import tw.com.fcb.dolala.core.ir.service.IRAdvicePrintS131Service;
+import tw.com.fcb.dolala.core.ir.web.dto.IRS131I2;
 
 /**
  * @author sinjen
@@ -34,7 +35,7 @@ public class IRAdvicePrintS131Controller {
 		List<IRMaster> listData = new ArrayList<IRMaster>();
 		listData = irAdvicePrintS131Service.qryAdvicePrint(branch);		
 		
-		if (listData != null)
+		if (listData.size() != 0)
 		{
 			log.info(branch + "分行通知書列印");			 
 		}
@@ -68,6 +69,24 @@ public class IRAdvicePrintS131Controller {
     }	
 	
 	// S131I2 "「處理種類」為(5或6) 之發查電文。==>回傳S1311畫面"
+	@PutMapping("/s131i2")
+    @Operation(description = "分行通知書列表", summary="通知書列表")
+	public List<IRS131I2> qryAdviceList(String branch) {
+		List<IRS131I2> listData = new ArrayList<IRS131I2>();
+		listData = irAdvicePrintS131Service.qryAdviceList(branch);		
+		
+		if (listData.size() != 0)
+		{
+			log.info(branch + "分行通知書列表");			 
+		}
+		else
+		{
+			log.info("查無資料");
+		}
+		
+		return listData;
+    }
+	
 	// S162I "「處理種類」為B之發查電文。==>回傳S1312畫面"
 	// S162B S1312畫面上／下頁查詢。
 

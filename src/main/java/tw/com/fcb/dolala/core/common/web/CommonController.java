@@ -54,7 +54,9 @@ public class CommonController {
 	@Autowired
 	ErrorMessageService errorMessageService;
 	@Autowired
-	ChargeFeeCalculateService ChargeFeeCalculateService;
+	ChargeFeeCalculateService chargeFeeCalculateService;
+	@Autowired
+	RemitNatureService remitNatureService;
 
 
 	// 匯率處理
@@ -271,9 +273,19 @@ public class CommonController {
 	@Operation(description = "依currency, amount取得chargeFee(新台幣)", summary = "手續費計算")
 	public BigDecimal isGetChargeFeeTWD(String currency, BigDecimal amount) {
 		BigDecimal chargeFee = null;
-		chargeFee = ChargeFeeCalculateService.chargeFeeTWDCalculat(currency, amount);
+		chargeFee = chargeFeeCalculateService.chargeFeeTWDCalculat(currency, amount);
 		log.info("呼叫手續費計算API：輸入幣別" + currency + " 金額" + amount + " 取得新台幣手續費=" + chargeFee);
 		return chargeFee;
+	}
+	
+	// 讀取匯款性質名稱
+	@GetMapping("/GetRemitNature")
+	@Operation(description = "依remitNatureCode, remitNatureType取得remitNatureName", summary = "讀取匯款性質名稱")
+	public String isGetRemitNature(String remitNatureCode, String remitNatureType) {
+		String remitNatureName = null;
+		remitNatureName = remitNatureService.getRemitNature(remitNatureCode, remitNatureType);
+		log.info("呼叫匯款性質代碼API：輸入申報性質代碼" + remitNatureCode + " 匯款性質分類" + remitNatureType + " 取得申報性質名稱=" + remitNatureName);
+		return remitNatureName;
 	}
 	
 }
