@@ -23,4 +23,10 @@ public class CustomerService {
 		return customer;
 	}
 
+	public Customer getCustomerId(String customerId) {
+		Customer customer = new Customer();
+		CustomerEntity customerEntity = repository.findByCustomerId(customerId).orElse(new CustomerEntity());
+		BeanUtils.copyProperties(customerEntity, customer);
+		return customer;
+	}
 }

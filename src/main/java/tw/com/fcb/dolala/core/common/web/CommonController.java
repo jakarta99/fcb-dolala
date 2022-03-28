@@ -157,8 +157,8 @@ public class CommonController {
 
 
 	//顧客資料處理
-	@GetMapping("/customer")
-	@Operation(description = "以顧客帳號讀取顧客資料", summary = "讀取顧客資料")
+	@GetMapping("/customeraccount/{accountNumber}")
+	@Operation(description = "以顧客帳號讀取顧客資料", summary = "依帳號讀取顧客資料")
 	public Customer getCustomer(String accountNumber) {
 		log.info("接收accountNumber = " + accountNumber);
 		CustomerAccount customerAccount = null;
@@ -167,6 +167,16 @@ public class CommonController {
 		
 		Customer customer= null;
 		customer = customerService.getCustomer(customerAccount.getCustomerSeqNo());
+		log.info("呼叫讀取顧客檔API：顧客資料："+customer.toString());
+		return customer;
+	}
+	
+	@GetMapping("/customerid/{customerId}")
+	@Operation(description = "以顧客ID讀取顧客資料", summary = "依ID讀取顧客資料")
+	public Customer getCustomerId(String customerId) {
+		log.info("接收accountId = " + customerId);
+		Customer customer= null;
+		customer = customerService.getCustomerId(customerId);
 		log.info("呼叫讀取顧客檔API：顧客資料："+customer.toString());
 		return customer;
 	}
