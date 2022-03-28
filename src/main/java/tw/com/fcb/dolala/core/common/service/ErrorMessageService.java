@@ -18,6 +18,9 @@ public class ErrorMessageService {
     ErrorMessageRepository errorMessageRepository;
 
     public String findByErrorCode(String errorCode) {
+        if (errorCode == null){
+            errorCode = "    ";
+        }
         String errorMessage = null;
         if (errorCode.substring(0, 4).equals("DZZZ")) {
             errorMessage = errorCode.substring(errorCode.indexOf(":")+1);
