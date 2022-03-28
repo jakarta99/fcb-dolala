@@ -98,10 +98,7 @@ public class IRCaseController {
             //取號
             irSeqNo = serialNumberService.getIrSeqNo(systemType,branch);
             irCaseVo.setSeqNo(irSeqNo);
-            //更新取號檔
-            //更新取號檔
-//            serialNumberService.updateSerialNumber(systemType,branch, Long.valueOf(irSeqNo));
-            //檢核流程
+
 
             //insert
 
