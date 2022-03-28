@@ -18,12 +18,18 @@ public class ErrorMessageService {
     ErrorMessageRepository errorMessageRepository;
 
     public String findByErrorCode(String errorCode) {
+        if (errorCode == null){
+            errorCode = "    ";
+        }
         String errorMessage = null;
         if (errorCode.substring(0, 4).equals("DZZZ")) {
             errorMessage = errorCode.substring(errorCode.indexOf(":")+1);
         } else {
             errorMessage =
                     errorMessageRepository.findByErrorCode(errorCode.substring(0, 4)).orElse(new ErrorMessage()).getErrorReason();
+        }
+        if (errorMessage == null){
+            errorMessage = errorCode;
         }
         return errorMessage;
     }

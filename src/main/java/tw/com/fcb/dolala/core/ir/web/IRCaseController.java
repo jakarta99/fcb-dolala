@@ -74,6 +74,7 @@ public class IRCaseController {
 
             //顧客資料，受通知分行
             System.out.println("message.ReceiverAccount = " + message.getReceiverAccount());
+
             Customer customer = irFieignClient.getCustomer(message.getReceiverAccount().substring(1,12));
 //            CustomerAccount customerAccount = customerAccountService.getCustomerAccount(message.getReceiverAccount().substring(1,12));
 //            Customer customer =   customerService.getCustomer(customerAccount.getCustomerSeqNo());
@@ -112,7 +113,7 @@ public class IRCaseController {
         } catch (Exception e) {
             response.setStatus(ResponseStatus.ERROR);
             response.setCode(String.valueOf(e.getMessage()).substring(0,4));
-            response.setMessage(getMessage(response.getCode()));
+            response.setMessage(getMessage(e.getMessage()));
         }
 
 

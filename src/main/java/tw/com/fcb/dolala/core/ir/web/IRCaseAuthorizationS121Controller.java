@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import tw.com.fcb.dolala.core.ir.repository.entity.IRCaseEntity;
+import tw.com.fcb.dolala.core.ir.repository.entity.IRMaster;
 import tw.com.fcb.dolala.core.ir.service.IRCaseAuthorizationS121Service;
 import tw.com.fcb.dolala.core.ir.web.dto.IRCase;
 
@@ -51,9 +52,19 @@ public class IRCaseAuthorizationS121Controller {
 	// S121A 執行MT103放行
 	@PutMapping("/s121a")
     @Operation(description = "執行MT103放行", summary="MT103放行")
-    public String exeCaseAuthorization(String seqNo) {
-		String exeReturnMsg = irCaseAuthorizationS121Service.exeCaseAuthorization(seqNo);
-		log.info(exeReturnMsg);
-		return exeReturnMsg; 
+    public IRMaster exeCaseAuthorization(String seqNo) {
+		IRMaster irMaster = new IRMaster();
+		irMaster = irCaseAuthorizationS121Service.exeCaseAuthorization(seqNo);
+		
+		if (irMaster != null)
+		{
+			log.info("MT103放行成功");			 
+		}
+		else
+		{
+			log.info("查無資料");
+		}
+		
+		return irMaster; 
     }
 }

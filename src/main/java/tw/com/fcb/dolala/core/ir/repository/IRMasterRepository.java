@@ -21,6 +21,7 @@ public interface IRMasterRepository extends JpaRepository<IRMaster,Long>{
 	
 	//@Query(name="findByBeAdvBranch",nativeQuery = true,value = "select * from IR_APPLY_MASTER where BE_ADV_BRANCH=:beAdvBranch AND PRINT_ADV_MK = 'N'")
 	//List<IRMaster> findByBeAdvBranch(@Param("beAdvBranch") String beAdvBranch);
+	List<IRMaster> findByBeAdvBranch(@Param("beAdvBranch") String beAdvBranch);
 	
 	List<IRMaster> findByBeAdvBranchAndPrintAdvMk(@Param("beAdvBranch") String beAdvBranch,@Param("printAdvMk") String printAdvMk);
 }

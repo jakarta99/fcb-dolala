@@ -1,12 +1,16 @@
 package tw.com.fcb.dolala.core.common.repository.entity;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -66,4 +70,9 @@ public class CustomerEntity {
 	
     @Column(name = "STATUS")
     String status;	//資料狀態
+    
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name = "CUSTOMER_SEQ_NO")
+	List<CustomerAccountEntity> CustomerAccount;
+	//select * from CUSTOMER c join CUSTOMER_ACCOUNT d on  c.CUSTOMER_SEQ_NO = d.CUSTOMER_SEQ_NO
 }

@@ -23,38 +23,39 @@ public class IRCaseAuthorizationS121Service {
 	@Autowired
 	IRMasterRepository irMasterRepository;
 	
-	//IRCase irCase = new IRCase();
 	IRCaseEntity irCaseEntity;
 	
+	// s121i 查詢待放行資料
 	public IRCaseEntity qryWaitForAuthorization(String seqNo)
 	{
 		IRCaseEntity irCaseEntity = irCaseRepository.findBySeqNo(seqNo);
 		return irCaseEntity;
 	}
 	
-	public String exeCaseAuthorization(String seqNo) {
+	// s121a 執行MT103放行
+	public IRMaster exeCaseAuthorization(String seqNo) {
 		
-		String returnMsg = "";
+		IRMaster irMaster = null;
 		irCaseEntity = this.qryWaitForAuthorization(seqNo);		
 		
 		if (irCaseEntity != null)
 		{
-			//從電文檔搬移到主檔
-			IR ir = new IR();
-			ir.setValueDate(irCaseEntity.getValueDate());
-			ir.setIrAmt(irCaseEntity.getIrAmount());
-			ir.setCurency(irCaseEntity.getCurrency());
-			
-			//新增主檔
-			IRMaster irMaster = new IRMaster();
-		    BeanUtils.copyProperties(ir, irMaster);
+			//從電文檔搬移到主檔	
+			irMaster = new IRMaster();
+			irMaster.setPaidStats(0);
+			irMaster.setValueDate(irCaseEntity.getValueDate());
+			irMaster.setIrAmt(irCaseEntity.getIrAmount());
+			irMaster.setCurency(irCaseEntity.getCurrency());
+			irMaster.setBeAdvBranch("093");
+			irMaster.setPrintAdvMk("Y");
+		    //新增主檔
 		    irMasterRepository.save(irMaster);
-		    returnMsg = "新增主檔成功";
+		    
+		    //update IRCaseEntity PROCESS_STATUS = 3 ：放行訖
+		    irCaseEntity.setProcessStatus("3");
+		    irCaseRepository.save(irCaseEntity);
 		}
-		else
-		{
-			returnMsg = "查無資料"; 
-		}
-		return returnMsg;
+
+		return irMaster;
     }
 }

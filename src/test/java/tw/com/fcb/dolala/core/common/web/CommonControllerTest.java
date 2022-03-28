@@ -63,7 +63,25 @@ class CommonControllerTest {
 		assertTrue(check1);
 		assertTrue(check2);
 	}
+	
+	// 手續費計算
+	@Test
+	void testGetChargeFeeTWD() {
+		String currency = "USD";
+		BigDecimal amount = new BigDecimal("30000");
+		BigDecimal chargeFee = common.isGetChargeFeeTWD(currency, amount);
+		assertNotNull(chargeFee);
+	}
 
+	// 讀取匯款性質名稱
+	@Test
+	void testGetRemitNature() {
+		String remitNatureCode = "695N";
+		String remitNatureType = "2";	//(1:匯出 2:匯入)
+		String remitNatureName = common.isGetRemitNature(remitNatureCode, remitNatureType);
+		assertNotNull(remitNatureName);
+	}
+	
 	// 顧客資料處理
 
 	
