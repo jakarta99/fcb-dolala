@@ -25,6 +25,9 @@ public class ErrorMessageService {
             errorMessage =
                     errorMessageRepository.findByErrorCode(errorCode.substring(0, 4)).orElse(new ErrorMessage()).getErrorReason();
         }
+        if (errorMessage == null){
+            errorMessage = errorCode;
+        }
         return errorMessage;
     }
 

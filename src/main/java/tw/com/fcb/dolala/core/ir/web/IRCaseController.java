@@ -116,7 +116,7 @@ public class IRCaseController {
         } catch (Exception e) {
             response.setStatus(ResponseStatus.ERROR);
             response.setCode(String.valueOf(e.getMessage()).substring(0,4));
-            response.setMessage(getMessage(response.getCode()));
+            response.setMessage(getMessage(e.getMessage()));
         }
 
 
