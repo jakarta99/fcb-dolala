@@ -18,8 +18,6 @@ public interface IRFieignClient {
     @Operation(description = "依exchgRateType, currency, standardCurrency取得ExchgRate", summary = "讀取買/賣匯匯率")
     BigDecimal isGetFxRate(@RequestParam("fxRateType") String exchgRateType,@RequestParam("currency")String currency,@RequestParam("standardCurrency")String standardCurrency);
 
-
-//
     @GetMapping("/common/CheckFxrate")
     @Operation(description = "檢核承作匯率", summary = "檢核承作匯率")
     boolean CheckFxRate(@RequestParam("checkFxrate") BigDecimal rate);
@@ -29,18 +27,16 @@ public interface IRFieignClient {
     @Operation(description = "以國家代號英文2碼讀取國家代號4碼數字", summary = "讀取國家代號4碼數字")
     String GetCountryNumber(@RequestParam("countryNumber") String  countryCode);
 
-
     @GetMapping("/common/CountryCode")
     @Operation(description = "以國家代號4碼數字讀取國家代號英文2碼", summary = "讀取國家代號英文2碼")
     String GetCountryCode(@RequestParam("countryCode") String  countryNumber);
-
 
     // 身分證號檢核
     @GetMapping("/common/CheckId")
     @Operation(description = "檢核居留證或統一證號是否符合編碼規則", summary = "身分證號檢核")
     boolean CheckId(@RequestParam("checkId") String  number);
 
-//    // 讀取取號檔
+    // 讀取取號檔
 //    @GetMapping("/NumberSerial")
 //    @Operation(description = "查詢取號檔資訊",summary = "BY業務別查詢取號檔已使用到之號碼")
 //    Long isGetNumberSerial(@RequestParam("numberSerial") String  systemType, String branch);
@@ -49,7 +45,6 @@ public interface IRFieignClient {
     @PutMapping("/common/FxNo")
     @Operation(description = "取得外匯編號",summary = "取得外匯編號並更新取號檔")
     String getFxNo(@RequestParam("noCode")String nocode,@RequestParam("systemType")String systemType,@RequestParam("branch")String branch);
-//
 
     // 取得IRCase seqNo
     @PutMapping("/common/SeqNo")
@@ -60,12 +55,12 @@ public interface IRFieignClient {
     @GetMapping("/common/customeraccount/{accountNumber}")
     @Operation(description = "以顧客帳號讀取顧客資料", summary = "讀取顧客資料")
     Customer getCustomer(@RequestParam("accountNumber")String accountNumber);
+    
     // 分行資料處理
-    @GetMapping("/branch")
+    @GetMapping("/common/branch")
     @Operation(description = "傳入分行號碼取得分行字軌",summary = "以分行代號取得分行字軌")
 	String getBranchCode(@RequestParam("branch")String branch);
 
-//
     // 讀銀行檔
     @GetMapping("/common/bank/{swiftCode}")
     @Operation(description = "傳入SwiftCode查詢銀行檔", summary="以SwiftCode查詢銀行檔")
@@ -87,8 +82,13 @@ public interface IRFieignClient {
     BankAddressDto getBankAdd(@RequestParam("swiftCode") String swiftCode);
 
     // 手續費計算
-    @GetMapping("/GetChargeFeeTWD")
+    @GetMapping("/common/GetChargeFeeTWD")
     @Operation(description = "依currency, amount取得chargeFee(新台幣)", summary = "手續費計算")
     BigDecimal isGetChargeFeeTWD(@RequestParam("currency")String currency, @RequestParam("amount")String amount);
 
+    // 讀取匯款性質名稱
+    @GetMapping("/common/GetRemitNature")
+	@Operation(description = "依remitNatureCode, remitNatureType取得remitNatureName", summary = "讀取匯款性質名稱")
+    String isGetRemitNature(@RequestParam("remitNatureCode")String remitNatureCode, @RequestParam("remitNatureType")String remitNatureType);
+    
 }
