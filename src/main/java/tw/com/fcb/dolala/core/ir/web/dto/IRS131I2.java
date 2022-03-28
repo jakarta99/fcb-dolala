@@ -37,4 +37,5 @@ public class IRS131I2 {
 	@Schema(description = "通知日")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	LocalDate advDate;
+	
 }

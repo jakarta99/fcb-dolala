@@ -85,7 +85,7 @@ public class IRAdvicePrintS131Controller {
 		}
 		
 		return listData;
-    }	
+    }
 	
 	// S162I "「處理種類」為B之發查電文。==>回傳S1312畫面"
 	// S162B S1312畫面上／下頁查詢。
