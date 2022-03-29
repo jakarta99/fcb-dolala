@@ -41,12 +41,6 @@ public class IRCaseController {
     IRMessageCheckSerivce irMessageCheckSerivce;
     @Autowired
     ErrorMessageService errorMessageService;
-    @Autowired
-    CommonFeignClient commonFeignClient;
-
-    //取號檔 SystemType,branch
-    private final String systemType = "IR_SEQ";
-    private final String branch = "999";
 
     @PostMapping("/swift")
     @Operation(description = "接收 swift 電文並存到 SwiftMessage", summary="儲存 swift")
@@ -62,53 +56,28 @@ public class IRCaseController {
             //      2 ：印製放行工作單訖(經辦放行) (S111交易)
             //          (受通知單位係其它外匯指定單位時放 2 ， ELSE 放 4 )
             irCaseVo.setProcessStatus("1");
+            System.out.println("Value-date = " + message.getValueDate());
+            irCaseVo.setValueDate(message.getValueDate());
             //欄位check
             // check account
-            if (message.getReceiverAccount()!= null ) {
                 String accountNo = irMessageCheckSerivce.getAccountNo(message.getReceiverAccount());
                 irCaseVo.setReceiverAccount(accountNo);
-                //顧客資料，受通知分行
-                System.out.println("message.ReceiverAccount = " + accountNo);
-
-                Customer customer = commonFeignClient.getCustomer(accountNo);
-
-                irCaseVo.setBeAdvBranch(customer.getBranchID());
-                irCaseVo.setCustomerID(customer.getCustomerId());
-                if (message.getReceiverInfo1().length() == 0) {
-                    irCaseVo.setReceiverInfo1(customer.getEnglishName());
-                }
-            }
             // check currency
-            if (message.getCurrency()!= null) {
                 boolean checkOK;
                 checkOK =   irMessageCheckSerivce.checkCurrency(message.getCurrency());
                 if (checkOK == true)
                 {
                     String currency = message.getCurrency();
                     irCaseVo.setCurrency(currency);
-                    //讀取匯率
-                    BigDecimal rate = commonFeignClient.getFxRate("B",currency,"TWD");
                 }
 
-            }
-            //讀取銀行名稱地址
-            if (message.getSenderSwiftCode()!= null) {
-                BankDto bankDto = commonFeignClient.getBank(message.getSenderSwiftCode());
-                irCaseVo.setSenderInfo1(bankDto.getName());
-                irCaseVo.setSenderInfo3(bankDto.getAddress());
-            }
             //讀取都市檔
 
             //讀取存匯行關係
 
             //讀取是否為同存行
 
-            //取號
-            irSeqNo = commonFeignClient.getSeqNo(systemType,branch);
-
-            irCaseVo.setSeqNo(irSeqNo);
-
-
+            irCaseService.saveIRCaseData(irCaseVo);
             //insert，將電文資料新增至IRCase七日檔
             irCaseService.insert(irCaseVo);
 
@@ -141,12 +110,21 @@ public class IRCaseController {
     @GetMapping("/swift")
     @Operation(description = "取得seqNo電文資料",summary="取得seqNo電文資料")
     public IRCase getBySeqNo(String irSeqNo){
+
         return irCaseService.getByIRSeqNo(irSeqNo);
     }
     public String getMessage(String errorCode) {
+        Response response = new Response<>();
         String errorMessage = null;
-        errorMessage = errorMessageService.findByErrorCode(errorCode);
-        return errorMessage;
+        try {
+            errorMessage = null;
+            errorMessage = errorMessageService.findByErrorCode(errorCode);
 
+        } catch (Exception e) {
+            response.setStatus(ResponseStatus.ERROR);
+            response.setCode(String.valueOf(e.getMessage()).substring(0, 4));
+            response.setMessage(getMessage(e.getMessage()));
+        }
+        return errorMessage;
     }
 }
