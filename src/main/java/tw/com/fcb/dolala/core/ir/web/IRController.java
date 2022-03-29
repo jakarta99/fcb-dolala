@@ -9,7 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import tw.com.fcb.dolala.core.common.repository.entity.ExchgRate;
 import tw.com.fcb.dolala.core.common.service.ExchgRateService;
 import tw.com.fcb.dolala.core.common.service.SerialNumberService;
-import tw.com.fcb.dolala.core.ir.http.IRFieignClient;
+import tw.com.fcb.dolala.core.ir.http.CommonFeignClient;
 import tw.com.fcb.dolala.core.ir.service.IRService;
 import tw.com.fcb.dolala.core.ir.web.cmd.IRSaveCmd;
 import tw.com.fcb.dolala.core.ir.web.dto.IR;
@@ -35,13 +35,13 @@ public class IRController {
     ExchgRateService rateService;
     @Autowired
     SerialNumberService serialNumberService;
-    final   IRFieignClient irFieignClient;
+    final CommonFeignClient commonFeignClient;
     //取號檔 SystemType,branch
     private final String systemType = "IR";
     private final String noCode = "S";
 
-    public IRController(IRFieignClient irFieignClient) {
-        this.irFieignClient = irFieignClient;
+    public IRController(CommonFeignClient commonFeignClient) {
+        this.commonFeignClient = commonFeignClient;
     }
 
     @PostMapping
@@ -54,10 +54,10 @@ public class IRController {
             // 從匯率資料檔取得ExchgRate
 //            ir.setExchangeRate(rateService.getRate(ExchgRate.EXCHG_RATE_TYPE_BUY, ir.getCurency(), "TWD"));
 
-            ir.setExchangeRate(irFieignClient.getFxRate(ExchgRate.EXCHG_RATE_TYPE_BUY, ir.getCurency(),"TWD"));
+            ir.setExchangeRate(commonFeignClient.getFxRate(ExchgRate.EXCHG_RATE_TYPE_BUY, ir.getCurency(),"TWD"));
             //取號
             String branch = ir.getBeAdvBranch();
-            irNo = irFieignClient.getFxNo(noCode,systemType,ir.getBeAdvBranch());
+            irNo = commonFeignClient.getFxNo(noCode,systemType,ir.getBeAdvBranch());
 //            irNo = serialNumberService.getFxNo("S", "IR", ir.getBeAdvBranch());
             ir.setIrNo(irNo);
 

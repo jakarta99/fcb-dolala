@@ -12,7 +12,7 @@ import tw.com.fcb.dolala.core.common.http.Response;
 import tw.com.fcb.dolala.core.common.service.*;
 import tw.com.fcb.dolala.core.common.web.dto.BankDto;
 import tw.com.fcb.dolala.core.common.web.dto.Customer;
-import tw.com.fcb.dolala.core.ir.http.IRFieignClient;
+import tw.com.fcb.dolala.core.ir.http.CommonFeignClient;
 import tw.com.fcb.dolala.core.ir.service.IRCaseService;
 import tw.com.fcb.dolala.core.ir.service.IRMessageCheckSerivce;
 import tw.com.fcb.dolala.core.ir.vo.IRCaseVo;
@@ -50,7 +50,7 @@ public class IRCaseController {
     @Autowired
     ErrorMessageService errorMessageService;
     @Autowired
-    IRFieignClient irFieignClient;
+    CommonFeignClient commonFeignClient;
 
     //取號檔 SystemType,branch
     private final String systemType = "IR_SEQ";
@@ -78,7 +78,7 @@ public class IRCaseController {
                 //顧客資料，受通知分行
                 System.out.println("message.ReceiverAccount = " + accountNo);
 
-                Customer customer = irFieignClient.getCustomer(accountNo);
+                Customer customer = commonFeignClient.getCustomer(accountNo);
 //            CustomerAccount customerAccount = customerAccountService.getCustomerAccount(message.getReceiverAccount().substring(1,12));
 //            Customer customer =   customerService.getCustomer(customerAccount.getCustomerSeqNo());
 
@@ -94,11 +94,11 @@ public class IRCaseController {
                 irCaseVo.setCurrency(currency);
 
             //讀取匯率
-                 BigDecimal rate = irFieignClient.getFxRate("B",currency,"TWD");
+                 BigDecimal rate = commonFeignClient.getFxRate("B",currency,"TWD");
             }
             //讀取銀行名稱地址
             if (message.getSenderSwiftCode()!= null) {
-                BankDto bankDto = irFieignClient.getBank(message.getSenderSwiftCode());
+                BankDto bankDto = commonFeignClient.getBank(message.getSenderSwiftCode());
                 irCaseVo.setSenderInfo1(bankDto.getName());
                 irCaseVo.setSenderInfo3(bankDto.getAddress());
             }
@@ -109,7 +109,7 @@ public class IRCaseController {
             //讀取是否為同存行
 
             //取號
-            irSeqNo = irFieignClient.getSeqNo(systemType,branch);
+            irSeqNo = commonFeignClient.getSeqNo(systemType,branch);
 //            irSeqNo = serialNumberService.getIrSeqNo(systemType,branch);
             irCaseVo.setSeqNo(irSeqNo);
 

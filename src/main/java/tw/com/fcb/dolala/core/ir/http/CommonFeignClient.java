@@ -12,7 +12,7 @@ import tw.com.fcb.dolala.core.common.web.dto.Customer;
 import java.math.BigDecimal;
 
 @FeignClient(value = "CHECK",url = "localhost:8080")
-public interface IRFieignClient {
+public interface CommonFeignClient {
     // 匯率處理
     @GetMapping("/common/GetFxRate")
     @Operation(description = "依exchgRateType, currency, standardCurrency取得ExchgRate", summary = "讀取買/賣匯匯率")
