@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.extern.slf4j.Slf4j;
+import tw.com.fcb.dolala.core.ir.http.CommonFeignClient;
 import tw.com.fcb.dolala.core.ir.repository.IRCaseRepository;
 import tw.com.fcb.dolala.core.ir.repository.IRMasterRepository;
 import tw.com.fcb.dolala.core.ir.repository.entity.IRCaseEntity;
@@ -22,6 +23,9 @@ public class IRCaseAuthorizationS121Service {
 	
 	@Autowired
 	IRMasterRepository irMasterRepository;
+	
+	@Autowired
+	CommonFeignClient commonFeignClient;
 	
 	IRCaseEntity irCaseEntity;
 	
@@ -48,6 +52,8 @@ public class IRCaseAuthorizationS121Service {
 			irMaster.setCurency(irCaseEntity.getCurrency());
 			irMaster.setBeAdvBranch("093");
 			irMaster.setPrintAdvMk("Y");
+			//產生外匯編號
+			irMaster.setIrNo(commonFeignClient.getFxNo("S", "IR", "093"));
 		    //新增主檔
 		    irMasterRepository.save(irMaster);
 		    
