@@ -38,15 +38,7 @@ public class IRCaseController {
     @Autowired
     IRCaseService irCaseService;
     @Autowired
-    SerialNumberService serialNumberService;
-    @Autowired
-    CustomerAccountService customerAccountService;
-    @Autowired
-    CustomerService customerService;
-    @Autowired
     IRMessageCheckSerivce irMessageCheckSerivce;
-    @Autowired
-    ExchgRateService exchgRateService;
     @Autowired
     ErrorMessageService errorMessageService;
     @Autowired
@@ -79,8 +71,6 @@ public class IRCaseController {
                 System.out.println("message.ReceiverAccount = " + accountNo);
 
                 Customer customer = commonFeignClient.getCustomer(accountNo);
-//            CustomerAccount customerAccount = customerAccountService.getCustomerAccount(message.getReceiverAccount().substring(1,12));
-//            Customer customer =   customerService.getCustomer(customerAccount.getCustomerSeqNo());
 
                 irCaseVo.setBeAdvBranch(customer.getBranchID());
                 irCaseVo.setCustomerID(customer.getCustomerId());
@@ -90,11 +80,16 @@ public class IRCaseController {
             }
             // check currency
             if (message.getCurrency()!= null) {
-                String currency = irMessageCheckSerivce.checkCurrency(message.getCurrency());
-                irCaseVo.setCurrency(currency);
+                boolean checkOK;
+                checkOK =   irMessageCheckSerivce.checkCurrency(message.getCurrency());
+                if (checkOK == true)
+                {
+                    String currency = message.getCurrency();
+                    irCaseVo.setCurrency(currency);
+                    //讀取匯率
+                    BigDecimal rate = commonFeignClient.getFxRate("B",currency,"TWD");
+                }
 
-            //讀取匯率
-                 BigDecimal rate = commonFeignClient.getFxRate("B",currency,"TWD");
             }
             //讀取銀行名稱地址
             if (message.getSenderSwiftCode()!= null) {
@@ -110,7 +105,7 @@ public class IRCaseController {
 
             //取號
             irSeqNo = commonFeignClient.getSeqNo(systemType,branch);
-//            irSeqNo = serialNumberService.getIrSeqNo(systemType,branch);
+
             irCaseVo.setSeqNo(irSeqNo);
 
 

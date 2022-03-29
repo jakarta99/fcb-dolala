@@ -5,6 +5,7 @@ import lombok.Data;
 import tw.com.fcb.dolala.core.ir.repository.enums.ChargeType;
 
 import javax.persistence.Column;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -24,12 +25,17 @@ public class SwiftMessageSaveCmd {
     @Schema(description = "swift序號")
     String seqNo;
 
+    @NotNull
     @Schema(description = "發電行外匯編號(20欄位)")
     String referenceNo;
+    @NotNull
     @Schema(description = "生效日")
     LocalDate valueDate;
+
     @Schema(description = "匯入金額")
     BigDecimal irAmount;
+
+    @NotNull
     @Schema(description = "幣別")
     String currency;
     @Schema(description = "匯款人資訊 35x * 4")
@@ -55,6 +61,7 @@ public class SwiftMessageSaveCmd {
     String chargeFeeCurrency3;
     BigDecimal chargeFeeAmount3;
 
+    @NotNull
     @Schema(description = "發電行 swift 代號" )
     String senderSwiftCode;
 

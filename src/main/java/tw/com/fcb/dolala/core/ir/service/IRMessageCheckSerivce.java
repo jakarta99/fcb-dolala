@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tw.com.fcb.dolala.core.ir.repository.enums.ChargeType;
 
+import java.math.BigDecimal;
+
 /**
  * Copyright (C),2022-2022,FirstBank
  * FileName: IRMessageCheckSerivce
@@ -34,31 +36,51 @@ public class IRMessageCheckSerivce {
 
     public boolean checkAccountNo(String account){
         boolean checkMK = false;
-        if (account.length() == 12) {
-            checkMK = true;
+        // "/09320991111"
+        if (account.substring(0,1).equals("/")) {
+            if (account.length() == 12) {
+                checkMK = true;
 
-        } else{
-            checkMK = false;
+            } else {
+                checkMK = false;
+            }
+        }else{
+            if (account.length() == 11) {
+                checkMK = true;
+
+            } else{
+                checkMK = false;
         }
-        return  checkMK;
     }
-
+        return checkMK;
+    }
     public boolean checkValueDate() {
         return true;
     }
     
-    public  boolean checkAmount(){
-        return  true;
+    public  boolean checkAmount(BigDecimal amount){
+        boolean checkMK = false;
+        BigDecimal zero = new BigDecimal(0);
+        if (amount.compareTo(zero)== -1){
+            checkMK =  false;
+        }else {
+            checkMK = true;
+        }
+        return  checkMK;
     }
     
-    public String checkCurrency(String currency) throws Exception {
+    public boolean checkCurrency(String currency) throws Exception {
+        boolean checkMK = false;
         if (currency.length()> 3){
-            throw new Exception("幣別資料有誤");
+//            throw new Exception("幣別資料有誤");
+            checkMK = false;
+        }else {
+            checkMK =  true;
         }
-        return  currency;
+        return  checkMK;
     }
     public boolean checkChargeType(String chargeType){
-       
+
         return  true;
     }
 
