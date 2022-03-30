@@ -1,7 +1,9 @@
 package tw.com.fcb.dolala.core.common.http;
 
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 import tw.com.fcb.dolala.core.common.enums.ResponseStatus;
+import tw.com.fcb.dolala.core.ir.http.CommonFeignClient;
 
 /**
  * Copyright (C),2022-2022,FirstBank
@@ -14,10 +16,25 @@ import tw.com.fcb.dolala.core.common.enums.ResponseStatus;
  * 作者姓名       修改時間       版本編號       描述
  */
 @Data
+
+
 public class Response<T> {
+
+
     ResponseStatus status;
     String code;
     String message;
     T data;
 
+    public void Success(){
+        setStatus(ResponseStatus.SUCCESS);
+        setCode("0000");
+        setMessage("交易成功");
+    }
+
+    public void Error(String code,String message){
+        setStatus(ResponseStatus.ERROR);
+        setCode(code.substring(0,4));
+        setMessage(message);
+    }
 }

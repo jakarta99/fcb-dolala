@@ -247,21 +247,18 @@ public class CommonController {
 			bankVo = bankService.findBySwiftCode(swiftCode);
 			BeanUtils.copyProperties(bankVo, bankAddressDto);
 			log.info("呼叫劃帳行名稱地址API：查詢 "+swiftCode+"+"+99);
-			response.setStatus(ResponseStatus.SUCCESS);
-			response.setCode("0000");
+			response.Success();
 		}catch(Exception e) {
 			log.info(String.valueOf(e));
-			response.setStatus(ResponseStatus.ERROR);
-			response.setCode("D001");
-			response.setMessage(String.valueOf(e));
+			response.Error(e.getMessage(),getErrorMessage(e.getMessage()));
 		}
 		response.setData(bankAddressDto);
 		return response;
 	}
 	
 	// 查詢error code
-	@GetMapping("/errorcode/{errorcode}")
-	@Operation(description = "傳入errorcode查詢錯誤說明", summary="以errorcode查詢錯誤說明")
+	@GetMapping("/errorCode/{errorCode}")
+	@Operation(description = "傳入errorCode查詢錯誤說明", summary="以errorCode查詢錯誤說明")
 	public String getErrorMessage(String errorCode) {
 		String errorMessage = null;
 		errorMessage = errorMessageService.findByErrorCode(errorCode);
