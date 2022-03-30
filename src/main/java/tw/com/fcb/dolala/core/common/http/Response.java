@@ -29,7 +29,7 @@ public class Response<T> {
     public void Success(){
         setStatus(ResponseStatus.SUCCESS);
         setCode("0000");
-        setMessage(null);
+        setMessage("交易成功");
     }
 
     public void Error(String code,String message){
