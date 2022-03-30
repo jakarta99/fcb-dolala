@@ -54,8 +54,6 @@ public class IRCaseController {
             //      2 ：印製放行工作單訖(經辦放行) (S111交易)
             //          (受通知單位係其它外匯指定單位時放 2 ， ELSE 放 4 )
             irCaseVo.setProcessStatus("1");
-//            irCaseVo.setValueDate(message.getValueDate());
-            //欄位check
             // check account
                 String accountNo = irMessageCheckSerivce.getAccountNo(message.getReceiverAccount());
                 irCaseVo.setReceiverAccount(accountNo);
@@ -70,8 +68,9 @@ public class IRCaseController {
             //讀取都市檔
             //讀取存匯行關係
             //讀取是否為同存行
+            //讀取共用服務 set相關欄位
             irCaseService.saveIRCaseData(irCaseVo);
-            //insert，將電文資料新增至IRCase七日檔
+            //insert，將電文資料新增至IRCase檔案
             irCaseService.insert(irCaseVo);
 
             response.setCode("0000");

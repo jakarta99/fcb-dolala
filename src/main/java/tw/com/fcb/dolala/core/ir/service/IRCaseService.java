@@ -34,11 +34,8 @@ public class IRCaseService {
     @Autowired
     IRCaseRepository irCaseRepository;
     @Autowired
-    CustomerAccountService customerAccountService;
-    @Autowired
-    CustomerService customerService;
-    @Autowired
     CommonFeignClient commonFeignClient;
+
     //取號檔 SystemType,branch
     private final String systemType = "IR_SEQ";
     private final String branch = "999";
