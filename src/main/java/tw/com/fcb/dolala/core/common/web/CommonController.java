@@ -257,8 +257,8 @@ public class CommonController {
 	}
 	
 	// 查詢error code
-	@GetMapping("/errorcode/{errorcode}")
-	@Operation(description = "傳入errorcode查詢錯誤說明", summary="以errorcode查詢錯誤說明")
+	@GetMapping("/errorCode/{errorCode}")
+	@Operation(description = "傳入errorCode查詢錯誤說明", summary="以errorCode查詢錯誤說明")
 	public String getErrorMessage(String errorCode) {
 		String errorMessage = null;
 		errorMessage = errorMessageService.findByErrorCode(errorCode);

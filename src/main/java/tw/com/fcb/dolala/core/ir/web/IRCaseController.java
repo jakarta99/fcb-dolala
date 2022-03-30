@@ -3,6 +3,7 @@ package tw.com.fcb.dolala.core.ir.web;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import tw.com.fcb.dolala.core.common.enums.ResponseStatus;
@@ -39,6 +40,8 @@ public class IRCaseController {
     IRMessageCheckSerivce irMessageCheckSerivce;
     @Autowired
     ErrorMessageService errorMessageService;
+    @Autowired
+    CommonFeignClient feignClient;
 
     @PostMapping("/swift")
     @Operation(description = "接收 swift 電文並存到 SwiftMessage", summary="儲存 swift")
@@ -74,15 +77,11 @@ public class IRCaseController {
             //insert，將電文資料新增至IRCase七日檔
             irCaseService.insert(irCaseVo);
 
-            response.setCode("0000");
-            response.setStatus(ResponseStatus.SUCCESS);
+            response.Success();
             response.setData(irCaseVo);
-            response.setMessage(getMessage(response.getCode()));
 
         } catch (Exception e) {
-            response.setStatus(ResponseStatus.ERROR);
-            response.setCode(String.valueOf(e.getMessage()).substring(0,4));
-            response.setMessage(getMessage(e.getMessage()));
+            response.Error(e.getMessage(),feignClient.getErrorMessage(e.getMessage()));
         }
 
 

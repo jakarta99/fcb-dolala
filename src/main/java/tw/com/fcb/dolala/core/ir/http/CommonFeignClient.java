@@ -91,8 +91,8 @@ public interface CommonFeignClient {
 	@Operation(description = "依remitNatureCode, remitNatureType取得remitNatureName", summary = "讀取匯款性質名稱")
     String isGetRemitNature(@RequestParam("remitNatureCode")String remitNatureCode, @RequestParam("remitNatureType")String remitNatureType);
 
-    @GetMapping("/errorcode/{errorcode}")
-    @Operation(description = "傳入errorcode查詢錯誤說明", summary="以errorcode查詢錯誤說明")
-    String getErrorMessage(@RequestParam("errorcode")String errorCode);
+    @GetMapping("/common/errorCode/{errorCode}")
+    @Operation(description = "傳入errorCode查詢錯誤說明", summary="以errorCode查詢錯誤說明")
+    String getErrorMessage(@RequestParam("errorCode")String errorCode);
 
 }
