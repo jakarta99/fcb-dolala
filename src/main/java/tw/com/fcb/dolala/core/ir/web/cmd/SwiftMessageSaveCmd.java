@@ -6,9 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import tw.com.fcb.dolala.core.ir.repository.enums.ChargeType;
 
 import javax.persistence.Column;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PositiveOrZero;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -28,13 +26,15 @@ public class SwiftMessageSaveCmd {
     @Schema(description = "swift序號")
     String seqNo;
 
-    @NotNull(message = "發電行外匯編號(20欄位)不可為空白")
+
     @Schema(description = "發電行外匯編號(20欄位)")
+    @NotBlank(message = "發電行外匯編號(20欄位)不可為空白")
     String referenceNo;
 
-    @NotNull(message = "ValueDate不可為空白")
+    @FutureOrPresent(message = "Value_Date不可小於今日")
     @Schema(description = "有效日" )
     LocalDate valueDate;
+    @FutureOrPresent(message = "Receive_Date不可小於今日")
     @Schema(description = "收件日做自動/單筆查詢印表時之日期" )
     LocalDate receiveDate;
 
@@ -44,7 +44,7 @@ public class SwiftMessageSaveCmd {
     @PositiveOrZero(message = "匯入金額不可負數")
     BigDecimal irAmount;
 
-    @NotNull(message = "幣別不可為空白")
+    @NotBlank(message = "幣別不可為空白")
     @Size(min = 3,max = 3)
     @Schema(description = "幣別")
     String currency;
@@ -55,15 +55,14 @@ public class SwiftMessageSaveCmd {
     String senderInfo3;
     String senderInfo4;
     @Schema(description = "受款人資訊 35x * 4")
-    @Size(max = 12)
+    @Size(max = 12,message = "帳號最長只能12位")
     String receiverAccount;
     String receiverInfo1;
     String receiverInfo2;
     String receiverInfo3;
     String receiverInfo4;
 
-    @NotNull(message = "手續費負擔類型不可為空白")
-    @Size(min = 3, max = 3,message = "手續費負擔類型輸入有誤")
+
     @Schema(description = "手續費負擔類型",example = "SHA,BEN,OUR")
     ChargeType chargeType;
 

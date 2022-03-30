@@ -3,6 +3,7 @@ package tw.com.fcb.dolala.core.ir.repository.entity;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 import tw.com.fcb.dolala.core.ir.repository.enums.ChargeType;
 
 
@@ -67,8 +68,17 @@ public class IRCaseEntity {
     String autoPassMk;
 
     @Column(name = "VALUE_DATE",length = 12)
+    @DateTimeFormat(pattern = "yyyyMMdd")
     LocalDate valueDate;
 
+    @Column(name = "RECEIVE_DATE",length = 12)
+    @DateTimeFormat(pattern = "yyyyMMdd")
+    @Schema(description = "收件日做自動/單筆查詢印表時之日期" )
+    LocalDate receiveDate;
+
+    @Schema(description = "處理時間" )
+    @Column(name = "TX_TIME")
+    String txTime;
 
     @Column(name = "SENDER_INFO1")
     String senderInfo1;
@@ -119,4 +129,7 @@ public class IRCaseEntity {
 
     @Schema(description = "存匯行 SWIFT-TID" )
     String depositBank;
+
+    @Schema(description = "同存記號" )
+    String nstVstMk;
 }

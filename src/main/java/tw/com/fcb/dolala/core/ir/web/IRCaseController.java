@@ -3,10 +3,8 @@ package tw.com.fcb.dolala.core.ir.web;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import tw.com.fcb.dolala.core.common.enums.ResponseStatus;
 import tw.com.fcb.dolala.core.common.http.Response;
 import tw.com.fcb.dolala.core.common.service.*;
@@ -44,7 +42,7 @@ public class IRCaseController {
 
     @PostMapping("/swift")
     @Operation(description = "接收 swift 電文並存到 SwiftMessage", summary="儲存 swift")
-    public Response receiveSwift(SwiftMessageSaveCmd message) {
+    public Response receiveSwift(@Validated @RequestBody SwiftMessageSaveCmd message) {
         //取號
         String irSeqNo = null;
         Response response = new Response<>();
@@ -56,8 +54,7 @@ public class IRCaseController {
             //      2 ：印製放行工作單訖(經辦放行) (S111交易)
             //          (受通知單位係其它外匯指定單位時放 2 ， ELSE 放 4 )
             irCaseVo.setProcessStatus("1");
-            System.out.println("Value-date = " + message.getValueDate());
-            irCaseVo.setValueDate(message.getValueDate());
+//            irCaseVo.setValueDate(message.getValueDate());
             //欄位check
             // check account
                 String accountNo = irMessageCheckSerivce.getAccountNo(message.getReceiverAccount());
@@ -70,13 +67,9 @@ public class IRCaseController {
                     String currency = message.getCurrency();
                     irCaseVo.setCurrency(currency);
                 }
-
             //讀取都市檔
-
             //讀取存匯行關係
-
             //讀取是否為同存行
-
             irCaseService.saveIRCaseData(irCaseVo);
             //insert，將電文資料新增至IRCase七日檔
             irCaseService.insert(irCaseVo);
@@ -101,8 +94,6 @@ public class IRCaseController {
     public Boolean checkAutoPassMK(String  irSeqNo) {
         irCaseService.getByIRSeqNo(irSeqNo);
         // check 相關欄位
-
-
 
         return true;
     }

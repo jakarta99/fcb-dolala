@@ -57,7 +57,7 @@ public class IRCaseVo {
     String currency;
 
     @Column(name = "AMOUNT")
-    BigDecimal amount;
+    BigDecimal irAmount;
 
 
     @Column(name = "AUTO_PASS_MK")
