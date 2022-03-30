@@ -47,7 +47,7 @@ public class IR {
 	String customerId;
 	
 	@Schema(description = "幣別")
-	String curency;
+	String currency;
 	
 	@Schema(description = "匯入匯款金額")
 	BigDecimal irAmt;

@@ -2,13 +2,12 @@ package tw.com.fcb.dolala.core.ir.web;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import io.swagger.v3.oas.annotations.Operation;
+import tw.com.fcb.dolala.core.common.http.Response;
 import tw.com.fcb.dolala.core.common.repository.entity.ExchgRate;
-import tw.com.fcb.dolala.core.common.service.ExchgRateService;
-import tw.com.fcb.dolala.core.common.service.SerialNumberService;
 import tw.com.fcb.dolala.core.ir.http.CommonFeignClient;
 import tw.com.fcb.dolala.core.ir.service.IRService;
 import tw.com.fcb.dolala.core.ir.web.cmd.IRSaveCmd;
@@ -32,49 +31,36 @@ public class IRController {
 	@Autowired
 	IRService irService;
     @Autowired
-    ExchgRateService rateService;
-    @Autowired
-    SerialNumberService serialNumberService;
-    final CommonFeignClient commonFeignClient;
+     CommonFeignClient commonFeignClient;
     //取號檔 SystemType,branch
     private final String systemType = "IR";
     private final String noCode = "S";
 
-    public IRController(CommonFeignClient commonFeignClient) {
-        this.commonFeignClient = commonFeignClient;
-    }
 
     @PostMapping
     @Operation(description = "匯入匯款主檔資料寫入", summary="新增匯入匯款主檔")
-    public String insert(IRSaveCmd ir, BindingResult rs) {
-
+    public Response irMasterInsert(@Validated @RequestBody IRSaveCmd ir) {
+        Response response = new Response<>();
         String irNo = null;
 
         try {
-            // 從匯率資料檔取得ExchgRate
-//            ir.setExchangeRate(rateService.getRate(ExchgRate.EXCHG_RATE_TYPE_BUY, ir.getCurency(), "TWD"));
-
-            ir.setExchangeRate(commonFeignClient.getFxRate(ExchgRate.EXCHG_RATE_TYPE_BUY, ir.getCurency(),"TWD"));
+            ir.setExchangeRate(commonFeignClient.getFxRate(ExchgRate.EXCHG_RATE_TYPE_BUY, ir.getCurrency(),"TWD"));
             //取號
-            String branch = ir.getBeAdvBranch();
             irNo = commonFeignClient.getFxNo(noCode,systemType,ir.getBeAdvBranch());
-//            irNo = serialNumberService.getFxNo("S", "IR", ir.getBeAdvBranch());
             ir.setIrNo(irNo);
-
-
             // insert irMaster檢核完成，新增至主檔
             irService.insertIRMaster(ir);
-            Process log;
-
+            response.Success();
+            response.setData(ir);
 
         } catch (Exception e) {
-            e.printStackTrace();
+           response.Error(e.getMessage(),commonFeignClient.getErrorMessage(e.getMessage()));
         }
-        log.info("{}", rs.getAllErrors());
+//        log.info("{}", rs.getAllErrors());
+//
+//        log.info("{ }", ir);
 
-        log.info("{ }", ir);
-
-        return irNo;
+        return response;
     }
 
     @GetMapping("/count/{branch}")
@@ -91,8 +77,16 @@ public class IRController {
 
     @PutMapping("/print")
     @Operation(description = "變更印製通知書記號", summary="印製通知書記號")
-    public void print(String irNo) {
-    	irService.print(irNo);
+    public Response print(String irNo) {
+        Response response = new Response();
+    	try {
+            irService.print(irNo);
+            response.Success();
+            response.setMessage("通知書印製成功，更新記號為Y");
+        }catch(Exception e){
+            response.Error(e.getMessage(),commonFeignClient.getErrorMessage(e.getMessage()));
+        }
+        return  response;
     }
 
     @PutMapping("/settle")

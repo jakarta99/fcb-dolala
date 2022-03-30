@@ -28,7 +28,7 @@ public class SwiftMessageSaveCmd {
 
 
     @Schema(description = "發電行外匯編號(20欄位)")
-    @NotBlank(message = "發電行外匯編號(20欄位)不可為空白")
+    @NotEmpty(message = "發電行外匯編號(20欄位)不可為空白")
     String referenceNo;
 
     @FutureOrPresent(message = "Value_Date不可小於今日")
@@ -50,29 +50,41 @@ public class SwiftMessageSaveCmd {
     String currency;
 
     @Schema(description = "匯款人資訊 35x * 4")
+    @Size(max = 35,message = "匯款人1(50欄位) 長度不可超過35個字元")
     String senderInfo1;
+    @Size(max = 35,message = "匯款人2(50欄位) 長度不可超過35個字元")
     String senderInfo2;
+    @Size(max = 35,message = "匯款人3(50欄位) 長度不可超過35個字元")
     String senderInfo3;
+    @Size(max = 35,message = "匯款人4(50欄位) 長度不可超過35個字元")
     String senderInfo4;
     @Schema(description = "受款人資訊 35x * 4")
     @Size(max = 12,message = "帳號最長只能12位")
     String receiverAccount;
+    @Size(max = 35,message = "受款人1(50欄位) 長度不可超過35個字元")
     String receiverInfo1;
+    @Size(max = 35,message = "受款人1(50欄位) 長度不可超過35個字元")
     String receiverInfo2;
+    @Size(max = 35,message = "受款人1(50欄位) 長度不可超過35個字元")
     String receiverInfo3;
+    @Size(max = 35,message = "受款人1(50欄位) 長度不可超過35個字元")
     String receiverInfo4;
 
-
-    @Schema(description = "手續費負擔類型",example = "SHA,BEN,OUR")
+    @NotNull
+    @Schema(description = "手續費負擔類型")
     ChargeType chargeType;
 
     @Schema(description = "中間行費用")
     String chargeFeeCurrency1;
-
+    @PositiveOrZero(message = "費用不可負數")
     BigDecimal chargeFeeAmount1;
+
     String chargeFeeCurrency2;
+    @PositiveOrZero(message = "費用不可負數")
     BigDecimal chargeFeeAmount2;
+
     String chargeFeeCurrency3;
+    @PositiveOrZero(message = "費用不可負數")
     BigDecimal chargeFeeAmount3;
 
     @Size(max = 11, min = 11,message = "發電行swift代碼輸入有誤")
@@ -94,7 +106,7 @@ public class SwiftMessageSaveCmd {
     @Size(max = 11, min = 11,message = "存匯行SWIFT-ID輸入錯誤")
     @Schema(description = "存匯行 SWIFT-TID" )
     String depositBank;
-    @Schema(description = "同存記號" )
+    @Schema(description = "同存記號" ,example =  "N")
     String nstVstMk;
 
 }

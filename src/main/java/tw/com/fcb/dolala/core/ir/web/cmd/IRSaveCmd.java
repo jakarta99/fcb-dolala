@@ -3,9 +3,12 @@ package tw.com.fcb.dolala.core.ir.web.cmd;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import com.sun.istack.NotNull;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import tw.com.fcb.dolala.core.ir.repository.enums.ChargeType;
+
+import javax.validation.constraints.Size;
 
 /**
  * Copyright (C),2022-2022,FirstBank
@@ -22,20 +25,23 @@ import tw.com.fcb.dolala.core.ir.repository.enums.ChargeType;
 public class IRSaveCmd {
 	@Schema(description = "匯入匯款編號")
 	String irNo;
-	
+
+
 	@Schema(description = "付款狀態")
 	Integer paidStats;
 	
 	@Schema(description = "印製通知書記號")
 	String printAdvMk;
 	
-	
+
+	@Size(min = 3, max = 3, message = "再通知銀行長度僅能為3碼")
 	@Schema(description = "受通知單位")
 	String beAdvBranch;
 	
 	@Schema(description = "處理單位")
 	String processBranch;
-	
+
+	@Size(max = 1)
 	@Schema(description = "是否本行客戶(空白, Y, N)")
 	String ourCust;
 	
@@ -43,7 +49,7 @@ public class IRSaveCmd {
 	String customerId;
 	
 	@Schema(description = "幣別")
-	String curency;
+	String currency;
 	
 	@Schema(description = "匯入匯款金額")
 	BigDecimal irAmt;
