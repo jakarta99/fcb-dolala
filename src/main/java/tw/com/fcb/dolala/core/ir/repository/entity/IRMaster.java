@@ -33,7 +33,7 @@ public class IRMaster {
     String irNo;	//匯入匯款編號
     
     @Column(name = "PAID_STATS")
-    Integer paidStats;	//付款狀態
+    Integer paidStats;	//付款狀態 (0:初值, 4:已解款, 5:已退匯)
     
     @Column(name = "PRINT_ADV_MK")
     String printAdvMk;	//印製通知書記號

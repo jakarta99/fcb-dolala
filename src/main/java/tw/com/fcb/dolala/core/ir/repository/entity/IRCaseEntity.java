@@ -38,7 +38,7 @@ public class IRCaseEntity {
     @Column(name = "ADV_BRANCH")
     String advBranch;
 
-    //處理狀態
+    //處理狀態 (1:初值, 3:主管放行, 8:退匯)
     @Column(name = "PROCESS_STATUS")
     String processStatus;
     //入帳記號
