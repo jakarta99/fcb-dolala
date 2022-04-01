@@ -8,13 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import tw.com.fcb.dolala.core.common.repository.entity.ExchgRate;
+import tw.com.fcb.dolala.core.ir.http.CommonFeignClient;
 import tw.com.fcb.dolala.core.ir.repository.IRMasterRepository;
-import tw.com.fcb.dolala.core.common.repository.SerialNumberRepository;
 
 import tw.com.fcb.dolala.core.ir.repository.entity.IRMaster;
 
 import tw.com.fcb.dolala.core.ir.web.cmd.IRSaveCmd;
-import tw.com.fcb.dolala.core.ir.web.dto.IR;
+import tw.com.fcb.dolala.core.ir.web.dto.IRDto;
 
 
 /**
@@ -35,32 +36,34 @@ public class IRService {
     IRMasterRepository irMasterRepository;
 
 	@Autowired
-	SerialNumberRepository serialNumberRepository;
+	CommonFeignClient commonFeignClient;
 
-	private final String  systemType = "IR";
+	private final String  systemType = "IRDto";
 	private final String  noCode = "S";
 	// 新增匯入匯款主檔
-	public String insertIRMaster(IRSaveCmd saveCmd) throws Exception {
+	public IRMaster insertIRMaster(IRSaveCmd irSaveCmd) throws Exception {
 		IRMaster irMaster = new IRMaster();
 		// 自動將saveCmd的屬性，對應到entity裡
-		BeanUtils.copyProperties(saveCmd, irMaster);
-
+		BeanUtils.copyProperties(irSaveCmd, irMaster);
+		irSaveCmd.setExchangeRate(commonFeignClient.getFxRate(ExchgRate.EXCHG_RATE_TYPE_BUY, irSaveCmd.getCurrency(),"TWD"));
+		//取號
+		irSaveCmd.setIrNo(commonFeignClient.getFxNo(noCode,systemType,irSaveCmd.getBeAdvBranch()));
 		irMasterRepository.save(irMaster);
 
-		return irMaster.getIrNo();
+		return irMaster;
 	}
     
     //傳入匯入匯款編號查詢案件
-	public IR findOne(String irNo) {
-		IR ir = new IR();
+	public IRDto findOne(String irNo) {
+		IRDto irDto = new IRDto();
 //		IRMaster irMaster = repository.findByIrNo(irNo);
 //		if (irMaster != null) {
 //			// 自動將entity的屬性，對應到dto裡
-//			BeanUtils.copyProperties(irMaster, ir);
+//			BeanUtils.copyProperties(irMaster, irDto);
 //		}
 		IRMaster irMaster = irMasterRepository.findByIrNo(irNo).orElse(new IRMaster());
-		BeanUtils.copyProperties(irMaster, ir);
-		return ir;
+		BeanUtils.copyProperties(irMaster, irDto);
+		return irDto;
 	}
     
 	//傳入受通知單位查詢案件數
@@ -72,31 +75,31 @@ public class IRService {
 	
 	//print 列印通知書
 	public void print(String irNo) {
-    	IR ir = this.findOne(irNo); 
+    	IRDto irDto = this.findOne(irNo);
     	
-    	if (!(ir == null))
+    	if (!(irDto == null))
     	{
-    		ir.setPrintAdvMk("Y");
-    		ir.setPrintAdvDate(LocalDate.now());    	
-    		this.updateMaster(ir);    		
+    		irDto.setPrintAdvMk("Y");
+    		irDto.setPrintAdvDate(LocalDate.now());
+    		this.updateMaster(irDto);
     	}
     }
     
 	//settle 解款
     public void settle(String irNo) {
-    	IR ir = this.findOne(irNo); 
+    	IRDto irDto = this.findOne(irNo);
     	
-    	if (!(ir == null))
+    	if (!(irDto == null))
     	{
-    		ir.setPaidStats(2);    	
-    		this.updateMaster(ir);
+    		irDto.setPaidStats(2);
+    		this.updateMaster(irDto);
     	}
     }
     
-    public void updateMaster(IR ir) {
+    public void updateMaster(IRDto irDto) {
     	
 	    IRMaster irMaster = new IRMaster();
-	    BeanUtils.copyProperties(ir, irMaster);
+	    BeanUtils.copyProperties(irDto, irMaster);
 	    irMasterRepository.save(irMaster);
     	
     }

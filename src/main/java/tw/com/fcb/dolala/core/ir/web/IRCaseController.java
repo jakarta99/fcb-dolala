@@ -6,12 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import tw.com.fcb.dolala.core.common.http.Response;
-import tw.com.fcb.dolala.core.common.service.*;
 import tw.com.fcb.dolala.core.ir.http.CommonFeignClient;
 import tw.com.fcb.dolala.core.ir.service.IRCaseService;
 import tw.com.fcb.dolala.core.ir.vo.IRCaseVo;
 import tw.com.fcb.dolala.core.ir.web.cmd.SwiftMessageSaveCmd;
-import tw.com.fcb.dolala.core.ir.web.dto.IRCase;
+import tw.com.fcb.dolala.core.ir.web.dto.IRCaseDto;
 
 /**
  * Copyright (C),2022-2022,FirstBank
@@ -30,11 +29,9 @@ public class IRCaseController {
     @Autowired
     IRCaseService irCaseService;
     @Autowired
-    ErrorMessageService errorMessageService;
-    @Autowired
     CommonFeignClient commonFeignClient;
 
-    @PostMapping("/swift")
+    @PostMapping("/ircase")
     @Operation(description = "接收 swift 電文並存到 SwiftMessage", summary="儲存 swift")
     public Response receiveSwift(@Validated @RequestBody SwiftMessageSaveCmd message) {
         //取號
@@ -56,13 +53,16 @@ public class IRCaseController {
         return response;
     }
 
-    @GetMapping("/swift/{id}")
+    @PutMapping("/ircase/{irSeqNo}/autopass")
     @Operation(description = "檢核是否可自動放行", summary="更新AUTO_PASS欄位")
-    public Response checkAutoPassMK(String  irSeqNo) {
+    public Response checkAutoPassMK(@PathVariable("irSeqNo") String  irSeqNo) {
         Response response = new Response();
         try {
-            irCaseService.getByIRSeqNo(irSeqNo);
+            IRCaseDto irCaseDtoVo = irCaseService.getByIRSeqNo(irSeqNo);
             // check 相關欄位
+            // update IRCaseDto
+            irCaseDtoVo.setAutoPassMk("Y");
+            irCaseService.updateByIRSeqNo(irCaseDtoVo);
             response.Success();
             response.setData("success");
         }catch (Exception e) {
@@ -72,22 +72,18 @@ public class IRCaseController {
         return response;
     }
 
-    @GetMapping("/swift")
+    @GetMapping("/{irSeqNo}/ircase")
     @Operation(description = "取得seqNo電文資料",summary="取得seqNo電文資料")
-    public IRCase getBySeqNo(String irSeqNo){
-
-        return irCaseService.getByIRSeqNo(irSeqNo);
-    }
-    public String getMessage(String errorCode) {
-        Response response = new Response<>();
-        String errorMessage = null;
+    public Response getBySeqNo(@PathVariable("irSeqNo") String irSeqNo){
+        Response response = new Response();
         try {
-            errorMessage = null;
-            errorMessage = errorMessageService.findByErrorCode(errorCode);
-
-        } catch (Exception e) {
+            IRCaseDto irCaseDto = irCaseService.getByIRSeqNo(irSeqNo);
+            response.Success();
+            response.setData(irCaseDto);
+        }catch(Exception e){
             response.Error(e.getMessage(), commonFeignClient.getErrorMessage(e.getMessage()));
         }
-        return errorMessage;
+        return response;
     }
+
 }

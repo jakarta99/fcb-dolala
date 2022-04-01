@@ -10,7 +10,7 @@ import tw.com.fcb.dolala.core.ir.http.CommonFeignClient;
 import tw.com.fcb.dolala.core.ir.repository.IRCaseRepository;
 import tw.com.fcb.dolala.core.ir.repository.entity.IRCaseEntity;
 import tw.com.fcb.dolala.core.ir.vo.IRCaseVo;
-import tw.com.fcb.dolala.core.ir.web.dto.IRCase;
+import tw.com.fcb.dolala.core.ir.web.dto.IRCaseDto;
 
 import java.math.BigDecimal;
 
@@ -88,17 +88,26 @@ public class IRCaseService {
     }
 
     //傳入seqNo編號查詢案件
-    public IRCase getByIRSeqNo(String irSeqNo) {
+    public IRCaseDto getByIRSeqNo(String irSeqNo) {
 
         IRCaseEntity irCaseEntity = irCaseRepository.findBySeqNo(irSeqNo);
 
-        IRCase irCase = new IRCase();
+        IRCaseDto irCaseDto = new IRCaseDto();
 
-        if (irCase != null) {
+        if (irCaseDto != null) {
             // 自動將entity的屬性，對應到dto裡
-            BeanUtils.copyProperties(irCaseEntity, irCase);
+            BeanUtils.copyProperties(irCaseEntity, irCaseDto);
         }
-        return irCase;
+        return irCaseDto;
+    }
+
+    public boolean updateByIRSeqNo(IRCaseDto irCaseDtoVo) throws Exception{
+        IRCaseEntity irCaseEntity = new IRCaseEntity();
+// 將irCaseVo，對應到entity裡
+        BeanUtils.copyProperties(irCaseDtoVo, irCaseEntity);
+        irCaseRepository.save(irCaseEntity);
+        System.out.println();
+        return  true;
     }
 
 }

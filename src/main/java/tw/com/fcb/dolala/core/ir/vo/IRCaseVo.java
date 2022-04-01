@@ -27,6 +27,8 @@ import java.time.LocalDate;
 @Schema(description = "匯入匯款電文檔Vo")
 @Data
 public class IRCaseVo {
+    @Column(name = "ID")
+    Long id;
 
     @Column(name = "SEQ_NO")
     String seqNo;

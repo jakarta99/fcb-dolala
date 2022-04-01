@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import tw.com.fcb.dolala.core.ir.repository.entity.IRCaseEntity;
 import tw.com.fcb.dolala.core.ir.repository.entity.IRMaster;
 import tw.com.fcb.dolala.core.ir.service.IRCaseAuthorizationS121Service;
-import tw.com.fcb.dolala.core.ir.web.dto.IRCase;
 
 /**
  * @author sinjen
