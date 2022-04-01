@@ -9,7 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import tw.com.fcb.dolala.core.ir.repository.entity.IRCaseEntity;
 import tw.com.fcb.dolala.core.ir.repository.entity.IRMaster;
-import tw.com.fcb.dolala.core.ir.service.IRCaseAuthorizationS121Service;
+import tw.com.fcb.dolala.core.ir.service.IRCaseService;
 
 /**
  * @author sinjen
@@ -21,18 +21,18 @@ import tw.com.fcb.dolala.core.ir.service.IRCaseAuthorizationS121Service;
 public class IRCaseAuthorizationS121Controller {
 
 	@Autowired
-	IRCaseAuthorizationS121Service irCaseAuthorizationS121Service;
+	IRCaseService irCaseService;
 	
 	
 	IRCaseEntity irCaseEntity;
 			
 	// ※※※ S121 API清單 ※※※
 	// S121I 查詢待放行資料
-	@PutMapping("/s121i")
+	@PutMapping("/qry-wait-for-authorization/{seqNo}")
     @Operation(description = "查詢待放行資料", summary="查詢待放行")
     public String qryWaitForAuthorization(String seqNo) {
 		String qryReturnMsg = "";
-		irCaseEntity = irCaseAuthorizationS121Service.qryWaitForAuthorization(seqNo);		
+		irCaseEntity = irCaseService.qryWaitForAuthorization(seqNo);		
 		
 		if (irCaseEntity != null)
 		{
@@ -49,11 +49,11 @@ public class IRCaseAuthorizationS121Controller {
     }	
 	
 	// S121A 執行MT103放行
-	@PutMapping("/s121a")
+	@PutMapping("/exe-case-authorization/{seqNo}")
     @Operation(description = "執行MT103放行", summary="MT103放行")
     public IRMaster exeCaseAuthorization(String seqNo) {
 		IRMaster irMaster = new IRMaster();
-		irMaster = irCaseAuthorizationS121Service.exeCaseAuthorization(seqNo);
+		irMaster = irCaseService.exeCaseAuthorization(seqNo);
 		
 		if (irMaster != null)
 		{

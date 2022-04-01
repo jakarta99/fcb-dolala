@@ -1,6 +1,8 @@
 package tw.com.fcb.dolala.core.ir.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -15,6 +17,7 @@ import tw.com.fcb.dolala.core.ir.repository.IRMasterRepository;
 import tw.com.fcb.dolala.core.ir.repository.entity.IRMaster;
 
 import tw.com.fcb.dolala.core.ir.web.cmd.IRSaveCmd;
+import tw.com.fcb.dolala.core.ir.web.dto.IRAdvicePrintListDto;
 import tw.com.fcb.dolala.core.ir.web.dto.IRDto;
 
 
@@ -103,4 +106,64 @@ public class IRService {
 	    irMasterRepository.save(irMaster);
     	
     }
+    
+    //S131R 「處理種類」為(0、1、2、7或8) 之發查電文。 ==>進行通知書列印(多筆)
+   	public List<IRMaster> qryAdvicePrint(String branch)
+   	{
+   		List<IRMaster> listData = new ArrayList<IRMaster>();
+   		listData = irMasterRepository.findByBeAdvBranchAndPrintAdvMk(branch, "N");
+   		IRMaster irMaster;
+   		
+   		for (int i = 0; i < listData.size(); i ++)
+   		{
+   			//update IRMaster PrintAdvMk = Y ：已列印通知書
+   			irMaster = listData.get(i);
+   			irMaster.setPrintAdvMk("Y");
+   			irMasterRepository.save(irMaster);
+   		}
+   		
+   		return listData;
+   	}
+   		
+   	// S131I1 "「處理種類」為(3或4) 之發查電文。==>回傳「受通知筆數」、「已印製通知書筆數」欄位"
+   	public int[] qryAdviceCount(String branch)
+   	{
+   		int[] adviceCount = new int[2];
+   		
+   		//「受通知筆數」
+   		List<IRMaster> listData = new ArrayList<IRMaster>();
+   		listData = irMasterRepository.findByBeAdvBranch(branch);
+   		
+   		if (listData != null)
+   			adviceCount[0] = listData.size();
+   		
+   		//「已印製通知書筆數」
+   		listData = irMasterRepository.findByBeAdvBranchAndPrintAdvMk(branch, "Y");
+   		
+   		if (listData != null)
+   			adviceCount[1] = listData.size();
+   		
+   		return adviceCount;
+   	}
+   	
+   	// S131I2 "「處理種類」為(5或6) 之發查電文。==>回傳S1311畫面"
+   	public List<IRAdvicePrintListDto> qryAdviceList(String branch)
+   	{
+   		List<IRMaster> listData = new ArrayList<IRMaster>();
+   		List<IRAdvicePrintListDto> i2ListData = new ArrayList<IRAdvicePrintListDto>();
+   		listData = irMasterRepository.findByBeAdvBranch(branch);
+   		IRMaster irMaster;
+   		IRAdvicePrintListDto irS131I2;
+   		
+   		for (int i = 0; i < listData.size(); i ++)
+   		{			
+   			irS131I2 = new IRAdvicePrintListDto();
+   			irMaster = listData.get(i);
+   			BeanUtils.copyProperties(irMaster, irS131I2);
+   			i2ListData.add(irS131I2);
+   		}
+   		
+   		return i2ListData;
+   	}
+
 }

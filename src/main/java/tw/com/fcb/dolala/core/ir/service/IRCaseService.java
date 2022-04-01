@@ -8,11 +8,15 @@ import tw.com.fcb.dolala.core.common.web.dto.BankDto;
 import tw.com.fcb.dolala.core.common.web.dto.Customer;
 import tw.com.fcb.dolala.core.ir.http.CommonFeignClient;
 import tw.com.fcb.dolala.core.ir.repository.IRCaseRepository;
+import tw.com.fcb.dolala.core.ir.repository.IRMasterRepository;
 import tw.com.fcb.dolala.core.ir.repository.entity.IRCaseEntity;
+import tw.com.fcb.dolala.core.ir.repository.entity.IRMaster;
 import tw.com.fcb.dolala.core.ir.vo.IRCaseVo;
 import tw.com.fcb.dolala.core.ir.web.dto.IRCaseDto;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Copyright (C),2022-2022,FirstBank
@@ -33,6 +37,8 @@ public class IRCaseService {
     CommonFeignClient commonFeignClient;
     @Autowired
     IRMessageCheckSerivce irMessageCheckSerivce;
+    @Autowired
+	IRMasterRepository irMasterRepository;
     
     //取號檔 SystemType,branch
     private final String systemType = "IR_SEQ";
@@ -145,5 +151,40 @@ public class IRCaseService {
     	}
     	return irCaseDto;
     }
+    
+    // s121i 查詢待放行資料
+ 	public IRCaseEntity qryWaitForAuthorization(String seqNo)
+ 	{
+ 		IRCaseEntity irCaseEntity = irCaseRepository.findBySeqNo(seqNo);
+ 		return irCaseEntity;
+ 	}
+ 	
+ 	// s121a 執行MT103放行
+ 	public IRMaster exeCaseAuthorization(String seqNo) {
+ 		
+ 		IRMaster irMaster = null;
+ 		IRCaseEntity irCaseEntity = this.qryWaitForAuthorization(seqNo);		
+ 		
+ 		if (irCaseEntity != null)
+ 		{
+ 			//從電文檔搬移到主檔	
+ 			irMaster = new IRMaster();
+ 			irMaster.setPaidStats(0);
+ 			irMaster.setValueDate(irCaseEntity.getValueDate());
+ 			irMaster.setIrAmt(irCaseEntity.getIrAmount());
+ 			irMaster.setCurency(irCaseEntity.getCurrency());
+ 			irMaster.setBeAdvBranch("093");
+ 			irMaster.setPrintAdvMk("Y");
+ 			//產生外匯編號
+ 			irMaster.setIrNo(commonFeignClient.getFxNo("S", "IRDto", "093"));
+ 		    //新增主檔
+ 		    irMasterRepository.save(irMaster);
+ 		    
+ 		    //update IRCaseEntity PROCESS_STATUS = 3 ：放行訖
+ 		    irCaseEntity.setProcessStatus("3");
+ 		    irCaseRepository.save(irCaseEntity);
+ 		}
 
+ 		return irMaster;
+     } 	
 }

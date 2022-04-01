@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import tw.com.fcb.dolala.core.ir.repository.entity.IRMaster;
-import tw.com.fcb.dolala.core.ir.service.IRAdvicePrintS131Service;
+import tw.com.fcb.dolala.core.ir.service.IRService;
 import tw.com.fcb.dolala.core.ir.web.dto.IRAdvicePrintListDto;
 
 /**
@@ -24,16 +24,16 @@ import tw.com.fcb.dolala.core.ir.web.dto.IRAdvicePrintListDto;
 public class IRAdvicePrintS131Controller {
 	
 	@Autowired
-	IRAdvicePrintS131Service irAdvicePrintS131Service;
+	IRService irService;
 	
 	IRMaster irMaster = null;
 	// ※※※ S131 API清單 ※※※
 	// S131R 「處理種類」為(0、1、2、7或8) 之發查電文。 ==>進行通知書列印(多筆)
-	@PutMapping("/s131r")
+	@PutMapping("/qry-advice-print/{branch}")
     @Operation(description = "進行通知書列印", summary="通知書列印")
     public List<IRMaster> qryAdvicePrint(String branch) {
 		List<IRMaster> listData = new ArrayList<IRMaster>();
-		listData = irAdvicePrintS131Service.qryAdvicePrint(branch);		
+		listData = irService.qryAdvicePrint(branch);		
 		
 		if (listData.size() != 0)
 		{
@@ -48,11 +48,11 @@ public class IRAdvicePrintS131Controller {
     }	
 	
 	// S131I1 "「處理種類」為(3或4) 之發查電文。==>回傳「受通知筆數」、「已印製通知書筆數」欄位"
-	@PutMapping("/s131i1")
+	@PutMapping("/qry-advice-count/{branch}")
     @Operation(description = "受通知筆數", summary="受通知筆數")
     public int[] qryAdviceCount(String branch) {
 		int[] adviceCount = new int[2];
-		adviceCount = irAdvicePrintS131Service.qryAdviceCount(branch);		
+		adviceCount = irService.qryAdviceCount(branch);		
 		
 		//受通知筆數
 		if (adviceCount[0] != 0)
@@ -69,11 +69,11 @@ public class IRAdvicePrintS131Controller {
     }	
 	
 	// S131I2 "「處理種類」為(5或6) 之發查電文。==>回傳S1311畫面"
-	@PutMapping("/s131i2")
+	@PutMapping("/qry-advice-list/{branch}")
     @Operation(description = "分行通知書列表", summary="通知書列表")
 	public List<IRAdvicePrintListDto> qryAdviceList(String branch) {
 		List<IRAdvicePrintListDto> listData = new ArrayList<IRAdvicePrintListDto>();
-		listData = irAdvicePrintS131Service.qryAdviceList(branch);		
+		listData = irService.qryAdviceList(branch);		
 		
 		if (listData.size() != 0)
 		{
