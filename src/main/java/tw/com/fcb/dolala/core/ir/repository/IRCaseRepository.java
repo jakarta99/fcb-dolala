@@ -1,5 +1,7 @@
 package tw.com.fcb.dolala.core.ir.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import tw.com.fcb.dolala.core.ir.repository.entity.IRCaseEntity;
@@ -15,7 +17,10 @@ import tw.com.fcb.dolala.core.ir.repository.entity.IRCaseEntity;
  * 作者姓名       修改時間       版本編號       描述
  */
 @Repository
-public interface IRCaseRepository extends JpaRepository<IRCaseEntity,Long> {
-     IRCaseEntity findBySeqNo(String irSeqNo);
+public interface IRCaseRepository extends JpaRepository<IRCaseEntity, Long> {
+	
+	IRCaseEntity findBySeqNo(String irSeqNo);
+
+	Optional<IRCaseEntity> findBySeqNoAndProcessStatus(String seqNo, String processStatus);
 
 }

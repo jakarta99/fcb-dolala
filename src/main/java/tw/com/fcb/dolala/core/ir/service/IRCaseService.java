@@ -33,6 +33,7 @@ public class IRCaseService {
     CommonFeignClient commonFeignClient;
     @Autowired
     IRMessageCheckSerivce irMessageCheckSerivce;
+    
     //取號檔 SystemType,branch
     private final String systemType = "IR_SEQ";
     private final String branch = "999";
@@ -100,6 +101,13 @@ public class IRCaseService {
         }
         return irCaseDto;
     }
+    
+	// 傳入seqNo編號及處理狀態查詢電文檔案件
+	public IRCaseEntity getByIRSeqNoAndProcessStatus(String seqNo, String processStatus) throws Exception {
+
+		IRCaseEntity irCaseEntity = irCaseRepository.findBySeqNoAndProcessStatus(seqNo, processStatus).orElseThrow(() -> new Exception("S061"));
+		return irCaseEntity;
+	}
 
     public boolean updateByIRSeqNo(IRCaseDto irCaseDtoVo) throws Exception{
         IRCaseEntity irCaseEntity = new IRCaseEntity();
@@ -108,6 +116,34 @@ public class IRCaseService {
         irCaseRepository.save(irCaseEntity);
         System.out.println();
         return  true;
+    }
+    
+    // S061I 查詢待退匯案件
+    public IRCaseDto qryWaitForReturnIRCase(String seqNo) throws Exception {
+    	
+    	IRCaseDto irCaseDto = new IRCaseDto();
+    	IRCaseEntity irCaseEntity = this.getByIRSeqNoAndProcessStatus(seqNo, "1");
+    	if(irCaseEntity != null) {
+    		BeanUtils.copyProperties(irCaseEntity, irCaseDto);
+    	}
+    	return irCaseDto;
+    }
+    
+    // S061A 執行退匯
+    public IRCaseDto exeReturnIRCase(String seqNo) throws Exception {
+    	
+    	IRCaseDto irCaseDto = new IRCaseDto();
+    	IRCaseEntity irCaseEntity = this.getByIRSeqNoAndProcessStatus(seqNo, "1");
+    	
+    	if(irCaseEntity != null) {
+    		irCaseEntity.setProcessStatus("8");
+    		// 更新電文檔
+    		irCaseRepository.save(irCaseEntity);
+    		BeanUtils.copyProperties(irCaseEntity, irCaseDto);
+    	} else {
+    		// 找不到電文或電文狀態不為待處理
+    	}
+    	return irCaseDto;
     }
 
 }
