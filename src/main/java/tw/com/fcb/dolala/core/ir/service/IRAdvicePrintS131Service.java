@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import tw.com.fcb.dolala.core.ir.repository.IRMasterRepository;
 import tw.com.fcb.dolala.core.ir.repository.entity.IRMaster;
-import tw.com.fcb.dolala.core.ir.web.dto.IRS131I2;
+import tw.com.fcb.dolala.core.ir.web.dto.IRAdvicePrintListDto;
 
 @Slf4j
 @Transactional
@@ -22,7 +22,7 @@ public class IRAdvicePrintS131Service {
 	IRMasterRepository irMasterRepository;
 	
 	IRMaster irMaster;
-	IRS131I2 irS131I2;
+	IRAdvicePrintListDto irS131I2;
 	
 	//S131R 「處理種類」為(0、1、2、7或8) 之發查電文。 ==>進行通知書列印(多筆)
 	public List<IRMaster> qryAdvicePrint(String branch)
@@ -63,15 +63,15 @@ public class IRAdvicePrintS131Service {
 	}
 	
 	// S131I2 "「處理種類」為(5或6) 之發查電文。==>回傳S1311畫面"
-	public List<IRS131I2> qryAdviceList(String branch)
+	public List<IRAdvicePrintListDto> qryAdviceList(String branch)
 	{
 		List<IRMaster> listData = new ArrayList<IRMaster>();
-		List<IRS131I2> i2ListData = new ArrayList<IRS131I2>();
+		List<IRAdvicePrintListDto> i2ListData = new ArrayList<IRAdvicePrintListDto>();
 		listData = irMasterRepository.findByBeAdvBranch(branch);
 		
 		for (int i = 0; i < listData.size(); i ++)
 		{			
-			irS131I2 = new IRS131I2();
+			irS131I2 = new IRAdvicePrintListDto();
 			irMaster = listData.get(i);
 			BeanUtils.copyProperties(irMaster, irS131I2);
 			i2ListData.add(irS131I2);

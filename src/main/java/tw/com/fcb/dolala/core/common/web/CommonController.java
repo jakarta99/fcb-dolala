@@ -4,10 +4,7 @@ import java.math.BigDecimal;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
@@ -120,7 +117,7 @@ public class CommonController {
 	public String getFxNo(String noCode, String systemType, String branch)  {
 		String fxNo = null;
 		try {
-			 fxNo =  serialNumberService.getFxNo("S","IR",branch);
+			 fxNo =  serialNumberService.getFxNo("S","IRDto",branch);
 			String numberSerial = null;
 			if (branch.equals("093")){
 				numberSerial = fxNo.substring(5, 11);
@@ -174,7 +171,7 @@ public class CommonController {
 	
 	@GetMapping("/customerid/{customerId}")
 	@Operation(description = "以顧客ID讀取顧客資料", summary = "依ID讀取顧客資料")
-	public Customer getCustomerId(String customerId) {
+	public Customer getCustomerId(@PathVariable String customerId) {
 		log.info("接收accountId = " + customerId);
 		Customer customer= null;
 		customer = customerService.getCustomerId(customerId);
@@ -185,7 +182,7 @@ public class CommonController {
 	// 分行資料處理
 	@GetMapping("/branch")
 	@Operation(description = "傳入分行號碼取得分行字軌",summary = "以分行代號取得分行字軌")
-	public String getBranchCode(String branch){
+	public String getBranchCode(@PathVariable String branch){
 		String branchCode = null;
 		try {
 			branchCode = branchCheckService.getBranchCode(branch);
@@ -199,7 +196,7 @@ public class CommonController {
 	// 讀銀行檔
 	@GetMapping("/bank/{swiftCode}")
 	@Operation(description = "傳入SwiftCode查詢銀行檔", summary="以SwiftCode查詢銀行檔")
-	public BankDto getBank(String swiftCode) {
+	public BankDto getBank(@PathVariable String swiftCode) {
 		BankDto bankDto = new BankDto();
 		BankVo bankVo = new BankVo();
 		try {
@@ -215,7 +212,7 @@ public class CommonController {
 	// TCTYR02 以匯款行/付款行國家代號查詢名稱
 	@GetMapping("/bank/countryname/{countrycode}")
 	@Operation(description = "傳入CountryCode查詢國家名稱", summary="以CountryCode查詢國家名稱")
-	public String getCountryName(String countryCode) {
+	public String getCountryName(@PathVariable String countryCode) {
 
 		log.info("呼叫讀取國家名稱API：查詢 "+countryCode);
 
