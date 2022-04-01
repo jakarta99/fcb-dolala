@@ -11,7 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
  * S031-匯款資料輸入
  */
 @SpringBootTest
-class IRCaseEntryS031ControllerTest {
+class IRDtoCaseEntryS031ControllerTest {
 
 	@Autowired
 	IRCaseEntryS031Controller S031;

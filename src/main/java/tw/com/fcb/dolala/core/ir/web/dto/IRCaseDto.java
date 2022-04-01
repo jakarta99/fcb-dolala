@@ -6,6 +6,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import tw.com.fcb.dolala.core.ir.repository.enums.ChargeType;
 
 import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
@@ -13,7 +15,7 @@ import java.time.LocalDate;
 
 /**
  * Copyright (C),2022-2022,FirstBank
- * FileName: IRCase
+ * FileName: IRCaseDto
  * Author: Han-Ru
  * Date: 2022/3/15 下午 02:24
  * Description: 電文檔dto
@@ -23,18 +25,43 @@ import java.time.LocalDate;
  */
 @Schema(description = "匯入匯款電文檔")
 @Data
-public class IRCase {
-    @Schema(description = "swift序號")
+public class IRCaseDto {
+
+    @Column(name = "ID")
+    Long id;
+
+    @Column(name = "SEQ_NO")
     String seqNo;
+    //通知單位
+    @Column(name = "ADV_BRANCH")
+    String advBranch;
 
+    //處理狀態
+    @Column(name = "PROCESS_STATUS")
+    String processStatus;
+    //入帳記號
+    @Column(name = "CREDIT_MK")
+    String creditMK;
+    //受通知單位
+    @Column(name = "BE_ADV_BRANCH")
+    String beAdvBranch;
+    //顧客統編
+    @Column(name = "CUSTOMER_ID")
+    String customerID;
 
-    @Schema(description = "發電行swift代號")
+    @Column(name = "SENDER_SWIFT_CODE")
     String senderSwiftCode;
-    @Schema(description = "發電行外匯編號(20欄位)")
+
+    @Column(name = "REFERENCE_NO")
     String referenceNo;
 
-    @Schema(description = "處理狀態" )
-    String stats;
+    @Column(name = "CURRENCY")
+    String currency;
+
+    @Column(name = "AMOUNT")
+    BigDecimal irAmount;
+
+
     @Column(name = "AUTO_PASS_MK")
     String autoPassMk;
 
@@ -46,30 +73,43 @@ public class IRCase {
 
     @Schema(description = "處理時間" )
     String txTime;
-    @Schema(description = "金額")
-    BigDecimal amount;
-    @Schema(description = "幣別")
-    String currency;
-    @Schema(description = "發電行資訊 35x * 4")
+
+    @Column(name = "SENDER_INFO1")
     String senderInfo1;
+    @Column(name = "SENDER_INFO2")
     String senderInfo2;
+    @Column(name = "SENDER_INFO3")
     String senderInfo3;
+    @Column(name = "SENDER_INFO4")
     String senderInfo4;
-    @Schema(description = "受款人資訊 35x * 4")
+    @Column(name = "RECEIVER_ACCOUNT")
     String receiverAccount;
+    @Column(name = "RECEIVER_INFO1")
     String receiverInfo1;
+    @Column(name = "RECEIVER_INFO2")
     String receiverInfo2;
+    @Column(name = "RECEIVER_INFO3")
     String receiverInfo3;
+    @Column(name = "RECEIVER_INFO4")
     String receiverInfo4;
-    @Schema(description = "手續負擔類型",example = "SHA,BEN,OUR")
+
+    @Enumerated(EnumType.STRING)
     ChargeType chargeType;
-    @Schema(description = "中間行費用")
+
+    @Column(name = "CHARGE_FEE_CURRENCY1")
     String chargeFeeCurrency1;
+    @Column(name = "CHARGE_FEE_AMOUNT1")
     BigDecimal chargeFeeAmount1;
+    @Column(name = "CHARGE_FEE_CURRENCY2")
     String chargeFeeCurrency2;
+    @Column(name = "CHARGE_FEE_AMOUNT2")
     BigDecimal chargeFeeAmount2;
+    @Column(name = "CHARGE_FEE_CURRENCY3")
     String chargeFeeCurrency3;
+    @Column(name = "CHARGE_FEE_AMOUNT3")
     BigDecimal chargeFeeAmount3;
+
+
     @Schema(description = "匯款行一" )
     String remitBankInfo1;
 

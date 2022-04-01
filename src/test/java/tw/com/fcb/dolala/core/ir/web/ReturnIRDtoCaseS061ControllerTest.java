@@ -8,13 +8,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 /**
  * @author sinjen
- * S211-原幣匯入匯款解款
+ * S061-作業部退匯(無匯入編號)
  */
 @SpringBootTest
-class IROriginalCcyReleaseS211ControllerTest {
+class ReturnIRDtoCaseS061ControllerTest {
 
 	@Autowired
-	IROriginalCcyReleaseS211Controller S211;
+	ReturnIRCaseS061Controller S061;
 	
 	@Test
 	void test() {

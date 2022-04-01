@@ -6,16 +6,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import tw.com.fcb.dolala.core.ir.repository.entity.IRCaseEntity;
 import tw.com.fcb.dolala.core.ir.repository.entity.IRMaster;
-import tw.com.fcb.dolala.core.ir.web.dto.IRCase;
 
 /**
  * @author sinjen
  * S121-匯入匯款案件放行
  */
 @SpringBootTest
-class IRCaseAuthorizationS121ControllerTest {
+class IRDtoCaseAuthorizationS121ControllerTest {
 
 	@Autowired
 	IRCaseAuthorizationS121Controller S121;

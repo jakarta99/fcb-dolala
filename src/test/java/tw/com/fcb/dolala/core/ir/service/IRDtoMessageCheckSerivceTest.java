@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Copyright (C),2022-2022,FirstBank
- * FileName: IRMessageCheckSerivceTest
+ * FileName: IRDtoMessageCheckSerivceTest
  * Author: Han-Ru
  * Date: 2022/3/29 下午 01:26
  * Description:
@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * 作者姓名       修改時間       版本編號       描述
  */
 @SpringBootTest
-class IRMessageCheckSerivceTest {
+class IRDtoMessageCheckSerivceTest {
 
     @Autowired
     IRMessageCheckSerivce irMessageCheckService;

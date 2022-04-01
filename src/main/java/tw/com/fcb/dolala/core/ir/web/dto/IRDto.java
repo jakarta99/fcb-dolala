@@ -11,7 +11,7 @@ import tw.com.fcb.dolala.core.ir.repository.enums.ChargeType;
 
 /**
  * Copyright (C),2022-2022,FirstBank
- * FileName: IR
+ * FileName: IRDto
  * Author: Han-Ru
  * Date: 2022/3/10 下午 02:50
  * Description:
@@ -21,7 +21,7 @@ import tw.com.fcb.dolala.core.ir.repository.enums.ChargeType;
  */
 @Schema(description = "匯入匯款案件主檔")
 @Data
-public class IR {
+public class IRDto {
 	@Schema(description = "匯入匯款主檔系統編號")
 	String caseSeqNo;
 	

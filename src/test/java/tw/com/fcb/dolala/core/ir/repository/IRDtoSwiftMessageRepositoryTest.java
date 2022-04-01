@@ -8,7 +8,7 @@ import tw.com.fcb.dolala.core.ir.repository.entity.IRCaseEntity;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class IRSwiftMessageRepositoryTest {
+class IRDtoSwiftMessageRepositoryTest {
 
     @Autowired
     IRCaseRepository repository;

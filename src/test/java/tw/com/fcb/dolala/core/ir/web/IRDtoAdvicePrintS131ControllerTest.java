@@ -11,7 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
  * S131-印製通知書
  */
 @SpringBootTest
-class IRAdvicePrintS131ControllerTest {
+class IRDtoAdvicePrintS131ControllerTest {
 
 	@Autowired
 	IRAdvicePrintS131Controller S131;

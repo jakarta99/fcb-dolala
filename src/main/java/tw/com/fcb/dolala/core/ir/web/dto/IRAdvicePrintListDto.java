@@ -11,7 +11,7 @@ import tw.com.fcb.dolala.core.ir.repository.enums.ChargeType;
 
 @Schema(description = "匯入匯款案件主檔S131I2電文	發查結果")
 @Data
-public class IRS131I2 {
+public class IRAdvicePrintListDto {
 	@Schema(description = "匯入匯款主檔系統編號")
 	String caseSeqNo;
 	

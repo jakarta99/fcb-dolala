@@ -28,7 +28,7 @@ import java.util.Map;
  */
 @SpringBootTest
 @AutoConfigureMockMvc
-class IRCaseControllerTest {
+class IRDtoCaseControllerTest {
 
 	@Autowired
 	IRCaseController IRCase;
