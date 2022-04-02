@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,7 +30,6 @@ import tw.com.fcb.dolala.core.ir.web.dto.IRDto;
  * <author>     <time>       <version>     <desc>
  * 作者姓名       修改時間       版本編號       描述
  */
-@Slf4j
 @Transactional
 @Service
 public class IRService {
@@ -72,7 +70,7 @@ public class IRService {
 	//傳入受通知單位查詢案件數
 	public Integer getIrCaseCount(String branch) {
 		Integer count = 0;
-		count = irMasterRepository.findByBeAdvBranchAndPrintAdvMk(branch,"N").size();
+		count = irMasterRepository.findByBeAdvBranchAndPaidStatsAndPrintAdvMk(branch,0,"N").size();
 		return count;
 	}
 	
@@ -111,7 +109,7 @@ public class IRService {
    	public List<IRMaster> qryAdvicePrint(String branch)
    	{
    		List<IRMaster> listData = new ArrayList<IRMaster>();
-   		listData = irMasterRepository.findByBeAdvBranchAndPrintAdvMk(branch, "N");
+   		listData = irMasterRepository.findByBeAdvBranchAndPaidStatsAndPrintAdvMk(branch, 0, "N");
    		IRMaster irMaster;
    		
    		for (int i = 0; i < listData.size(); i ++)
@@ -132,13 +130,13 @@ public class IRService {
    		
    		//「受通知筆數」
    		List<IRMaster> listData = new ArrayList<IRMaster>();
-   		listData = irMasterRepository.findByBeAdvBranch(branch);
+   		listData = irMasterRepository.findByBeAdvBranchAndPaidStats(branch, 0);
    		
    		if (listData != null)
    			adviceCount[0] = listData.size();
    		
    		//「已印製通知書筆數」
-   		listData = irMasterRepository.findByBeAdvBranchAndPrintAdvMk(branch, "Y");
+   		listData = irMasterRepository.findByBeAdvBranchAndPaidStatsAndPrintAdvMk(branch, 0, "Y");
    		
    		if (listData != null)
    			adviceCount[1] = listData.size();
@@ -151,7 +149,7 @@ public class IRService {
    	{
    		List<IRMaster> listData = new ArrayList<IRMaster>();
    		List<IRAdvicePrintListDto> i2ListData = new ArrayList<IRAdvicePrintListDto>();
-   		listData = irMasterRepository.findByBeAdvBranch(branch);
+   		listData = irMasterRepository.findByBeAdvBranchAndPaidStats(branch, 0);
    		IRMaster irMaster;
    		IRAdvicePrintListDto irS131I2;
    		
