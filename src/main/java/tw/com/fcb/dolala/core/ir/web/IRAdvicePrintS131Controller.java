@@ -16,6 +16,7 @@ import tw.com.fcb.dolala.core.ir.http.CommonFeignClient;
 import tw.com.fcb.dolala.core.ir.repository.entity.IRMaster;
 import tw.com.fcb.dolala.core.ir.service.IRService;
 import tw.com.fcb.dolala.core.ir.web.dto.IRAdvicePrintListDto;
+import tw.com.fcb.dolala.core.ir.web.dto.IRDto;
 
 /**
  * @author ijoshua29
@@ -35,15 +36,15 @@ public class IRAdvicePrintS131Controller {
 	// S131R 「處理種類」為(0、1、2、7或8) 之發查電文。 ==>進行通知書列印(多筆)
 	@PutMapping("/advice-print/{branch}/enquiry")
 	@Operation(description = "進行通知書列印", summary = "通知書列印")
-	public Response<List<IRMaster>> qryAdvicePrint(String branch) {
-		Response<List<IRMaster>> response = new Response<List<IRMaster>>();
-		List<IRMaster> listData = new ArrayList<IRMaster>();
+	public Response<List<IRDto>> qryAdvicePrint(String branch) {
+		Response<List<IRDto>> response = new Response<List<IRDto>>();
+		List<IRDto> listData = new ArrayList<IRDto>();
 
 		try {
 			listData = irService.qryAdvicePrint(branch);
 			response.Success();
 			response.setData(listData);
-
+			
 			if (listData.size() != 0) {
 				log.info("呼叫分行通知書列印API：" + branch + "分行列印" + listData.size() + "筆通知書");
 			} else {

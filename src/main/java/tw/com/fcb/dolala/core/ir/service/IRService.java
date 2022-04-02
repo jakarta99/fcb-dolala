@@ -119,21 +119,27 @@ public class IRService {
     }
     
     //S131R 「處理種類」為(0、1、2、7或8) 之發查電文。 ==>進行通知書列印(多筆)
-   	public List<IRMaster> qryAdvicePrint(String branch)
+   	public List<IRDto> qryAdvicePrint(String branch)
    	{
    		List<IRMaster> listData = new ArrayList<IRMaster>();
+   		List<IRDto> listDto = new ArrayList<IRDto>();
    		listData = irMasterRepository.findByBeAdvBranchAndPaidStatsAndPrintAdvMk(branch, 0, "N");
    		IRMaster irMaster;
-   		
+   		IRDto irDto;
+
    		for (int i = 0; i < listData.size(); i ++)
    		{
    			//update IRMaster PrintAdvMk = Y ：已列印通知書
    			irMaster = listData.get(i);
    			irMaster.setPrintAdvMk("Y");
    			irMasterRepository.save(irMaster);
+   			//add to irDto
+   			irDto = new IRDto();
+   			BeanUtils.copyProperties(irMaster, irDto);
+   			listDto.add(irDto);
    		}
-   		
-   		return listData;
+
+   		return listDto;
    	}
    		
    	// S131I1 "「處理種類」為(3或4) 之發查電文。==>回傳「受通知筆數」、「已印製通知書筆數」欄位"
