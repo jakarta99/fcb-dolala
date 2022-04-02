@@ -5,6 +5,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import tw.com.fcb.dolala.core.common.http.Response;
 import tw.com.fcb.dolala.core.common.web.dto.BankAddressDto;
 import tw.com.fcb.dolala.core.common.web.dto.BankDto;
 import tw.com.fcb.dolala.core.common.web.dto.Customer;
@@ -79,7 +80,7 @@ public interface CommonFeignClient {
     // TBNMR13 依劃帳行ID 查詢劃帳行名稱地址 (幣別代碼=99)
     @GetMapping("/common/bank/countryadd/{swiftcode}/99")
     @Operation(description = "傳入劃帳行ID+99查詢劃帳行名稱地址", summary="以劃帳行ID+99查詢劃帳行名稱地址")
-    BankAddressDto getBankAdd(@RequestParam("swiftCode") String swiftCode);
+    Response<BankAddressDto> getBankAdd(@RequestParam("swiftCode") String swiftCode);
 
     // 手續費計算
     @GetMapping("/common/GetChargeFeeTWD")

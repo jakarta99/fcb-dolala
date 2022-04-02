@@ -15,8 +15,8 @@ class IRDtoSwiftMessageRepositoryTest {
 
     @Test
     void findBySeqNo() {
-        IRCaseEntity irSwiftMessageEntity = repository.findBySeqNo("123456789012345");
-        assertEquals("2000.00",irSwiftMessageEntity.getIrAmount().toString());
+    	IRCaseEntity irCaseEntity = repository.findBySeqNo("123456789012345").orElseThrow();
+        assertEquals("2000.00",irCaseEntity.getIrAmount().toString());
 
     }
 }

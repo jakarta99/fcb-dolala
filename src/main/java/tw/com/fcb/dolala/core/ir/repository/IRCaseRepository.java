@@ -4,8 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import tw.com.fcb.dolala.core.ir.repository.entity.IRCaseEntity;
 
-import java.util.Optional;
-
 /**
  * Copyright (C),2022-2022,FirstBank
  * FileName: IRCaseRepository
@@ -17,7 +15,10 @@ import java.util.Optional;
  * 作者姓名       修改時間       版本編號       描述
  */
 @Repository
-public interface IRCaseRepository extends JpaRepository<IRCaseEntity,Long> {
-     Optional<IRCaseEntity> findBySeqNo(String irSeqNo);
+public interface IRCaseRepository extends JpaRepository<IRCaseEntity, Long> {
+
+	Optional<IRCaseEntity> findBySeqNo(String irSeqNo);
+
+	Optional<IRCaseEntity> findBySeqNoAndProcessStatus(String seqNo, String processStatus);
 
 }
