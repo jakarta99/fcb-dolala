@@ -258,7 +258,12 @@ public class CommonController {
 	@Operation(description = "傳入errorCode查詢錯誤說明", summary="以errorCode查詢錯誤說明")
 	public String getErrorMessage(String errorCode) {
 		String errorMessage = null;
-		errorMessage = errorMessageService.findByErrorCode(errorCode);
+		try {
+			errorMessage = errorMessageService.findByErrorCode(errorCode);
+		}catch (Exception e){
+			errorMessage = "查無錯誤訊息";
+		}
+
 		return errorMessage;
 	}
 
