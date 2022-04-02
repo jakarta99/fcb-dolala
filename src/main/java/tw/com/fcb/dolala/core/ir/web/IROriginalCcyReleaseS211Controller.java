@@ -1,9 +1,18 @@
 package tw.com.fcb.dolala.core.ir.web;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
+import tw.com.fcb.dolala.core.common.http.Response;
+import tw.com.fcb.dolala.core.ir.http.CommonFeignClient;
+import tw.com.fcb.dolala.core.ir.service.IRService;
+import tw.com.fcb.dolala.core.ir.web.dto.IRDto;
 
 /**
  * @author sinjen
@@ -14,11 +23,56 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/ir")
 public class IROriginalCcyReleaseS211Controller {
 
+	@Autowired
+	IRService S211;
+	@Autowired
+	CommonFeignClient commonFeignClient;
+	
 	// ※※※ S211 API清單 ※※※
 	// S211A 執行原幣解款資料新增 (A:新增)
+	@PutMapping("/originalccy-release/{irNo}/execute")
+	@Operation(description = "新增原幣解款案件資料", summary = "新增原幣解款案件資料")
+	public Response<IRDto> exeRelaseIRMaster(@PathVariable("irNo") String irNo) {
+		Response<IRDto> response = new Response<IRDto>();
+		try {
+			IRDto irDto = S211.exeRelaseIRMaster(irNo);
+			response.Success();
+			response.setData(irDto);
+			log.info("呼叫新增原幣解款案件API：查詢匯入匯款編號" + irNo + "已解款");
+		} catch (Exception e) {
+			response.Error(e.getMessage(), commonFeignClient.getErrorMessage(e.getMessage()));
+			log.info("呼叫新增原幣解款案件API：" + commonFeignClient.getErrorMessage(e.getMessage()));
+		}
+		return response;
+	}
+	
 	// S211C 執行原幣解款資料更正 (C:更正)
 	// S211D 執行原幣解款資料剔除 (D:剔除)
 	// S211I 依匯入編號資料查詢解款資料 (A,C,D)
+	@GetMapping("/originalccy-release/{irNo}/enquiry")
+	@Operation(description = "查詢匯入匯款案件資料", summary = "查詢匯入匯款案件資料")
+	public Response<IRDto> qryWaitForRelaseIRMaster(@PathVariable("irNo") String irNo) {
+		Response<IRDto> response = new Response<IRDto>();
+		try {
+			IRDto irDto = S211.getByIrNo(irNo);
+			response.Success();
+			response.setData(irDto);
+			if ("0".equals(irDto.getPaidStats().toString())) {
+				log.info("呼叫查詢匯入匯款案件API：查詢匯入匯款編號" + irNo + "待處理");
+			} else if ("4".equals(irDto.getPaidStats().toString())) {
+				response.Error("S102", commonFeignClient.getErrorMessage("S102"));
+				log.info("呼叫查詢匯入匯款案件API：查詢匯入匯款編號" + irNo + "已解款");
+			} else if ("5".equals(irDto.getPaidStats().toString())) {
+				response.Error("S103", commonFeignClient.getErrorMessage("S103"));
+				log.info("呼叫查詢匯入匯款案件API：查詢匯入匯款編號" + irNo + "已退匯");
+			}
+		} catch (Exception e) {
+			response.Error(e.getMessage(), commonFeignClient.getErrorMessage(e.getMessage()));
+			log.info("呼叫查詢匯入匯款案件API：" + commonFeignClient.getErrorMessage(e.getMessage()));
+		}
+		return response;
+	}
+	
 	// S211P 於交易完成後，端末判斷須列印申報書者，提示訊息，若選擇列印，則發S211P取得申報書資料列印
 	// S211U 將前端 AML 取號相關資料回寫主檔，並檢核疑似第三方交易、客戶是否曾被婉拒交易
 	// NOTCR06 依通報序號查詢通報匯率及通報匯率成本

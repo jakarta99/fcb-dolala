@@ -54,7 +54,20 @@ public class IRService {
 		return irMaster;
 	}
     
-    //傳入匯入匯款編號查詢案件
+	// 傳入匯入匯款編號查詢案件
+	public IRDto getByIrNo(String irNo) throws Exception {
+
+		IRMaster irMaster = irMasterRepository.findByIrNo(irNo).orElseThrow(() -> new Exception("S101"));
+		IRDto irDto = new IRDto();
+
+		if (irMaster != null) {
+			// 自動將entity的屬性，對應到dto裡
+			BeanUtils.copyProperties(irMaster, irDto);
+		}
+		return irDto;
+	}
+		
+    //傳入匯入匯款編號查詢待處理案件
 	public IRDto findOne(String irNo) throws Exception {
 
 		IRMaster irMaster = irMasterRepository.findByIrNoAndPaidStats(irNo, 0).orElseThrow(() -> new Exception("S101"));
@@ -164,4 +177,33 @@ public class IRService {
    		return i2ListData;
    	}
 
+	// S211A 執行原幣解款資料新增
+   	public IRDto exeRelaseIRMaster(String irNo) throws Exception {
+		IRMaster irMaster = irMasterRepository.findByIrNoAndPaidStats(irNo, 0).orElseThrow(() -> new Exception("S101"));
+		IRDto irDto = new IRDto();
+
+		if (irMaster != null) {
+			irMaster.setPaidStats(4); // 4:已解款
+			// 更新匯入匯款主檔
+			irMasterRepository.save(irMaster);
+			// 自動將entity的屬性，對應到dto裡
+			BeanUtils.copyProperties(irMaster, irDto);
+		}
+		return irDto;
+	}
+   	
+	// S611A 新增退匯交易
+	public IRDto exeReturnIRMaster(String irNo) throws Exception {
+		IRMaster irMaster = irMasterRepository.findByIrNoAndPaidStats(irNo, 0).orElseThrow(() -> new Exception("S101"));
+		IRDto irDto = new IRDto();
+
+		if (irMaster != null) {
+			irMaster.setPaidStats(5); // 5:已退匯
+			// 更新匯入匯款主檔
+			irMasterRepository.save(irMaster);
+			// 自動將entity的屬性，對應到dto裡
+			BeanUtils.copyProperties(irMaster, irDto);
+		}
+		return irDto;
+	}
 }
