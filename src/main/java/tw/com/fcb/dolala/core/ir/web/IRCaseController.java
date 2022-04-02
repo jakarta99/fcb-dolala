@@ -34,8 +34,6 @@ public class IRCaseController {
     @PostMapping("/ircase")
     @Operation(description = "接收 swift 電文並存到 SwiftMessage", summary="儲存 swift")
     public Response receiveSwift(@Validated @RequestBody SwiftMessageSaveCmd message) {
-        //取號
-        String irSeqNo = null;
         Response response = new Response<>();
         try {
             IRCaseVo irCaseVo = new IRCaseVo();

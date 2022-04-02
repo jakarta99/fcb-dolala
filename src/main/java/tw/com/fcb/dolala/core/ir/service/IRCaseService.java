@@ -55,6 +55,7 @@ public class IRCaseService {
         //      2 ：印製放行工作單訖(經辦放行) (S111交易)
         //          (受通知單位係其它外匯指定單位時放 2 ， ELSE 放 4 )
         irCaseVo.setProcessStatus("1");
+        irCaseVo.setAutoPassMk("N");
         // check account
         String receiveAccount = irCaseVo.getReceiverAccount();
         String accountNo = irMessageCheckSerivce.getAccountNo(receiveAccount);
@@ -106,7 +107,6 @@ public class IRCaseService {
 // 將irCaseVo，對應到entity裡
         BeanUtils.copyProperties(irCaseDtoVo, irCaseEntity);
         irCaseRepository.save(irCaseEntity);
-        System.out.println();
         return  true;
     }
 
