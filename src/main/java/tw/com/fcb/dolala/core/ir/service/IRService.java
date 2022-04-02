@@ -55,15 +55,15 @@ public class IRService {
 	}
     
     //傳入匯入匯款編號查詢案件
-	public IRDto findOne(String irNo) {
+	public IRDto findOne(String irNo) throws Exception {
+
+		IRMaster irMaster = irMasterRepository.findByIrNoAndPaidStats(irNo, 0).orElseThrow(() -> new Exception("S101"));
 		IRDto irDto = new IRDto();
-//		IRMaster irMaster = repository.findByIrNo(irNo);
-//		if (irMaster != null) {
-//			// 自動將entity的屬性，對應到dto裡
-//			BeanUtils.copyProperties(irMaster, irDto);
-//		}
-		IRMaster irMaster = irMasterRepository.findByIrNo(irNo).orElse(new IRMaster());
-		BeanUtils.copyProperties(irMaster, irDto);
+
+		if (irMaster != null) {
+			// 自動將entity的屬性，對應到dto裡
+			BeanUtils.copyProperties(irMaster, irDto);
+		}
 		return irDto;
 	}
     
@@ -75,7 +75,7 @@ public class IRService {
 	}
 	
 	//print 列印通知書
-	public void print(String irNo) {
+	public void print(String irNo) throws Exception {
     	IRDto irDto = this.findOne(irNo);
     	
     	if (!(irDto == null))
@@ -87,12 +87,12 @@ public class IRService {
     }
     
 	//settle 解款
-    public void settle(String irNo) {
+    public void settle(String irNo) throws Exception {
     	IRDto irDto = this.findOne(irNo);
     	
     	if (!(irDto == null))
     	{
-    		irDto.setPaidStats(2);
+    		irDto.setPaidStats(4);	//4:已解款
     		this.updateMaster(irDto);
     	}
     }

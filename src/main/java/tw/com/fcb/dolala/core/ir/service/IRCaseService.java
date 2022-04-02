@@ -154,6 +154,24 @@ public class IRCaseService {
     	}
     	return irCaseDto;
     }
+    
+	// S061D 執行退匯刪除
+	public IRCaseDto deleteReturnIRCase(String seqNo) throws Exception {
+
+		IRCaseDto irCaseDto = new IRCaseDto();
+		IRCaseEntity irCaseEntity = this.getByIRSeqNoAndProcessStatus(seqNo, "8");
+
+		if (irCaseEntity != null) {
+			irCaseEntity.setProcessStatus("1");
+			// 更新電文檔
+			irCaseRepository.save(irCaseEntity);
+			BeanUtils.copyProperties(irCaseEntity, irCaseDto);
+		} else {
+			// 查無此電文
+			new Exception("S001");
+		}
+		return irCaseDto;
+	}
  	
  	// S121A 執行MT103放行
 	public IRDto exeCaseAuthorization(String seqNo) throws Exception {

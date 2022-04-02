@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -56,7 +57,7 @@ public class IRAdvicePrintS131Controller {
 	}
 
 	// S131I1 "「處理種類」為(3或4) 之發查電文。==>回傳「受通知筆數」、「已印製通知書筆數」欄位"
-	@PutMapping("/advice-print/{branch}/count")
+	@GetMapping("/advice-print/{branch}/count")
 	@Operation(description = "受通知筆數", summary = "受通知筆數")
 	public Response<int[]> qryAdviceCount(String branch) {
 		Response<int[]> response = new Response<int[]>();
@@ -82,7 +83,7 @@ public class IRAdvicePrintS131Controller {
 	}
 
 	// S131I2 "「處理種類」為(5或6) 之發查電文。==>回傳S1311畫面"
-	@PutMapping("/advice-print/{branch}/enquiry-list")
+	@GetMapping("/advice-print/{branch}/enquiry-list")
 	@Operation(description = "分行通知書列表", summary = "通知書列表")
 	public Response<List<IRAdvicePrintListDto>> qryAdviceList(String branch) {
 		Response<List<IRAdvicePrintListDto>> response = new Response<List<IRAdvicePrintListDto>>();

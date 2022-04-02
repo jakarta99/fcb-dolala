@@ -1,6 +1,7 @@
 package tw.com.fcb.dolala.core.ir.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +31,7 @@ public class IRCaseAuthorizationS121Controller {
 			
 	// ※※※ S121 API清單 ※※※
 	// S121I 查詢待放行資料
-	@PutMapping("/ircase-authorization/{seqNo}/enquiry")
+	@GetMapping("/ircase-authorization/{seqNo}/enquiry")
 	@Operation(description = "查詢待放行資料", summary = "查詢待放行")
 	public Response<IRCaseDto> qryWaitForAuthorization(@PathVariable("seqNo") String seqNo) {
 		Response<IRCaseDto> response = new Response<IRCaseDto>();
@@ -57,7 +58,7 @@ public class IRCaseAuthorizationS121Controller {
 	// S121A 執行MT103放行
 	@PutMapping("/ircase-authorization/{seqNo}/execute")
 	@Operation(description = "執行MT103放行", summary = "MT103放行")
-	public Response<IRDto> exeCaseAuthorization(String seqNo) {
+	public Response<IRDto> exeCaseAuthorization(@PathVariable("seqNo") String seqNo) {
 		Response<IRDto> response = new Response<IRDto>();
 		try {
 			IRDto irDto = irCaseService.exeCaseAuthorization(seqNo);
