@@ -4,6 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import tw.com.fcb.dolala.core.ir.repository.entity.IRCaseEntity;
 
+import java.util.Optional;
+
 /**
  * Copyright (C),2022-2022,FirstBank
  * FileName: IRCaseRepository
