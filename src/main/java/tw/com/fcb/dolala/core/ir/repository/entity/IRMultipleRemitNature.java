@@ -34,7 +34,7 @@ public class IRMultipleRemitNature {
     @Column(name = "IR_NO")
     String irNo;	//匯入匯款編號
     
-    @Column(name = "PROCESS-MOD")
+    @Column(name = "PROCESS_MOD")
     String process_Mod;	//處理方式(A,C,D)
     
     @Column(name = "PROCESS_DATE")
@@ -46,7 +46,7 @@ public class IRMultipleRemitNature {
     @Column(name = "FX_DEP_ORG_MARK")
     String fxDepOrgMark;	//存入外匯存款-原匯款性質
     
-    @Column(name = "FX-DEP-AMT")
+    @Column(name = "FX_DEP_AMT")
     String fxDepAmt;	//存入外匯存款金額
     
     @Column(name = "REMIT_D_MARK")
