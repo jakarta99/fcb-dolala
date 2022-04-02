@@ -6,10 +6,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import tw.com.fcb.dolala.core.ir.repository.entity.IRMaster;
+import tw.com.fcb.dolala.core.common.http.Response;
+import tw.com.fcb.dolala.core.ir.web.dto.IRCaseDto;
+import tw.com.fcb.dolala.core.ir.web.dto.IRDto;
 
 /**
- * @author sinjen
+ * @author ijoshua29
  * S121-匯入匯款案件放行
  */
 @SpringBootTest
@@ -17,22 +19,20 @@ class IRDtoCaseAuthorizationS121ControllerTest {
 
 	@Autowired
 	IRCaseAuthorizationS121Controller S121;
-	
+
 	// S121I 查詢待放行資料
 	@Test
 	void testqryWaitForAuthorization() {
 		String seqNo = "123456789012345";
-		String qryReturnMsg = S121.qryWaitForAuthorization(seqNo);
-		assertNotNull(qryReturnMsg);
+		Response<IRCaseDto> response = S121.qryWaitForAuthorization(seqNo);
+		assertEquals("0000", response.getCode());
 	}
-
 
 	// S121A 執行MT103放行
 	@Test
 	void testexeCaseAuthorization() {
 		String seqNo = "123456789012345";
-		IRMaster irMaster = new IRMaster();
-		irMaster = S121.exeCaseAuthorization(seqNo);
-		assertNotNull(irMaster);
+		Response<IRDto> response = S121.exeCaseAuthorization(seqNo);
+		assertEquals("0000", response.getCode());
 	}
 }

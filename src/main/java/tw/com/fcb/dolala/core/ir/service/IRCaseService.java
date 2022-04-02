@@ -13,6 +13,7 @@ import tw.com.fcb.dolala.core.ir.repository.entity.IRCaseEntity;
 import tw.com.fcb.dolala.core.ir.repository.entity.IRMaster;
 import tw.com.fcb.dolala.core.ir.vo.IRCaseVo;
 import tw.com.fcb.dolala.core.ir.web.dto.IRCaseDto;
+import tw.com.fcb.dolala.core.ir.web.dto.IRDto;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -94,11 +95,12 @@ public class IRCaseService {
         return irCaseVo;
     }
 
-    //傳入seqNo編號查詢案件
-    public IRCaseDto getByIRSeqNo(String irSeqNo) {
+	// 傳入seqNo編號查詢案件
+	// s121i 查詢待放行資料
+	// S061I 查詢待退匯(無匯入編號)
+    public IRCaseDto getByIRSeqNo(String irSeqNo) throws Exception {
 
-        IRCaseEntity irCaseEntity = irCaseRepository.findBySeqNo(irSeqNo);
-
+        IRCaseEntity irCaseEntity = irCaseRepository.findBySeqNo(irSeqNo).orElseThrow(() -> new Exception("S001"));
         IRCaseDto irCaseDto = new IRCaseDto();
 
         if (irCaseDto != null) {
@@ -111,7 +113,7 @@ public class IRCaseService {
 	// 傳入seqNo編號及處理狀態查詢電文檔案件
 	public IRCaseEntity getByIRSeqNoAndProcessStatus(String seqNo, String processStatus) throws Exception {
 
-		IRCaseEntity irCaseEntity = irCaseRepository.findBySeqNoAndProcessStatus(seqNo, processStatus).orElseThrow(() -> new Exception("S061"));
+		IRCaseEntity irCaseEntity = irCaseRepository.findBySeqNoAndProcessStatus(seqNo, processStatus).orElseThrow(() -> new Exception("S001"));
 		return irCaseEntity;
 	}
 
@@ -124,8 +126,8 @@ public class IRCaseService {
         return  true;
     }
     
-    // S061I 查詢待退匯案件
-    public IRCaseDto qryWaitForReturnIRCase(String seqNo) throws Exception {
+    // 查詢待處理案件
+    public IRCaseDto getByIRSeqNoAndStatus(String seqNo) throws Exception {
     	
     	IRCaseDto irCaseDto = new IRCaseDto();
     	IRCaseEntity irCaseEntity = this.getByIRSeqNoAndProcessStatus(seqNo, "1");
@@ -147,44 +149,44 @@ public class IRCaseService {
     		irCaseRepository.save(irCaseEntity);
     		BeanUtils.copyProperties(irCaseEntity, irCaseDto);
     	} else {
-    		// 找不到電文或電文狀態不為待處理
+    		// 查無此電文
+    		new Exception("S001");
     	}
     	return irCaseDto;
     }
-    
-    // s121i 查詢待放行資料
- 	public IRCaseEntity qryWaitForAuthorization(String seqNo)
- 	{
- 		IRCaseEntity irCaseEntity = irCaseRepository.findBySeqNo(seqNo);
- 		return irCaseEntity;
- 	}
  	
- 	// s121a 執行MT103放行
- 	public IRMaster exeCaseAuthorization(String seqNo) {
- 		
- 		IRMaster irMaster = null;
- 		IRCaseEntity irCaseEntity = this.qryWaitForAuthorization(seqNo);		
- 		
- 		if (irCaseEntity != null)
- 		{
- 			//從電文檔搬移到主檔	
- 			irMaster = new IRMaster();
- 			irMaster.setPaidStats(0);
- 			irMaster.setValueDate(irCaseEntity.getValueDate());
- 			irMaster.setIrAmt(irCaseEntity.getIrAmount());
- 			irMaster.setCurency(irCaseEntity.getCurrency());
- 			irMaster.setBeAdvBranch("093");
- 			irMaster.setPrintAdvMk("Y");
- 			//產生外匯編號
- 			irMaster.setIrNo(commonFeignClient.getFxNo("S", "IRDto", "093"));
- 		    //新增主檔
- 		    irMasterRepository.save(irMaster);
- 		    
- 		    //update IRCaseEntity PROCESS_STATUS = 3 ：放行訖
- 		    irCaseEntity.setProcessStatus("3");
- 		    irCaseRepository.save(irCaseEntity);
- 		}
+ 	// S121A 執行MT103放行
+	public IRDto exeCaseAuthorization(String seqNo) throws Exception {
 
- 		return irMaster;
-     } 	
+		IRDto irDto = new IRDto();
+		IRMaster irMaster = null;
+		IRCaseEntity irCaseEntity = this.getByIRSeqNoAndProcessStatus(seqNo, "1");
+
+		if (irCaseEntity != null) {
+			// 從電文檔搬移到主檔
+			irMaster = new IRMaster();
+			irMaster.setPaidStats(0);
+			irMaster.setValueDate(irCaseEntity.getValueDate());
+			irMaster.setIrAmt(irCaseEntity.getIrAmount());
+			irMaster.setCurency(irCaseEntity.getCurrency());
+			irMaster.setBeAdvBranch("093");
+			irMaster.setPrintAdvMk("Y");
+			// 產生外匯編號
+			irMaster.setIrNo(commonFeignClient.getFxNo("S", "IRDto", "093"));
+			// 新增主檔
+			irMasterRepository.save(irMaster);
+
+			// update IRCaseEntity PROCESS_STATUS = 3 ：放行訖
+			irCaseEntity.setProcessStatus("3");
+			irCaseRepository.save(irCaseEntity);
+
+			// 自動將entity的屬性，對應到dto裡
+			BeanUtils.copyProperties(irMaster, irDto);
+		} else {
+			// 查無此電文
+			new Exception("S001");
+		}
+		return irDto;
+	}
+	
 }

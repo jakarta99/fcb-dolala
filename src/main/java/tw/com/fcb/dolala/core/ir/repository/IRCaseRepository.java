@@ -19,7 +19,7 @@ import tw.com.fcb.dolala.core.ir.repository.entity.IRCaseEntity;
 @Repository
 public interface IRCaseRepository extends JpaRepository<IRCaseEntity, Long> {
 	
-	IRCaseEntity findBySeqNo(String irSeqNo);
+	Optional<IRCaseEntity> findBySeqNo(String irSeqNo);
 
 	Optional<IRCaseEntity> findBySeqNoAndProcessStatus(String seqNo, String processStatus);
 

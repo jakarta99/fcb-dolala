@@ -54,10 +54,18 @@ public class ReturnIRCaseS061Controller {
 	public Response<IRCaseDto> qryWaitForReturnIRCase(@PathVariable("seqNo") String seqNo) {
 		Response<IRCaseDto> response = new Response<IRCaseDto>();
 		try {
-			IRCaseDto irCaseDto = S061.qryWaitForReturnIRCase(seqNo);
+			IRCaseDto irCaseDto = S061.getByIRSeqNo(seqNo);
 			response.Success();
             response.setData(irCaseDto);
-            log.info("呼叫作業部退匯API：查詢SeqNo編號" + seqNo + "待退匯");
+            if("1".equals(irCaseDto.getProcessStatus())) {
+            	log.info("呼叫作業部退匯API：查詢SeqNo編號" + seqNo + "待處理");
+            } else if("3".equals(irCaseDto.getProcessStatus())) {
+            	response.Error("S002",commonFeignClient.getErrorMessage("S002"));
+            	log.info("呼叫作業部退匯API：查詢SeqNo編號" + seqNo + "主管已放行");
+            } else if("8".equals(irCaseDto.getProcessStatus())) {
+            	response.Error("S003",commonFeignClient.getErrorMessage("S003"));
+            	log.info("呼叫作業部退匯API：查詢SeqNo編號" + seqNo + "已退匯");
+            }
 		}catch(Exception e){
             response.Error(e.getMessage(), commonFeignClient.getErrorMessage(e.getMessage()));
             log.info("呼叫作業部退匯API：" + commonFeignClient.getErrorMessage(e.getMessage()));
