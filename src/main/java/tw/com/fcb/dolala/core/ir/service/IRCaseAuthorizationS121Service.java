@@ -11,6 +11,8 @@ import tw.com.fcb.dolala.core.ir.repository.IRMasterRepository;
 import tw.com.fcb.dolala.core.ir.repository.entity.IRCaseEntity;
 import tw.com.fcb.dolala.core.ir.repository.entity.IRMaster;
 
+import java.util.Optional;
+
 @Slf4j
 @Transactional
 @Service
@@ -28,9 +30,9 @@ public class IRCaseAuthorizationS121Service {
 	IRCaseEntity irCaseEntity;
 	
 	// s121i 查詢待放行資料
-	public IRCaseEntity qryWaitForAuthorization(String seqNo)
-	{
-		IRCaseEntity irCaseEntity = irCaseRepository.findBySeqNo(seqNo);
+	public IRCaseEntity qryWaitForAuthorization(String seqNo) throws Exception {
+	  IRCaseEntity irCaseEntity = irCaseRepository.findBySeqNo(seqNo).orElseThrow(() -> new Exception("D00X"));
+
 		return irCaseEntity;
 	}
 	
@@ -38,8 +40,12 @@ public class IRCaseAuthorizationS121Service {
 	public IRMaster exeCaseAuthorization(String seqNo) {
 		
 		IRMaster irMaster = null;
-		irCaseEntity = this.qryWaitForAuthorization(seqNo);		
-		
+		try {
+			irCaseEntity = this.qryWaitForAuthorization(seqNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		if (irCaseEntity != null)
 		{
 			//從電文檔搬移到主檔	
@@ -51,7 +57,7 @@ public class IRCaseAuthorizationS121Service {
 			irMaster.setBeAdvBranch("093");
 			irMaster.setPrintAdvMk("Y");
 			//產生外匯編號
-			irMaster.setIrNo(commonFeignClient.getFxNo("S", "IRDto", "093"));
+			irMaster.setIrNo(commonFeignClient.getFxNo("S", "IR", irMaster.getBeAdvBranch()));
 		    //新增主檔
 		    irMasterRepository.save(irMaster);
 		    

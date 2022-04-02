@@ -38,7 +38,7 @@ public class IRService {
 	@Autowired
 	CommonFeignClient commonFeignClient;
 
-	private final String  systemType = "IRDto";
+	private final String  systemType = "IR";
 	private final String  noCode = "S";
 	// 新增匯入匯款主檔
 	public IRMaster insertIRMaster(IRSaveCmd irSaveCmd) throws Exception {

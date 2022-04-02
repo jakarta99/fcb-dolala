@@ -117,7 +117,7 @@ public class CommonController {
 	public String getFxNo(String noCode, String systemType, String branch)  {
 		String fxNo = null;
 		try {
-			 fxNo =  serialNumberService.getFxNo("S","IRDto",branch);
+			 fxNo =  serialNumberService.getFxNo("S","IR",branch);
 			String numberSerial = null;
 			if (branch.equals("093")){
 				numberSerial = fxNo.substring(5, 11);

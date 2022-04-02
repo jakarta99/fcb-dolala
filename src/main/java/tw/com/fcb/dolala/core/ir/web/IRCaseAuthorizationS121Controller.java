@@ -32,8 +32,12 @@ public class IRCaseAuthorizationS121Controller {
     @Operation(description = "查詢待放行資料", summary="查詢待放行")
     public String qryWaitForAuthorization(String seqNo) {
 		String qryReturnMsg = "";
-		irCaseEntity = irCaseAuthorizationS121Service.qryWaitForAuthorization(seqNo);		
-		
+		try {
+			irCaseEntity = irCaseAuthorizationS121Service.qryWaitForAuthorization(seqNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		if (irCaseEntity != null)
 		{
 			qryReturnMsg = "查詢待放行資料 = " + irCaseEntity.toString();
