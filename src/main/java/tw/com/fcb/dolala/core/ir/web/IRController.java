@@ -55,14 +55,28 @@ public class IRController {
 
     @GetMapping("/count/{branch}")
     @Operation(description = "傳入受通知單位查詢案件數", summary="查詢案件數")
-    public Integer getCount(@PathVariable String branch) {
-        return irService.getIrCaseCount(branch);
+    public Response<Integer> getCount(@PathVariable String branch) {
+        Response<Integer> response = new Response();
+        try {
+            response.Success();
+            response.setData(irService.getIrCaseCount(branch));
+        }catch(Exception e){
+            response.Error(e.getMessage(),commonFeignClient.getErrorMessage(e.getMessage()));
+        }
+        return  response;
     }
 
     @GetMapping("/{id}")
     @Operation(description = "傳入匯入匯款編號查詢案件", summary="查詢案件")
-    public IRDto getByIrNo(@PathVariable String irNo) {
-        return irService.findOne(irNo);
+    public Response<IRDto> getByIrNo(@PathVariable String irNo) {
+        Response<IRDto> response = new Response();
+        try {
+            response.Success();
+            response.setData(irService.findOne(irNo));
+        }catch(Exception e){
+            response.Error(e.getMessage(),commonFeignClient.getErrorMessage(e.getMessage()));
+        }
+        return  response;
     }
 
     @PutMapping("/print")
