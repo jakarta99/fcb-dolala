@@ -1,9 +1,13 @@
 package tw.com.fcb.dolala.core.ir.web;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import tw.com.fcb.dolala.core.common.http.Response;
 import tw.com.fcb.dolala.core.ir.http.CommonFeignClient;
 import tw.com.fcb.dolala.core.ir.service.IRService;
+import tw.com.fcb.dolala.core.ir.web.cmd.IRSaveCmd;
 import tw.com.fcb.dolala.core.ir.web.dto.IRDto;
 
 /**
@@ -30,15 +35,17 @@ public class IROriginalCcyReleaseS211Controller {
 	
 	// ※※※ S211 API清單 ※※※
 	// S211A 執行原幣解款資料新增 (A:新增)
-	@PutMapping("/originalccy-release/{irNo}/execute")
+	@PostMapping("/originalccy-release/execute")
 	@Operation(description = "新增原幣解款案件資料", summary = "新增原幣解款案件資料")
-	public Response<IRDto> exeRelaseIRMaster(@PathVariable("irNo") String irNo) {
+	public Response<IRDto> exeRelaseIRMaster(@Validated @RequestBody IRDto postIRDto) {
 		Response<IRDto> response = new Response<IRDto>();
+		
 		try {
-			IRDto irDto = S211.exeRelaseIRMaster(irNo);
+			IRDto irDto = new IRDto();
+			irDto = S211.exeRelaseIRMaster(postIRDto);
 			response.Success();
 			response.setData(irDto);
-			log.info("呼叫新增原幣解款案件API：查詢匯入匯款編號" + irNo + "已解款");
+			log.info("呼叫新增原幣解款案件API：查詢匯入匯款編號" + response.getData().getIrNo() + "已解款");
 		} catch (Exception e) {
 			response.Error(e.getMessage(), commonFeignClient.getErrorMessage(e.getMessage()));
 			log.info("呼叫新增原幣解款案件API：" + commonFeignClient.getErrorMessage(e.getMessage()));
@@ -107,6 +114,6 @@ public class IROriginalCcyReleaseS211Controller {
 	// TCTYR05 查詢國籍名稱
 	// TCUSR08 讀取顧客名稱 (依客戶編號查詢客戶名稱)
 	// TFFVR08 查詢遠期結匯匯率、結匯AMT
-	// TFXRR27 依承作日&幣別查詢即期/現鈔匯率資料
+	// TFXRR27 依承作日&幣別查詢即期/現鈔匯率資料 
 
 }
