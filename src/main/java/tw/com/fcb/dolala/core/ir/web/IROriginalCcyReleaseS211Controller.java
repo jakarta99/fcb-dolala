@@ -54,7 +54,24 @@ public class IROriginalCcyReleaseS211Controller {
 	}
 	
 	// S211C 執行原幣解款資料更正 (C:更正)
+	
 	// S211D 執行原幣解款資料剔除 (D:剔除)
+	@PutMapping("/originalccy-release/{irNo}/delete")
+	@Operation(description = "剔除原幣解款案件資料", summary = "剔除原幣解款案件資料")
+	public Response<IRDto> delRelaseIRMaster(@PathVariable("irNo") String irNo) {
+		Response<IRDto> response = new Response<IRDto>();
+		try {
+			IRDto irDto = S211.deleteRelaseIRMaster(irNo);
+			response.Success();
+			response.setData(irDto);
+			log.info("呼叫剔除原幣解款案件API：查詢匯入匯款編號" + irNo + "已剔除解款");
+		} catch (Exception e) {
+			response.Error(e.getMessage(), commonFeignClient.getErrorMessage(e.getMessage()));
+			log.info("呼叫剔除原幣解款案件API：" + commonFeignClient.getErrorMessage(e.getMessage()));
+		}
+		return response;
+	}
+	
 	// S211I 依匯入編號資料查詢解款資料 (A,C,D)
 	@GetMapping("/originalccy-release/{irNo}/enquiry")
 	@Operation(description = "查詢匯入匯款案件資料", summary = "查詢匯入匯款案件資料")

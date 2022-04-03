@@ -82,8 +82,8 @@ public class IRController {
 
     @PutMapping("/irmaster/{irNo}/advice-print")
     @Operation(description = "變更印製通知書記號", summary="印製通知書記號")
-    public Response print(@PathVariable("irNo") String irNo) {
-        Response response = new Response<>();
+    public Response<?> print(@PathVariable("irNo") String irNo) {
+        Response<?> response = new Response<>();
     	try {
             irService.print(irNo);
             response.Success();
@@ -97,8 +97,8 @@ public class IRController {
 
     @PutMapping("/irmaster/{irNo}/settle")
     @Operation(description = "變更付款狀態", summary="付款狀態")
-    public Response settle(@PathVariable("irNo") String irNo) {
-    	Response response = new Response<>();
+    public Response<?> settle(@PathVariable("irNo") String irNo) {
+    	Response<?> response = new Response<>();
     	try {
 			irService.settle(irNo);
 			response.Success();
