@@ -1,14 +1,10 @@
 package tw.com.fcb.dolala.core.common.service;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tw.com.fcb.dolala.core.common.repository.BankRepository;
 import tw.com.fcb.dolala.core.common.repository.ErrorMessageRepository;
-import tw.com.fcb.dolala.core.common.repository.entity.Bank;
 import tw.com.fcb.dolala.core.common.repository.entity.ErrorMessage;
-import tw.com.fcb.dolala.core.common.web.vo.BankVo;
 
 @Transactional
 @Service

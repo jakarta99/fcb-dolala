@@ -2,8 +2,9 @@ package tw.com.fcb.dolala.core.common.service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
 import tw.com.fcb.dolala.core.common.repository.SerialNumberRepository;
-import tw.com.fcb.dolala.core.common.repository.entity.SerialNumber;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * <author>     <time>       <version>     <desc>
  * 作者姓名       修改時間       版本編號       描述
  */
+@SpringBootTest
 class SerialNumberServiceTest {
     @Autowired
     SerialNumberRepository serialNumberRepository;

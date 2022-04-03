@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * 作者姓名       修改時間       版本編號       描述
  */
 @SpringBootTest
-class IRDtoMessageCheckSerivceTest {
+class IRMessageCheckSerivceTest {
 
     @Autowired
     IRMessageCheckSerivce irMessageCheckService;
