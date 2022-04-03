@@ -46,9 +46,10 @@ public class IRService {
 		IRMaster irMaster = new IRMaster();
 		// 自動將saveCmd的屬性，對應到entity裡
 		BeanUtils.copyProperties(irSaveCmd, irMaster);
-		irSaveCmd.setExchangeRate(commonFeignClient.getFxRate(ExchgRate.EXCHG_RATE_TYPE_BUY, irSaveCmd.getCurrency(),"TWD"));
+		irMaster.setExchangeRate(commonFeignClient.getFxRate(ExchgRate.EXCHG_RATE_TYPE_BUY, irSaveCmd.getCurrency(),"TWD"));
 		//取號
-		irSaveCmd.setIrNo(commonFeignClient.getFxNo(noCode,systemType,irSaveCmd.getBeAdvBranch()));
+		irMaster.setIrNo(commonFeignClient.getFxNo(noCode,systemType,irSaveCmd.getBeAdvBranch()));
+		System.out.println("irSaveCmd.getIrNO = " + irMaster.getIrNo());
 		irMasterRepository.save(irMaster);
 
 		return irMaster;

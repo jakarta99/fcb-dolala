@@ -41,9 +41,9 @@ public class IRCaseController {
             //讀取共用服務 set相關欄位
             irCaseService.setIRCaseData(irCaseVo);
             //insert，將電文資料新增至IRCase檔案
-            irCaseService.irCaseInsert(irCaseVo);
+            String result = irCaseService.irCaseInsert(irCaseVo);
             response.Success();
-            response.setData(irCaseVo);
+            response.setData(result);
 
         } catch (Exception e) {
             response.Error(e.getMessage(), commonFeignClient.getErrorMessage(e.getMessage()));

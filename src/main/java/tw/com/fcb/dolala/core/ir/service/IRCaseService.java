@@ -59,7 +59,7 @@ public class IRCaseService {
         boolean checkFE = checkFuturesExchange(irCaseEntity.getReceiverAccount());
         if (checkFE == true){
             // 期交易自動解款
-            String result = beAutoSettle(irCaseVo);
+            String result = beAutoSettle(irCaseVo.getSeqNo());
             return result;
         }else{
             //再去checkAutoPass
@@ -138,10 +138,11 @@ public class IRCaseService {
         }
     }
     // 期交所自動解款，更新ircase processStatus = 7
-    public String beAutoSettle(IRCaseVo irCaseVo) throws Exception {
+    public String beAutoSettle(String irSeqNo) throws Exception {
         IRCaseEntity irCaseEntity = new IRCaseEntity();
-        irCaseVo.setProcessStatus("7");
-        BeanUtils.copyProperties(irCaseVo,irCaseEntity);
+        IRCaseDto irCaseDto = getByIRSeqNo(irSeqNo);
+        irCaseDto.setProcessStatus("7");
+        BeanUtils.copyProperties(irCaseDto,irCaseEntity);
         irCaseRepository.save(irCaseEntity);
         IRSaveCmd irSaveCmd = new IRSaveCmd();
         BeanUtils.copyProperties(irCaseEntity,irSaveCmd);
