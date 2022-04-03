@@ -13,7 +13,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import tw.com.fcb.dolala.core.common.http.Response;
 import tw.com.fcb.dolala.core.ir.http.CommonFeignClient;
-import tw.com.fcb.dolala.core.ir.repository.entity.IRMaster;
 import tw.com.fcb.dolala.core.ir.service.IRService;
 import tw.com.fcb.dolala.core.ir.web.dto.IRAdvicePrintListDto;
 import tw.com.fcb.dolala.core.ir.web.dto.IRDto;

@@ -72,7 +72,24 @@ public class ReturnIRMasterS611Controller {
 	}
 	
 	// S611C	更正退匯交易
+	
 	// S611D	剔除退匯交易
+	@PutMapping("/return-irmaster/{irNo}/delete")
+	@Operation(description = "剔除匯入匯款退匯交易", summary="剔除匯入匯款退匯交易")
+	public Response<IRDto> deleteReturnIRMaster(@PathVariable("irNo") String irNo) {
+		Response<IRDto> response = new Response<IRDto>();
+		try {
+			IRDto irDto = S611.delReturnIRMaster(irNo);
+			response.Success();
+			response.setData(irDto);
+			log.info("呼叫剔除匯入匯款退匯交易API：匯入匯款編號" + irNo + "已剔除退匯");
+		} catch (Exception e) {
+			response.Error(e.getMessage(), commonFeignClient.getErrorMessage(e.getMessage()));
+			log.info("呼叫剔除匯入匯款退匯交易API：" + commonFeignClient.getErrorMessage(e.getMessage()));
+		}
+		return response;
+	}
+	
 	// NOTCR07	依通報序號查詢通報匯率及通報匯率成本
 	// TCTYR05	讀取都市國別檔
 	// SIDCR01	身分別為５ (檢查統編是否為總行或分行統編)
