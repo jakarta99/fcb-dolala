@@ -114,6 +114,6 @@ public class IROriginalCcyReleaseS211Controller {
 	// TCTYR05 查詢國籍名稱
 	// TCUSR08 讀取顧客名稱 (依客戶編號查詢客戶名稱)
 	// TFFVR08 查詢遠期結匯匯率、結匯AMT
-	// TFXRR27 依承作日&幣別查詢即期/現鈔匯率資料
+	// TFXRR27 依承作日&幣別查詢即期/現鈔匯率資料 
 
 }

@@ -186,7 +186,7 @@ public class IRService {
 	// S211A 執行原幣解款資料新增
    	public IRDto exeRelaseIRMaster(IRDto postIRDto) throws Exception {
 		IRMaster irMaster = irMasterRepository.findByIrNoAndPaidStats(postIRDto.getIrNo(), 0).orElseThrow(() -> new Exception("S101"));
-		IRDto irDto = new IRDto();
+		IRDto irDto = new IRDto(); 
 		String caseSeqNo;
 
 		if (irMaster != null) {
