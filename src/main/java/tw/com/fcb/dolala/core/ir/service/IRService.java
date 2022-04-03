@@ -17,6 +17,7 @@ import tw.com.fcb.dolala.core.ir.repository.entity.IRMaster;
 
 import tw.com.fcb.dolala.core.ir.web.cmd.IRSaveCmd;
 import tw.com.fcb.dolala.core.ir.web.dto.IRAdvicePrintListDto;
+import tw.com.fcb.dolala.core.ir.web.dto.IRCaseDto;
 import tw.com.fcb.dolala.core.ir.web.dto.IRDto;
 
 
@@ -52,6 +53,19 @@ public class IRService {
 		irMasterRepository.save(irMaster);
 
 		return irMaster;
+	}
+//電文進電，判斷可自動放行，新增至主檔
+	public IRDto autoPassInsertIRMaster(IRCaseDto irCaseDto) throws Exception {
+		IRSaveCmd irSaveCmd = new IRSaveCmd();
+		BeanUtils.copyProperties(irCaseDto,irSaveCmd);
+		//自動放行新增進irMaster
+		irSaveCmd = this.setIRMaster(irSaveCmd);
+
+		IRMaster irMaster = this.insertIRMaster(irSaveCmd);
+//		return "電文可自動放行，新增IRMaster成功，編號：" + irMaster.getIrNo();
+		IRDto irDto = new IRDto();
+		BeanUtils.copyProperties(irMaster,irDto);
+		return irDto;
 	}
     
 	// 傳入匯入匯款編號查詢案件
@@ -122,7 +136,7 @@ public class IRService {
 	public IRSaveCmd setIRMaster(IRSaveCmd irSaveCmd){
 		//初始值 0
 		irSaveCmd.setPaidStats(0);
-		//
+		//印製通知書記號
 		irSaveCmd.setPrintAdvMk("N");
 		return irSaveCmd;
 	}

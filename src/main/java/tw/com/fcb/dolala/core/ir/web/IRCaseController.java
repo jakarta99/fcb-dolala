@@ -9,10 +9,14 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import tw.com.fcb.dolala.core.common.http.Response;
 import tw.com.fcb.dolala.core.ir.http.CommonFeignClient;
+import tw.com.fcb.dolala.core.ir.service.AutoPassCheckService;
 import tw.com.fcb.dolala.core.ir.service.IRCaseService;
-import tw.com.fcb.dolala.core.ir.vo.IRCaseVo;
+import tw.com.fcb.dolala.core.ir.service.IRService;
 import tw.com.fcb.dolala.core.ir.web.cmd.SwiftMessageSaveCmd;
 import tw.com.fcb.dolala.core.ir.web.dto.IRCaseDto;
+import tw.com.fcb.dolala.core.ir.web.dto.IRDto;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * Copyright (C),2022-2022,FirstBank
@@ -33,20 +37,41 @@ public class IRCaseController {
     IRCaseService irCaseService;
     @Autowired
     CommonFeignClient commonFeignClient;
+	@Autowired
+	AutoPassCheckService autoPassCheckService;
+
+	@Autowired
+	IRService irService;
 
 	@PostMapping("/ircase/receive-swift")
 	@Operation(description = "接收 SWIFT 電文並存到 SwiftMessage", summary = "接收及儲存 SWIFT 電文")
 	public Response<String> receiveSwift(@Validated @RequestBody SwiftMessageSaveCmd message) {
 		Response<String> response = new Response();
 		try {
-			IRCaseVo irCaseVo = new IRCaseVo();
-			BeanUtils.copyProperties(message, irCaseVo);
+			IRCaseDto irCaseDto = new IRCaseDto();
+			BeanUtils.copyProperties(message, irCaseDto);
 			//讀取共用服務 set相關欄位
-			irCaseService.setIRCaseData(irCaseVo);
+			irCaseService.setIRCaseData(irCaseDto);
 			//insert，將電文資料新增至IRCase檔案
-			String result = irCaseService.irCaseInsert(irCaseVo);
+			irCaseDto = irCaseService.irCaseInsert(irCaseDto);
+			// check 期交所已結束 processStatus = 7 案件不須再往下判斷
+			if (irCaseDto.getProcessStatus().equals("7")) {
+				response.setData("期交所自動解款成功，IRCase編號：" + irCaseDto.getSeqNo() + ",IRMaster新增成功");
+			}else{
+				String autoPassMK = autoPassCheckService.checkAutoPass(irCaseDto);
+				irCaseDto = irCaseService.getByIRSeqNo(irCaseDto.getSeqNo());
+				irCaseDto.setAutoPassMk(autoPassMK);
+				irCaseService.updateByIRSeqNo(irCaseDto);
+
+				if (irCaseDto.getAutoPassMk().equals("Y")) {
+					IRDto irDto = irService.autoPassInsertIRMaster(irCaseDto);
+					response.setData( "IRCase檔新增成功，編號：" + irCaseDto.getSeqNo()+ "電文可自動放行，新增IRMaster成功，編號：" + irDto.getIrNo());
+				} else {
+					response.setData("IRCase檔新增成功，編號：" + irCaseDto.getSeqNo());
+				}
+			}
 			response.Success();
-			response.setData(result);
+
 			log.info("呼叫接收 SWIFT 電文 API：接收及儲存一筆 SWIFT 電文");
 		} catch (Exception e) {
 			response.Error(e.getMessage(), commonFeignClient.getErrorMessage(e.getMessage()));
@@ -56,17 +81,20 @@ public class IRCaseController {
 	}
 	@PutMapping("/ircase/{irSeqNo}/autopass")
 	@Operation(description = "檢核電文是否可自動放行", summary = "更新AUTO_PASS欄位")
-	public Response<String> checkAutoPassMK(@PathVariable("irSeqNo") String irSeqNo) {
+	public Response<String> checkAutoPassMK(@NotNull @PathVariable("irSeqNo") String irSeqNo) {
 		Response<String> response = new Response<String>();
 		try {
-			IRCaseDto irCaseDtoVo = irCaseService.getByIRSeqNo(irSeqNo);
-			// check 相關欄位
-			// update IRCaseDto
-			irCaseDtoVo.setAutoPassMk("Y");
-			irCaseService.updateByIRSeqNo(irCaseDtoVo);
+			IRCaseDto irCaseDto = irCaseService.getByIRSeqNo(irSeqNo);
+			// check 是否可自動放行
+			// update IRCaseDto AutoPassMk
+			irCaseDto.setAutoPassMk(autoPassCheckService.checkAutoPass(irCaseDto));
+			irCaseService.updateByIRSeqNo(irCaseDto);
+			if (irCaseDto.getAutoPassMk().equals("Y")){
+				irService.autoPassInsertIRMaster(irCaseDto);
+			}
 			response.Success();
 			response.setData("success");
-			log.info("呼叫檢核電文是否可自動放行API：SeqNo編號" + irSeqNo);
+			log.info("呼叫檢核電文是否可自動放行API：SeqNo編號" + irSeqNo + "是否已自動放行:" + irCaseDto.getAutoPassMk());
 		} catch (Exception e) {
 			response.Error(e.getMessage(), commonFeignClient.getErrorMessage(e.getMessage()));
 			log.info("呼叫檢核電文是否可自動放行API：" + commonFeignClient.getErrorMessage(e.getMessage()));

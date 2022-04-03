@@ -1,6 +1,7 @@
 package tw.com.fcb.dolala.core.ir.service;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,53 +48,63 @@ public class IRCaseService {
     private final String branch = "999";
 
 
-    public String irCaseInsert(IRCaseVo irCaseVo) throws Exception {
+    public IRCaseDto irCaseInsert(IRCaseDto irCaseDto) throws Exception {
         //beginTx
 
         IRCaseEntity irCaseEntity = new IRCaseEntity();
 // 將irCaseVo，對應到entity裡
-        BeanUtils.copyProperties(irCaseVo, irCaseEntity);
+        BeanUtils.copyProperties(irCaseDto, irCaseEntity);
         irCaseRepository.save(irCaseEntity);
-        boolean checkFE = checkFuturesExchange(irCaseEntity.getReceiverAccount());
+  // check 期交所案件
+        boolean checkFE = checkFuturesExchange(irCaseDto.getReceiverAccount());
         if (checkFE == true){
-            // 期交易自動解款
-            String result = beFeAutoSettle(irCaseVo.getSeqNo());
-            return result;
-        }else{
-            //再去checkAutoPass
-            return "IRCase檔新增成功，編號：" + irCaseEntity.getSeqNo();
+            irCaseDto = beFEUpdateIRCase(irCaseDto.getSeqNo());
+            IRMaster irMaster = beFEAutoSettle(irCaseDto.getSeqNo());
         }
-
+        return irCaseDto;
         //commitTx
 
     }
 
-    public IRCaseVo setIRCaseData(IRCaseVo irCaseVo) throws Exception {
+
+    public IRCaseDto beFEUpdateIRCase(String irSeqNo) throws Exception {
+        IRCaseEntity irCaseEntity = new IRCaseEntity();
+        IRCaseDto irCaseDto = getByIRSeqNo(irSeqNo);
+        irCaseDto.setAutoPassMk("Y");
+        irCaseDto.setProcessStatus("7");
+        BeanUtils.copyProperties(irCaseDto,irCaseEntity);
+        irCaseRepository.save(irCaseEntity);
+        return irCaseDto;
+
+    }
+
+
+    public IRCaseDto setIRCaseData(IRCaseDto irCaseDto) throws Exception {
         // STATUS 七日檔初始狀態
         //      1 ：初值
         //      2 ：印製放行工作單訖(經辦放行) (S111交易)
-        irCaseVo.setProcessStatus("1");
-        irCaseVo.setAutoPassMk("N");
+        irCaseDto.setProcessStatus("1");
+        irCaseDto.setAutoPassMk("N");
         // check account
-        String receiveAccount = irCaseVo.getReceiverAccount();
+        String receiveAccount = irCaseDto.getReceiverAccount();
         String accountNo = irMessageCheckSerivce.getAccountNo(receiveAccount);
-        irCaseVo.setReceiverAccount(accountNo);
+        irCaseDto.setReceiverAccount(accountNo);
         //顧客資料，受通知分行
-        Customer customer = commonFeignClient.getCustomer(irCaseVo.getReceiverAccount());
-        irCaseVo.setBeAdvBranch(customer.getBranchID());
-        irCaseVo.setCustomerID(customer.getCustomerId());
+        Customer customer = commonFeignClient.getCustomer(irCaseDto.getReceiverAccount());
+        irCaseDto.setBeAdvBranch(customer.getBranchID());
+        irCaseDto.setCustomerID(customer.getCustomerId());
         // check currency
 
        //讀取匯率
-        BigDecimal rate = commonFeignClient.getFxRate("B",irCaseVo.getCurrency(),"TWD");
+        BigDecimal rate = commonFeignClient.getFxRate("B",irCaseDto.getCurrency(),"TWD");
 
         //讀取銀行名稱地址
-        BankDto bankDto = commonFeignClient.getBank(irCaseVo.getSenderSwiftCode());
-        irCaseVo.setSenderInfo1(bankDto.getName());
-        irCaseVo.setSenderInfo3(bankDto.getAddress());
+        BankDto bankDto = commonFeignClient.getBank(irCaseDto.getSenderSwiftCode());
+        irCaseDto.setSenderInfo1(bankDto.getName());
+        irCaseDto.setSenderInfo3(bankDto.getAddress());
 
         //讀取都市檔
-        String country = commonFeignClient.getCountryName(irCaseVo.getSenderSwiftCode().substring(4,5));
+        String country = commonFeignClient.getCountryName(irCaseDto.getSenderSwiftCode().substring(4,5));
         //讀取存匯行關係
         String  isCorrspondent = bankDto.getIsCorrespondent();
         //讀取是否為同存行
@@ -101,9 +112,9 @@ public class IRCaseService {
         //取號
         String irSeqNo = commonFeignClient.getSeqNo(systemType,branch);
 
-        irCaseVo.setSeqNo(irSeqNo);
+        irCaseDto.setSeqNo(irSeqNo);
 
-        return irCaseVo;
+        return irCaseDto;
     }
 
 	// 傳入seqNo編號查詢案件
@@ -135,29 +146,31 @@ public class IRCaseService {
             return  false;
         }
     }
-    // 期交所自動解款，更新ircase processStatus = 7
-    public String beFeAutoSettle(String irSeqNo) throws Exception {
+    // 期交所自動解款,寫入IRCase,IRMaster
+    public IRMaster  beFEAutoSettle(String irSeqNo) throws Exception {
         IRCaseEntity irCaseEntity = new IRCaseEntity();
         IRCaseDto irCaseDto = getByIRSeqNo(irSeqNo);
         irCaseDto.setProcessStatus("7");
         BeanUtils.copyProperties(irCaseDto,irCaseEntity);
+        // update processStatus 7 = 已作帳
         irCaseRepository.save(irCaseEntity);
+
+        //自動放行新增進irMaster並更新為已入帳
         IRSaveCmd irSaveCmd = new IRSaveCmd();
         BeanUtils.copyProperties(irCaseEntity,irSaveCmd);
-        //自動放行新增進irMaster並更新為已入帳
         irSaveCmd = irService.setIRMaster(irSaveCmd);
         //期交所自動解款，PAID_STATUS = 2
         irSaveCmd.setPaidStats(2);
         irSaveCmd.setBeAdvBranch("091");
         irSaveCmd.setProcessBranch("091");
         IRMaster irMaster = irService.insertIRMaster(irSaveCmd);
-        return "期交所自動解款 新增IRCase,IRMaster成功，IRSeq編號：" + irSeqNo + ",IRMaster編號" + irMaster.getIrNo();
+        return irMaster;
     }
 
-    public boolean updateByIRSeqNo(IRCaseDto irCaseDtoVo) throws Exception{
+    public boolean updateByIRSeqNo(IRCaseDto irCaseDto) throws Exception{
         IRCaseEntity irCaseEntity = new IRCaseEntity();
-// 將irCaseVo，對應到entity裡
-        BeanUtils.copyProperties(irCaseDtoVo, irCaseEntity);
+// 將irCaseDto，對應到entity裡
+        BeanUtils.copyProperties(irCaseDto, irCaseEntity);
         irCaseRepository.save(irCaseEntity);
         return  true;
     }
