@@ -61,7 +61,7 @@ public class IRCaseService {
             return result;
         }else{
             //再去checkAutoPass
-            return "checkAutoPass";
+            return "IRCase檔新增成功，編號：" + irCaseEntity.getSeqNo();
         }
 
         //commitTx
@@ -145,10 +145,11 @@ public class IRCaseService {
         IRSaveCmd irSaveCmd = new IRSaveCmd();
         BeanUtils.copyProperties(irCaseEntity,irSaveCmd);
         //自動放行新增進irMaster並更新為已入帳
+        irSaveCmd = irService.setIRMaster(irSaveCmd);
+        //期交所自動解款，PAID_STATUS = 2
         irSaveCmd.setPaidStats(2);
         irSaveCmd.setBeAdvBranch("091");
         irSaveCmd.setProcessBranch("091");
-        irSaveCmd = irService.setIRMaster(irSaveCmd);
         IRMaster irMaster = irService.insertIRMaster(irSaveCmd);
         return "期交所自動解款 新增IRCase,IRMaster成功，IRSeq編號：" + irSeqNo + ",IRMaster編號" + irMaster.getIrNo();
     }
@@ -221,7 +222,7 @@ public class IRCaseService {
 			irMaster.setPaidStats(0);
 			irMaster.setValueDate(irCaseEntity.getValueDate());
 			irMaster.setIrAmt(irCaseEntity.getIrAmount());
-			irMaster.setCurency(irCaseEntity.getCurrency());
+			irMaster.setCurrency(irCaseEntity.getCurrency());
 			irMaster.setBeAdvBranch("093");
 			irMaster.setPrintAdvMk("Y");
 			// 產生外匯編號

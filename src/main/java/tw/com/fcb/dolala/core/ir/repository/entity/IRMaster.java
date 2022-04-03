@@ -50,7 +50,7 @@ public class IRMaster {
     @Column(name = "CUSTOMER_ID")
     String customerId;	//客戶 ID
     
-    @Column(name = "CURENCY")
+    @Column(name = "CURRENCY")
     String currency;	//幣別
     
     @Column(name = "IR_AMT")
