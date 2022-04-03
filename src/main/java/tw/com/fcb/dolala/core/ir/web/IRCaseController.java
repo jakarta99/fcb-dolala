@@ -1,6 +1,8 @@
 package tw.com.fcb.dolala.core.ir.web;
 
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -22,6 +24,7 @@ import tw.com.fcb.dolala.core.ir.web.dto.IRCaseDto;
  * <author>     <time>       <version>     <desc>
  * 作者姓名       修改時間       版本編號       描述
  */
+@Slf4j
 @RestController
 @RequestMapping("/ir")
 public class IRCaseController {
@@ -31,6 +34,29 @@ public class IRCaseController {
     @Autowired
     CommonFeignClient commonFeignClient;
 
+	@PostMapping("/ircase/receive-swift")
+	@Operation(description = "接收 SWIFT 電文並存到 SwiftMessage", summary = "接收及儲存 SWIFT 電文")
+	public Response<IRCaseDto> receiveSwift(@Validated @RequestBody SwiftMessageSaveCmd message) {
+		Response<IRCaseDto> response = new Response<IRCaseDto>();
+		try {
+			IRCaseVo irCaseVo = new IRCaseVo();
+			BeanUtils.copyProperties(message, irCaseVo);
+			// 讀取共用服務 set相關欄位
+			irCaseVo = irCaseService.setIRCaseData(irCaseVo);
+			// insert，將電文資料新增至IRCase檔案
+			irCaseService.irCaseInsert(irCaseVo);
+
+			IRCaseDto irCaseDto = new IRCaseDto();
+			BeanUtils.copyProperties(irCaseVo, irCaseDto);
+			response.Success();
+			response.setData(irCaseDto);
+			log.info("呼叫接收 SWIFT 電文 API：接收及儲存一筆 SWIFT 電文");
+		} catch (Exception e) {
+			response.Error(e.getMessage(), commonFeignClient.getErrorMessage(e.getMessage()));
+			log.info("呼叫接收 SWIFT 電文 API：" + commonFeignClient.getErrorMessage(e.getMessage()));
+		}
+		return response;
+	}
     @PostMapping("/ircase")
     @Operation(description = "接收 swift 電文並存到 SwiftMessage", summary="儲存 swift")
     public Response receiveSwift(@Validated @RequestBody SwiftMessageSaveCmd message) {
@@ -51,37 +77,40 @@ public class IRCaseController {
         return response;
     }
 
-    @PutMapping("/ircase/{irSeqNo}/autopass")
-    @Operation(description = "檢核是否可自動放行", summary="更新AUTO_PASS欄位")
-    public Response checkAutoPassMK(@PathVariable("irSeqNo") String  irSeqNo) {
-        Response response = new Response();
-        try {
-            IRCaseDto irCaseDtoVo = irCaseService.getByIRSeqNo(irSeqNo);
-            // check 相關欄位
-            // update IRCaseDto
-            irCaseDtoVo.setAutoPassMk("Y");
-            irCaseService.updateByIRSeqNo(irCaseDtoVo);
-            response.Success();
-            response.setData("success");
-        }catch (Exception e) {
-            response.Error(e.getMessage(), commonFeignClient.getErrorMessage(e.getMessage()));
+	@PutMapping("/ircase/{irSeqNo}/autopass")
+	@Operation(description = "檢核電文是否可自動放行", summary = "更新AUTO_PASS欄位")
+	public Response<String> checkAutoPassMK(@PathVariable("irSeqNo") String irSeqNo) {
+		Response<String> response = new Response<String>();
+		try {
+			IRCaseDto irCaseDtoVo = irCaseService.getByIRSeqNo(irSeqNo);
+			// check 相關欄位
+			// update IRCaseDto
+			irCaseDtoVo.setAutoPassMk("Y");
+			irCaseService.updateByIRSeqNo(irCaseDtoVo);
+			response.Success();
+			response.setData("success");
+			log.info("呼叫檢核電文是否可自動放行API：SeqNo編號" + irSeqNo);
+		} catch (Exception e) {
+			response.Error(e.getMessage(), commonFeignClient.getErrorMessage(e.getMessage()));
+			log.info("呼叫檢核電文是否可自動放行API：" + commonFeignClient.getErrorMessage(e.getMessage()));
+		}
+		return response;
+	}
 
-        }
-        return response;
-    }
-
-    @GetMapping("/{irSeqNo}/ircase")
-    @Operation(description = "取得seqNo電文資料",summary="取得seqNo電文資料")
-    public Response getBySeqNo(@PathVariable("irSeqNo") String irSeqNo){
-        Response response = new Response();
-        try {
-            IRCaseDto irCaseDto = irCaseService.getByIRSeqNo(irSeqNo);
-            response.Success();
-            response.setData(irCaseDto);
-        }catch(Exception e){
-            response.Error(e.getMessage(), commonFeignClient.getErrorMessage(e.getMessage()));
-        }
-        return response;
-    }
+	@GetMapping("/ircase/{irSeqNo}/enquiry")
+	@Operation(description = "取得seqNo電文資料", summary = "取得seqNo電文資料")
+	public Response<IRCaseDto> getBySeqNo(@PathVariable("irSeqNo") String irSeqNo) {
+		Response<IRCaseDto> response = new Response<IRCaseDto>();
+		try {
+			IRCaseDto irCaseDto = irCaseService.getByIRSeqNo(irSeqNo);
+			response.Success();
+			response.setData(irCaseDto);
+			log.info("呼叫查詢匯款電文資料API：查詢SeqNo編號" + irSeqNo);
+		} catch (Exception e) {
+			response.Error(e.getMessage(), commonFeignClient.getErrorMessage(e.getMessage()));
+			log.info("呼叫查詢匯款電文資料API：" + commonFeignClient.getErrorMessage(e.getMessage()));
+		}
+		return response;
+	}
 
 }
