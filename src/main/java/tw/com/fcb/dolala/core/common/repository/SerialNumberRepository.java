@@ -4,7 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import tw.com.fcb.dolala.core.common.repository.entity.SerialNumber;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 /**

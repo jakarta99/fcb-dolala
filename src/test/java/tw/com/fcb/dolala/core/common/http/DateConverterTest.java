@@ -3,9 +3,6 @@ package tw.com.fcb.dolala.core.common.http;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.persistence.Access;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -37,9 +34,9 @@ class DateConverterTest {
         LocalDate localDate2 = dateConverter.convert(date2);
         LocalDate localDate3 = dateConverter.convert(date3);
 
-        assertEquals("19740928",localDate1.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-        assertEquals("19740928",localDate2.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-        assertEquals("19740928",localDate3.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        assertEquals("1974-09-28",localDate1.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        assertEquals("1974-09-28",localDate2.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        assertEquals("1974-09-28",localDate3.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 
 
 

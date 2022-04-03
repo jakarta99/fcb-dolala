@@ -1,9 +1,7 @@
 package tw.com.fcb.dolala.core.common.http;
 
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 import tw.com.fcb.dolala.core.common.enums.ResponseStatus;
-import tw.com.fcb.dolala.core.ir.http.CommonFeignClient;
 
 /**
  * Copyright (C),2022-2022,FirstBank

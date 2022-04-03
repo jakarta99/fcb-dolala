@@ -35,8 +35,8 @@ public class DateConverter  implements Converter<String, LocalDate> {
         }else if (source.length() == 6){
             String rocYear = source.substring(0,2);
             return LocalDate.of(Integer.parseInt(rocYear)+1911,
-                    Integer.valueOf(source.substring(3,5)),
-                    Integer.valueOf(source.substring(5,7)));
+                    Integer.valueOf(source.substring(2,4)),
+                    Integer.valueOf(source.substring(4,6)));
         }
         return  null;
     }

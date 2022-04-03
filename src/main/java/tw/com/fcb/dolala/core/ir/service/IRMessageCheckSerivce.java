@@ -79,10 +79,16 @@ public class IRMessageCheckSerivce {
         }
         return  checkMK;
     }
-    public boolean checkChargeType(String chargeType){
 
-        return  true;
-    }
-
+	public boolean checkChargeType(String chargeType) {
+		boolean checkMK = false;
+		try {
+			ChargeType.valueOf(chargeType);
+			checkMK = true;
+		} catch (Exception e) {
+			checkMK = false;
+		}
+		return checkMK;
+	}
  
 }
