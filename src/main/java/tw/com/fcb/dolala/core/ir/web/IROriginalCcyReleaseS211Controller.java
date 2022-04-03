@@ -98,6 +98,31 @@ public class IROriginalCcyReleaseS211Controller {
 	}
 	
 	// S211P 於交易完成後，端末判斷須列印申報書者，提示訊息，若選擇列印，則發S211P取得申報書資料列印
+	@GetMapping("/originalccy-release/{irNo}/print-statement")
+	@Operation(description = "列印申報書資料", summary = "列印申報書資料")
+	public Response<IRDto> prtStatement(@PathVariable("irNo") String irNo) {
+		Response<IRDto> response = new Response<IRDto>();
+		
+		try {
+			IRDto irDto = S211.getByIrNo(irNo);
+			response.Success();
+			response.setData(irDto);
+			if ("4".equals(irDto.getPaidStats().toString())) {
+				log.info("呼叫列印申報書資料API：列印匯入匯款編號" + irNo + "已解款");
+			} else if ("0".equals(irDto.getPaidStats().toString())) {
+				response.Error("S104", commonFeignClient.getErrorMessage("S104"));
+				log.info("呼叫列印申報書資料API：列印匯入匯款編號" + irNo + "未解款");
+			} else if ("5".equals(irDto.getPaidStats().toString())) {
+				response.Error("S103", commonFeignClient.getErrorMessage("S103"));
+				log.info("呼叫列印申報書資料API：列印匯入匯款編號" + irNo + "已退匯");
+			}
+		} catch (Exception e) {
+			response.Error(e.getMessage(), commonFeignClient.getErrorMessage(e.getMessage()));
+			log.info("呼叫列印申報書資料API：" + commonFeignClient.getErrorMessage(e.getMessage()));
+		}
+		return response;
+	}
+	
 	// S211U 將前端 AML 取號相關資料回寫主檔，並檢核疑似第三方交易、客戶是否曾被婉拒交易
 	// NOTCR06 依通報序號查詢通報匯率及通報匯率成本
 	// S168R01 單日結匯金額檢查(即期結匯!=0且送件編號!=空白)
