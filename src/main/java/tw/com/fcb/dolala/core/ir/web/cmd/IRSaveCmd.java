@@ -125,9 +125,7 @@ public class IRSaveCmd {
 	
 	@Schema(description = "客戶電話號碼")
 	String custTelNo;
-	
-	@Schema(description = "SW59_AC受款人帳號")
-	String acNo;
+
 	
 	@Schema(description = "匯率")
 	BigDecimal exchangeRate;

@@ -118,6 +118,15 @@ public class IRService {
 	    irMasterRepository.save(irMaster);
     	
     }
+
+	// set IRMaster相關欄位資料
+	public IRSaveCmd setIRMaster(IRSaveCmd irSaveCmd){
+		//初始值 0
+		irSaveCmd.setPaidStats(0);
+		//
+		irSaveCmd.setPrintAdvMk("N");
+		return irSaveCmd;
+	}
     
     //S131R 「處理種類」為(0、1、2、7或8) 之發查電文。 ==>進行通知書列印(多筆)
    	public List<IRDto> qryAdvicePrint(String branch)

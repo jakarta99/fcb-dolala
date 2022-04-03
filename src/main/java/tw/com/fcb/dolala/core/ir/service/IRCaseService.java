@@ -17,8 +17,6 @@ import tw.com.fcb.dolala.core.ir.web.dto.IRCaseDto;
 import tw.com.fcb.dolala.core.ir.web.dto.IRDto;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Copyright (C),2022-2022,FirstBank
@@ -59,7 +57,7 @@ public class IRCaseService {
         boolean checkFE = checkFuturesExchange(irCaseEntity.getReceiverAccount());
         if (checkFE == true){
             // 期交易自動解款
-            String result = beAutoSettle(irCaseVo.getSeqNo());
+            String result = beFeAutoSettle(irCaseVo.getSeqNo());
             return result;
         }else{
             //再去checkAutoPass
@@ -138,7 +136,7 @@ public class IRCaseService {
         }
     }
     // 期交所自動解款，更新ircase processStatus = 7
-    public String beAutoSettle(String irSeqNo) throws Exception {
+    public String beFeAutoSettle(String irSeqNo) throws Exception {
         IRCaseEntity irCaseEntity = new IRCaseEntity();
         IRCaseDto irCaseDto = getByIRSeqNo(irSeqNo);
         irCaseDto.setProcessStatus("7");
@@ -149,8 +147,10 @@ public class IRCaseService {
         //自動放行新增進irMaster並更新為已入帳
         irSaveCmd.setPaidStats(2);
         irSaveCmd.setBeAdvBranch("091");
+        irSaveCmd.setProcessBranch("091");
+        irSaveCmd = irService.setIRMaster(irSaveCmd);
         IRMaster irMaster = irService.insertIRMaster(irSaveCmd);
-        return "期交所自動解款 新增IRMaster成功，編號：" + irMaster.getIrNo();
+        return "期交所自動解款 新增IRCase,IRMaster成功，IRSeq編號：" + irSeqNo + ",IRMaster編號" + irMaster.getIrNo();
     }
 
     public boolean updateByIRSeqNo(IRCaseDto irCaseDtoVo) throws Exception{

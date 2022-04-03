@@ -51,7 +51,7 @@ public class IRMaster {
     String customerId;	//客戶 ID
     
     @Column(name = "CURENCY")
-    String curency;	//幣別
+    String currency;	//幣別
     
     @Column(name = "IR_AMT")
     BigDecimal irAmt;	//匯入匯款金額
