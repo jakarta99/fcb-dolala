@@ -16,9 +16,9 @@ public class CustomerAccountService {
 	@Autowired
 	CustomerAccountRepository repository;
 
-	public CustomerAccountDto getCustomerAccount(String accountNumber) {
+	public CustomerAccountDto getCustomerAccount(String accountNumber)  throws Exception {
 		CustomerAccountDto customerAccount = new CustomerAccountDto();
-		CustomerAccountEntity customerAccountEntity = repository.findByAccountNumber(accountNumber).orElse(new CustomerAccountEntity());
+		CustomerAccountEntity customerAccountEntity = repository.findByAccountNumber(accountNumber).orElseThrow(() -> new Exception("D001"));
 		BeanUtils.copyProperties(customerAccountEntity, customerAccount);
 		return customerAccount;
 	}
