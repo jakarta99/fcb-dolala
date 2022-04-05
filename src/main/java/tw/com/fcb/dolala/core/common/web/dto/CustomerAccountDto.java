@@ -17,7 +17,7 @@ import lombok.Data;
  */
 @Schema(description = "顧客帳號檔")
 @Data
-public class CustomerAccount {
+public class CustomerAccountDto {
 	@Schema(description = "顧客帳號資料檔的序號")
 	String customerAccountSeqNo;
 	

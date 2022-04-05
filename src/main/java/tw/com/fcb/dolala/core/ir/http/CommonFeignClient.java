@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import tw.com.fcb.dolala.core.common.http.Response;
 import tw.com.fcb.dolala.core.common.web.dto.BankAddressDto;
 import tw.com.fcb.dolala.core.common.web.dto.BankDto;
-import tw.com.fcb.dolala.core.common.web.dto.Customer;
+import tw.com.fcb.dolala.core.common.web.dto.CustomerDto;
 
 import java.math.BigDecimal;
 
@@ -55,7 +55,7 @@ public interface CommonFeignClient {
     //顧客資料處理
     @GetMapping("/common/customeraccount/{accountNumber}")
     @Operation(description = "以顧客帳號讀取顧客資料", summary = "讀取顧客資料")
-    Customer getCustomer(@RequestParam("accountNumber")String accountNumber);
+    CustomerDto getCustomer(@RequestParam("accountNumber")String accountNumber);
     
     // 分行資料處理
     @GetMapping("/common/branch")
