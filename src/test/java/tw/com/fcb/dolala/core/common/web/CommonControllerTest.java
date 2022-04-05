@@ -81,7 +81,8 @@ class CommonControllerTest {
 		String remitNatureName = common.isGetRemitNature(remitNatureCode, remitNatureType);
 		assertNotNull(remitNatureName);
 	}
-	
+
+
 	// 顧客資料處理
 
 	
@@ -89,6 +90,14 @@ class CommonControllerTest {
 
 	
 	// 分行資料處理
-	
+
+
+	// 錯誤訊息處理
+	@Test
+	void getErrorMessage() {
+		String erroeMessage;
+		erroeMessage = common.getErrorMessage("D001");
+		assertEquals("查無資料",erroeMessage);
+	}
 	
 }
