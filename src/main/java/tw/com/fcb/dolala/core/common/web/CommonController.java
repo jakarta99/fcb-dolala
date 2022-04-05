@@ -157,26 +157,43 @@ public class CommonController {
 	//顧客資料處理
 	@GetMapping("/customeraccount/{accountNumber}")
 	@Operation(description = "以顧客帳號讀取顧客資料", summary = "依帳號讀取顧客資料")
-	public CustomerDto getCustomer(String accountNumber) {
+	public Response<CustomerDto> getCustomer(String accountNumber) {
 		log.info("接收accountNumber = " + accountNumber);
-		CustomerAccountDto customerAccount = null;
-		customerAccount = customerAccountService.getCustomerAccount(accountNumber);
-		log.info("呼叫讀取顧客帳戶API：顧客帳戶資料："+customerAccount.toString());
-		
-		CustomerDto customer= null;
-		customer = customerService.getCustomer(customerAccount.getCustomerSeqNo());
-		log.info("呼叫讀取顧客檔API：顧客資料："+customer.toString());
-		return customer;
+		CustomerAccountDto customerAccountDto = null;
+		CustomerDto customerDto= null;
+		Response<CustomerDto> response =new Response<CustomerDto>();
+		try {
+			customerAccountDto = customerAccountService.getCustomerAccount(accountNumber);
+			log.info("呼叫讀取顧客帳戶API：顧客帳戶資料："+customerAccountDto.toString());
+			
+			customerDto = customerService.getCustomer(customerAccountDto.getCustomerSeqNo());
+			log.info("呼叫讀取顧客檔API：顧客資料："+customerDto.toString());
+			response.Success();
+		}catch(Exception e) {
+			log.info(String.valueOf(e));
+			response.Error(e.getMessage(),getErrorMessage(e.getMessage()));
+		}
+		response.setData(customerDto);
+		return response;
 	}
 	
 	@GetMapping("/customerid/{customerId}")
 	@Operation(description = "以顧客ID讀取顧客資料", summary = "依ID讀取顧客資料")
-	public CustomerDto getCustomerId(@PathVariable String customerId) {
+	public Response<CustomerDto> getCustomerId(@PathVariable String customerId) {
 		log.info("接收accountId = " + customerId);
-		CustomerDto customer= null;
-		customer = customerService.getCustomerId(customerId);
-		log.info("呼叫讀取顧客檔API：顧客資料："+customer.toString());
-		return customer;
+		CustomerDto customerDto= null;
+		Response<CustomerDto> response = new Response<CustomerDto>();
+		
+		try {
+			customerDto = customerService.getCustomerId(customerId);
+			log.info("呼叫讀取顧客檔API：顧客資料："+customerDto.toString());
+			response.Success();
+		}catch(Exception e) {
+			log.info(String.valueOf(e));
+			response.Error(e.getMessage(),getErrorMessage(e.getMessage()));
+		}
+		response.setData(customerDto);
+		return response;
 	}
 	
 	// 分行資料處理
