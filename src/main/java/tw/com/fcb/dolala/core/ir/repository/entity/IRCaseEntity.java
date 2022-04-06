@@ -49,7 +49,7 @@ public class IRCaseEntity {
     String beAdvBranch;
     //顧客統編
     @Column(name = "CUSTOMER_ID")
-    String customerID;
+    String customerId;
 
     @Column(name = "SENDER_SWIFT_CODE",length = 11)
     String senderSwiftCode;

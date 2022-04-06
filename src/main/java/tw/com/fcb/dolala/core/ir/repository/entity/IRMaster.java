@@ -54,7 +54,7 @@ public class IRMaster {
     String currency;	//幣別
     
     @Column(name = "IR_AMT")
-    BigDecimal irAmt;	//匯入匯款金額
+    BigDecimal irAmount;	//匯入匯款金額
     
     @Column(name = "FX_DEPOSIT")
     BigDecimal fxDeposit;	//外匯存款金額

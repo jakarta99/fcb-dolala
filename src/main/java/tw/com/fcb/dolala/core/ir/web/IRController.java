@@ -64,7 +64,31 @@ public class IRController {
         }
         return  response;
     }
-
+    @GetMapping("/irmaster/{irNo}/")
+    @Operation(description = "查詢匯入匯款主檔資料", summary = "查詢匯入匯款主檔資料")
+    public Response<IRDto> getIRMasterByIrNo(@PathVariable("irNo") String irNo) {
+        Response<IRDto> response = new Response<IRDto>();
+        try {
+            IRDto irDto = irService.getByIrNo(irNo);
+            response.Success();
+            response.setData(irDto);
+            if ("0".equals(irDto.getPaidStats().toString())) {
+                log.info("呼叫查詢匯入匯款案件API：查詢匯入匯款編號" + irNo + "待處理");
+            } else if ("4".equals(irDto.getPaidStats().toString())) {
+                response.Error("S102", commonFeignClient.getErrorMessage("S102"));
+                log.info("呼叫查詢匯入匯款案件API：查詢匯入匯款編號" + irNo + "已解款");
+            } else if ("5".equals(irDto.getPaidStats().toString())) {
+                response.Error("S103", commonFeignClient.getErrorMessage("S103"));
+                log.info("呼叫查詢匯入匯款案件API：查詢匯入匯款編號" + irNo + "已退匯");
+            } else{
+                log.info("呼叫查詢匯入匯款案件API：查詢匯入匯款編號" + irNo + ",狀態 = " + irDto.getPaidStats());
+            }
+        } catch (Exception e) {
+            response.Error(e.getMessage(), commonFeignClient.getErrorMessage(e.getMessage()));
+            log.info("呼叫查詢匯入匯款案件API：" + commonFeignClient.getErrorMessage(e.getMessage()));
+        }
+        return response;
+    }
     @GetMapping("/irmaster/{irNo}/enquiry")
     @Operation(description = "傳入匯入匯款編號查詢案件明細", summary="查詢匯入案件明細")
     public Response<IRDto> getByIrNo(@PathVariable("irNo") String irNo) {
@@ -72,13 +96,14 @@ public class IRController {
         try {
             response.Success();
             response.setData(irService.findOne(irNo));
-            log.info("呼叫查詢匯入匯款編號案件API：查詢irNo編號" + irNo);
+            log.info("呼叫查詢匯入匯款編號案件API：查詢irNo編號-AFTER" + irNo);
         }catch(Exception e){
             response.Error(e.getMessage(),commonFeignClient.getErrorMessage(e.getMessage()));
             log.info("呼叫查詢匯入匯款編號案件API：" + commonFeignClient.getErrorMessage(e.getMessage()));
         }
         return  response;
     }
+
 
     @PutMapping("/irmaster/{irNo}/advice-print")
     @Operation(description = "變更印製通知書記號", summary="印製通知書記號")

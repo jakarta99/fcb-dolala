@@ -11,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import tw.com.fcb.dolala.core.common.http.Response;
 import tw.com.fcb.dolala.core.ir.http.CommonFeignClient;
+import tw.com.fcb.dolala.core.ir.repository.entity.IRMaster;
 import tw.com.fcb.dolala.core.ir.service.AutoPassCheckService;
 import tw.com.fcb.dolala.core.ir.service.IRCaseService;
 import tw.com.fcb.dolala.core.ir.service.IRService;
@@ -32,7 +33,7 @@ import javax.validation.constraints.NotNull;
  */
 @Slf4j
 @RestController
-@RequestMapping("/ircase")
+@RequestMapping("/ir")
 @OpenAPIDefinition(info = @Info(title = "DoLALA多啦啦's  匯入  API", version = "v1.0.0"))
 public class IRCaseController {
 
@@ -50,31 +51,15 @@ public class IRCaseController {
 	@Operation(description = "接收 SWIFT 電文並存到 SwiftMessage", summary = "接收及儲存 SWIFT 電文")
 	public Response<String> receiveSwift(@Validated @RequestBody SwiftMessageSaveCmd message) {
 		Response<String> response = new Response();
+		String insertIRCaseResult;
 		try {
 			IRCaseDto irCaseDto = new IRCaseDto();
 			BeanUtils.copyProperties(message, irCaseDto);
-			//讀取共用服務 set相關欄位
-			irCaseService.setIRCaseData(irCaseDto);
 			//insert，將電文資料新增至IRCase檔案
-			irCaseDto = irCaseService.irCaseInsert(irCaseDto);
-			// check 期交所已結束 processStatus = 7 案件不須再往下判斷
-			if (irCaseDto.getProcessStatus().equals("7")) {
-				response.setData("期交所自動解款成功，IRCase編號：" + irCaseDto.getSeqNo() + ",IRMaster新增成功");
-			}else{
-				String autoPassMK = autoPassCheckService.checkAutoPass(irCaseDto);
-				irCaseDto = irCaseService.getByIRSeqNo(irCaseDto.getSeqNo());
-				irCaseDto.setAutoPassMk(autoPassMK);
-				irCaseService.updateByIRSeqNo(irCaseDto);
+			insertIRCaseResult = irCaseService.irCaseInsert(irCaseDto);
 
-				if (irCaseDto.getAutoPassMk().equals("Y")) {
-					IRDto irDto = irService.autoPassInsertIRMaster(irCaseDto);
-					response.setData( "IRCase檔新增成功，編號：" + irCaseDto.getSeqNo()+ "電文可自動放行，新增IRMaster成功，編號：" + irDto.getIrNo());
-				} else {
-					response.setData("IRCase檔新增成功，編號：" + irCaseDto.getSeqNo());
-				}
-			}
 			response.Success();
-
+			response.setData(insertIRCaseResult);
 			log.info("呼叫接收 SWIFT 電文 API：接收及儲存一筆 SWIFT 電文");
 		} catch (Exception e) {
 			response.Error(e.getMessage(), commonFeignClient.getErrorMessage(e.getMessage()));

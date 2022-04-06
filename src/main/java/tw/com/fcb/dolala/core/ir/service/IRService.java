@@ -1,6 +1,7 @@
 package tw.com.fcb.dolala.core.ir.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import tw.com.fcb.dolala.core.common.repository.entity.ExchgRate;
+import tw.com.fcb.dolala.core.common.web.dto.CustomerDto;
 import tw.com.fcb.dolala.core.ir.http.CommonFeignClient;
 import tw.com.fcb.dolala.core.ir.repository.IRMasterRepository;
 
@@ -45,6 +47,7 @@ public class IRService {
 	// 新增匯入匯款主檔
 	public IRMaster insertIRMaster(IRSaveCmd irSaveCmd) throws Exception {
 		IRMaster irMaster = new IRMaster();
+
 		// 自動將saveCmd的屬性，對應到entity裡
 		BeanUtils.copyProperties(irSaveCmd, irMaster);
 		irMaster.setExchangeRate(commonFeignClient.getFxRate(ExchgRate.EXCHG_RATE_TYPE_BUY, irSaveCmd.getCurrency(),"TWD"));
@@ -134,10 +137,21 @@ public class IRService {
 
 	// set IRMaster相關欄位資料
 	public IRSaveCmd setIRMaster(IRSaveCmd irSaveCmd){
-		//初始值 0
+		CustomerDto customer = commonFeignClient.getCustomer(irSaveCmd.getReceiverAccount()).getData();		//初始值 0
 		irSaveCmd.setPaidStats(0);
 		//印製通知書記號
 		irSaveCmd.setPrintAdvMk("N");
+		irSaveCmd.setProcessBranch(irSaveCmd.getBeAdvBranch());
+		// process-Date
+		LocalDateTime currentDateTime = LocalDateTime.now();
+		irSaveCmd.setProcessDate(currentDateTime.toLocalDate());
+		irSaveCmd.setAdvDate(currentDateTime.toLocalDate());
+		//是否為本行客戶
+		irSaveCmd.setOurCust("Y");
+		irSaveCmd.setCustTelNo(customer.getCustTelNo());
+		irSaveCmd.setCusBirthDate(customer.getCusBirthDate());
+		//受款人身份別
+		irSaveCmd.setBeneKind(customer.getBeneKind());
 		return irSaveCmd;
 	}
     

@@ -55,7 +55,7 @@ public interface CommonFeignClient {
     //顧客資料處理
     @GetMapping("/common/customeraccount/{accountNumber}")
     @Operation(description = "以顧客帳號讀取顧客資料", summary = "讀取顧客資料")
-    CustomerDto getCustomer(@RequestParam("accountNumber")String accountNumber);
+    Response<CustomerDto> getCustomer(@RequestParam("accountNumber")String accountNumber);
     
     // 分行資料處理
     @GetMapping("/common/branch")
@@ -92,7 +92,7 @@ public interface CommonFeignClient {
 	@Operation(description = "依remitNatureCode, remitNatureType取得remitNatureName", summary = "讀取匯款性質名稱")
     String isGetRemitNature(@RequestParam("remitNatureCode")String remitNatureCode, @RequestParam("remitNatureType")String remitNatureType);
 
-    @GetMapping("/common/errorCode/{errorCode}")
+    @GetMapping("/common/errorcode/{errorCode}")
     @Operation(description = "傳入errorCode查詢錯誤說明", summary="以errorCode查詢錯誤說明")
     String getErrorMessage(@RequestParam("errorCode")String errorCode);
 

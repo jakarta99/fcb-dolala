@@ -52,7 +52,7 @@ public class IRSaveCmd {
 	String currency;
 	
 	@Schema(description = "匯入匯款金額")
-	BigDecimal irAmt;
+	BigDecimal irAmount;
 	
 	@Schema(description = "外匯存款金額")
 	BigDecimal fxDeposit;

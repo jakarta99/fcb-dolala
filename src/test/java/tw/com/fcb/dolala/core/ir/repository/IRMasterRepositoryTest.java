@@ -17,7 +17,7 @@ class IRMasterRepositoryTest {
 	@Test
 	void testFindByIrNo() {
 		IRMaster irMaster = repository.findByIrNo("S1NHA00947").orElseThrow();
-		assertEquals("3456.78", irMaster.getIrAmt().toString());
+		assertEquals("3456.78", irMaster.getIrAmount().toString());
 	}
 
 }
