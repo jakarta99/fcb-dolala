@@ -207,16 +207,13 @@ public class IRService {
    	}
 
 	// S211A 執行原幣解款資料新增
-   	public IRDto exeRelaseIRMaster(IRDto postIRDto) throws Exception {
-		IRMaster irMaster = irMasterRepository.findByIrNoAndPaidStats(postIRDto.getIrNo(), 0).orElseThrow(() -> new Exception("S101"));
+   	public IRDto exeRelaseIRMaster(IRSaveCmd irSaveCmd) throws Exception {
+		IRMaster irMaster = irMasterRepository.findByIrNoAndPaidStats(irSaveCmd.getIrNo(), 0).orElseThrow(() -> new Exception("S101"));
 		IRDto irDto = new IRDto(); 
-		String caseSeqNo;
 
 		if (irMaster != null) {
-			caseSeqNo = irMaster.getCaseSeqNo();
 			// 將傳入值對應至irMaster
-			BeanUtils.copyProperties(postIRDto, irMaster);
-			irMaster.setCaseSeqNo(caseSeqNo);
+			BeanUtils.copyProperties(irSaveCmd, irMaster);
 			irMaster.setPaidStats(4); // 4:已解款
 			// 更新匯入匯款主檔
 			irMasterRepository.save(irMaster);
