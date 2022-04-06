@@ -1,6 +1,5 @@
 package tw.com.fcb.dolala.core.ir.web;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,12 +36,12 @@ public class IROriginalCcyReleaseS211Controller {
 	// S211A 執行原幣解款資料新增 (A:新增)
 	@PostMapping("/originalccy-release/execute")
 	@Operation(description = "新增原幣解款案件資料", summary = "新增原幣解款案件資料")
-	public Response<IRDto> exeRelaseIRMaster(@Validated @RequestBody IRDto postIRDto) {
+	public Response<IRDto> exeRelaseIRMaster(@Validated @RequestBody IRSaveCmd irSaveCmd) {
 		Response<IRDto> response = new Response<IRDto>();
 		
 		try {
 			IRDto irDto = new IRDto();
-			irDto = S211.exeRelaseIRMaster(postIRDto);
+			irDto = S211.exeRelaseIRMaster(irSaveCmd);
 			response.Success();
 			response.setData(irDto);
 			log.info("呼叫新增原幣解款案件API：查詢匯入匯款編號" + response.getData().getIrNo() + "已解款");
