@@ -1,6 +1,8 @@
 package tw.com.fcb.dolala.core.ir.web;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.info.Info;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.BeanUtils;
@@ -30,7 +32,8 @@ import javax.validation.constraints.NotNull;
  */
 @Slf4j
 @RestController
-@RequestMapping("/ir")
+@RequestMapping("/ircase")
+@OpenAPIDefinition(info = @Info(title = "DoLALA多啦啦's  匯入  API", version = "v1.0.0"))
 public class IRCaseController {
 
     @Autowired
@@ -104,7 +107,7 @@ public class IRCaseController {
 
 	@GetMapping("/ircase/{irSeqNo}/enquiry")
 	@Operation(description = "取得seqNo電文資料", summary = "取得seqNo電文資料")
-	public Response<IRCaseDto> getBySeqNo(@PathVariable("irSeqNo") String irSeqNo) {
+	public Response<IRCaseDto> getBySeqNo(@NotNull @PathVariable("irSeqNo") String irSeqNo) {
 		Response<IRCaseDto> response = new Response<IRCaseDto>();
 		try {
 			IRCaseDto irCaseDto = irCaseService.getByIRSeqNo(irSeqNo);

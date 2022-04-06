@@ -110,7 +110,7 @@ public class IRCaseService {
         //讀取是否為同存行
 
         //取號
-        String irSeqNo = commonFeignClient.getSeqNo(systemType,branch);
+        String irSeqNo = commonFeignClient.getSeqNo();
 
         irCaseDto.setSeqNo(irSeqNo);
 

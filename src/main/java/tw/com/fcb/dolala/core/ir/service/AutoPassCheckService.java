@@ -1,5 +1,6 @@
 package tw.com.fcb.dolala.core.ir.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tw.com.fcb.dolala.core.ir.web.dto.IRCaseDto;
@@ -13,40 +14,42 @@ import tw.com.fcb.dolala.core.ir.web.dto.IRCaseDto;
  */
 @Service
 @Transactional
+@Slf4j
 public class AutoPassCheckService {
 
     public String checkAutoPass(IRCaseDto irCaseDto){
         // check 相關欄位
         // update IRCaseDto
-        boolean checkBranch = this.checkBranch(irCaseDto);
-        boolean checkCurrencyNotTWD = this.checkCurrencyNotTWD(irCaseDto);
-        boolean checkClosed = this.checkClosed(irCaseDto);
-        System.out.println("checkBranch = "+ checkBranch );
-        System.out.println("checkCurrencyNotTWD = "+ checkCurrencyNotTWD );
-        System.out.println("checkClosed = "+ checkClosed );
+        log.info("呼叫checkAutoPassServie, check是否可自動放行");
+        boolean checkBranch = this.checkBranch(irCaseDto.getBeAdvBranch());
+        boolean checkCurrencyNotTWD = this.checkCurrencyNotTWD(irCaseDto.getCurrency());
+        boolean checkClosed = this.checkIRClosed(irCaseDto.getProcessStatus());
+        log.debug("checkBranch = "+ checkBranch );
+        log.debug("checkCurrencyNotTWD = "+ checkCurrencyNotTWD );
+        log.debug("checkClosed = "+ checkClosed );
         if (checkBranch == true && checkCurrencyNotTWD == true && checkClosed == true) {
             return  "Y";
         }else{
             return "N" ;
         }
     }
-    public  boolean checkCurrencyNotTWD(IRCaseDto irCaseDto){
-        if (irCaseDto.getCurrency().equals("TWD")) {
+    public  boolean checkCurrencyNotTWD(String currency){
+        if (currency.equals("TWD")) {
             return false;
         }else{
             return true;
         }
     }
 
-    public boolean checkBranch(IRCaseDto irCaseDto){
-        if (irCaseDto.getBeAdvBranch()== null){
+    public boolean checkBranch(String branch){
+        if (branch == null){
             return  false;
         }else{
             return  true;
         }
     }
-    public boolean checkClosed(IRCaseDto irCaseDto){
-        if (irCaseDto.getProcessStatus().equals("7")){
+    public boolean checkIRClosed(String processStatus){
+        if (processStatus.equals("7")){
             return  false;
         }else{
             return  true;

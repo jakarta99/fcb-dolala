@@ -15,42 +15,42 @@ import java.math.BigDecimal;
 @FeignClient(value = "CHECK",url = "localhost:8080")
 public interface CommonFeignClient {
     // 匯率處理
-    @GetMapping("/common/GetFxRate")
+    @GetMapping("/common/get-fxrate")
     @Operation(description = "依exchgRateType, currency, standardCurrency取得ExchgRate", summary = "讀取買/賣匯匯率")
     BigDecimal getFxRate(@RequestParam("fxRateType") String exchgRateType, @RequestParam("currency")String currency, @RequestParam("standardCurrency")String standardCurrency);
 
-    @GetMapping("/common/CheckFxrate")
+    @GetMapping("/common/check-fxrate")
     @Operation(description = "檢核承作匯率", summary = "檢核承作匯率")
-    boolean CheckFxRate(@RequestParam("checkFxrate") BigDecimal rate);
+    boolean CheckFxRate(@RequestParam("exchgRate") BigDecimal rate);
 
     // 國家資料處理
-    @GetMapping("/common/CountryNumber")
+    @GetMapping("/common/{countryCode}/get-country-name")
     @Operation(description = "以國家代號英文2碼讀取國家代號4碼數字", summary = "讀取國家代號4碼數字")
-    String GetCountryNumber(@RequestParam("countryNumber") String  countryCode);
+    String GetCountryNumber(@RequestParam("countryCode") String  countryCode);
 
-    @GetMapping("/common/CountryCode")
+    @GetMapping("/common/{countryNumber}/get-country-code")
     @Operation(description = "以國家代號4碼數字讀取國家代號英文2碼", summary = "讀取國家代號英文2碼")
-    String GetCountryCode(@RequestParam("countryCode") String  countryNumber);
+    String GetCountryCode(@RequestParam("countryNumber") String  countryNumber);
 
     // 身分證號檢核
-    @GetMapping("/common/CheckId")
+    @GetMapping("/common/{id}/check-id")
     @Operation(description = "檢核居留證或統一證號是否符合編碼規則", summary = "身分證號檢核")
-    boolean CheckId(@RequestParam("checkId") String  number);
+    boolean CheckId(@RequestParam("checkId") String  id);
 
-    // 讀取取號檔
-//    @GetMapping("/NumberSerial")
-//    @Operation(description = "查詢取號檔資訊",summary = "BY業務別查詢取號檔已使用到之號碼")
-//    Long isGetNumberSerial(@RequestParam("numberSerial") String  systemType, String branch);
+     //讀取取號檔
+    @GetMapping("/common/{systemType}/{branch}/get-number-serial")
+    @Operation(description = "查詢取號檔資訊",summary = "BY業務別查詢取號檔已使用到之號碼")
+    Long isGetNumberSerial(@RequestParam("systemType") String  systemType, @RequestParam("branch") String branch);
 
     // 取得外匯編號 FXNO
-    @PutMapping("/common/FxNo")
+    @PutMapping("/common/{noCode}/{systemType}/{branch}/get-fx-no")
     @Operation(description = "取得外匯編號",summary = "取得外匯編號並更新取號檔")
     String getFxNo(@RequestParam("noCode")String nocode,@RequestParam("systemType")String systemType,@RequestParam("branch")String branch);
 
     // 取得IRCase seqNo
-    @PutMapping("/common/SeqNo")
+    @PutMapping("/common/get-ir-seq-no")
     @Operation(description = "取得匯入IRCase SEQ_NO",summary = "取得匯入IRCase SEQ_NO並更新取號檔")
-    String getSeqNo(@RequestParam("systemType")String systemType,@RequestParam("branch")String branch);
+    String getSeqNo();
 
     //顧客資料處理
     @GetMapping("/common/customeraccount/{accountNumber}")

@@ -57,7 +57,7 @@ public class CommonController {
 
 
 	// 匯率處理
-	@GetMapping("/GetFxRate")
+	@GetMapping("/get-fxrate")
 	@Operation(description = "依exchgRateType, currency, standardCurrency取得ExchgRate", summary = "讀取買/賣匯匯率")
 	public BigDecimal isGetFxRate(String fxRateType, String currency, String standardCurrency) {
 		BigDecimal exchangeRate = fxService.getRate(fxRateType, currency, standardCurrency);
@@ -65,7 +65,7 @@ public class CommonController {
 		return exchangeRate;
 	}
 
-	@GetMapping("/CheckFxrate")
+	@GetMapping("/check-fxrate")
 	@Operation(description = "檢核承作匯率", summary = "檢核承作匯率")
 	public boolean isCheckFxRate(BigDecimal exchgRate) {
 		log.info("呼叫匯率處理API：檢核承作匯率是否超過權限範圍");
@@ -74,7 +74,7 @@ public class CommonController {
 	}
 
 	// 國家資料處理
-	@GetMapping("/CountryNumber")
+	@GetMapping("/{countryCode}/get-country-name")
 	@Operation(description = "以國家代號英文2碼讀取國家代號4碼數字", summary = "讀取國家代號4碼數字")
 	public String isGetCountryNumber(String countryCode) {
 		String countryNumber = null;
@@ -83,7 +83,7 @@ public class CommonController {
 		return countryNumber;
 	}
 
-	@GetMapping("/CountryCode")
+	@GetMapping("/{countryNumber}/get-country-code")
 	@Operation(description = "以國家代號4碼數字讀取國家代號英文2碼", summary = "讀取國家代號英文2碼")
 	public String isGetCountryCode(String countryNumber) {
 		String countryCode = null;
@@ -93,28 +93,28 @@ public class CommonController {
 	}
 
 	// 身分證號檢核
-	@GetMapping("/CheckId")
+	@GetMapping("/{id}/check-id")
 	@Operation(description = "檢核居留證或統一證號是否符合編碼規則", summary = "身分證號檢核")
-	public boolean isCheckId(String number) {
+	public boolean isCheckId(String id) {
 		boolean check = false;
-		check = idNumberCheckService.isValidIDorRCNumber(number);
-		log.info("呼叫身分證號檢核API：檢核" + number + "是否符合編碼規則:" + check);
+		check = idNumberCheckService.isValidIDorRCNumber(id);
+		log.info("呼叫身分證號檢核API：檢核" + id + "是否符合編碼規則:" + check);
 		return check;
 	}
 	
 	// 讀取取號檔
-	@GetMapping("/NumberSerial")
+	@GetMapping("/{systemType}/{branch}/get-number-serial")
 	@Operation(description = "查詢取號檔資訊",summary = "BY業務別查詢取號檔已使用到之號碼")
-	public Long isGetNumberSerial(String systemType, String branch){
+	public Long isGetNumberSerial(@PathVariable String systemType, @PathVariable String branch){
 		SerialNumber serialNumber = serialNumberService.getNumberSerial(systemType,branch);
 		log.info("呼叫讀取取號檔API：查詢"+ systemType + "現已使用到第"+ serialNumber.getSerialNo()+ "號");
 		return serialNumber.getSerialNo();
 	}
 
 	// 取得外匯編號 FXNO
-	@PutMapping("/FxNo")
+	@PutMapping("/{noCode}/{systemType}/{branch}/get-fx-no")
 	@Operation(description = "取得外匯編號",summary = "取得外匯編號並更新取號檔")
-	public String getFxNo(String noCode, String systemType, String branch)  {
+	public String getFxNo(@PathVariable String noCode, @PathVariable String systemType, @PathVariable String branch)  {
 		String fxNo = null;
 		try {
 			 fxNo =  serialNumberService.getFxNo("S","IR",branch);
@@ -135,7 +135,7 @@ public class CommonController {
 	}
 
 	// 取得IRCase seqNo
-	@PutMapping("/SeqNo")
+	@PutMapping("/get-ir-seq-no")
 	@Operation(description = "取得匯入IRCase SEQ_NO",summary = "取得匯入IRCase SEQ_NO並更新取號檔")
 	public String getSeqNo()  {
 		String irSeq = null;
@@ -180,7 +180,7 @@ public class CommonController {
 	}
 	
 	// 分行資料處理
-	@GetMapping("/branch")
+	@GetMapping("/{branch}/get-branch-code")
 	@Operation(description = "傳入分行號碼取得分行字軌",summary = "以分行代號取得分行字軌")
 	public String getBranchCode(@PathVariable String branch){
 		String branchCode = null;

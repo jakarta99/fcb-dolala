@@ -2,7 +2,6 @@ package tw.com.fcb.dolala.core.ir.web.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 import tw.com.fcb.dolala.core.ir.repository.enums.ChargeType;
 
 import javax.persistence.Column;
