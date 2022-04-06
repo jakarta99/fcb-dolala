@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import tw.com.fcb.dolala.core.common.repository.entity.ExchgRate;
+import tw.com.fcb.dolala.core.common.web.dto.BankAddressDto;
 
 @SpringBootTest
 class CommonControllerTest {
@@ -81,14 +82,29 @@ class CommonControllerTest {
 		String remitNatureName = common.isGetRemitNature(remitNatureCode, remitNatureType);
 		assertNotNull(remitNatureName);
 	}
-	
+
+
 	// 顧客資料處理
 
 	
 	// 銀行資料處理
+	@Test
+	void getBankAdd() {
+		BankAddressDto bankAddressDto = new BankAddressDto();
+		bankAddressDto = common.getBankAdd("CITIUS33XXX").getData();
+		assertEquals("BBAnk",bankAddressDto.getName());
+	}
 
 	
 	// 分行資料處理
-	
+
+
+	// 錯誤訊息處理
+	@Test
+	void getErrorMessage() {
+		String erroeMessage;
+		erroeMessage = common.getErrorMessage("D001");
+		assertEquals("查無資料",erroeMessage);
+	}
 	
 }

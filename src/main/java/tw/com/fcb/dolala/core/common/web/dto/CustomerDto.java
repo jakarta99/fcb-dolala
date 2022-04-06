@@ -19,7 +19,7 @@ import tw.com.fcb.dolala.core.common.repository.entity.CustomerAccountEntity;
  */
 @Schema(description = "顧客檔")
 @Data
-public class Customer {
+public class CustomerDto {
 	@Schema(description = "顧客資料檔的序號")
 	String customerSeqNo;
 	

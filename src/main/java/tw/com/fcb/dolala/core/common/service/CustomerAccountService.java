@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import tw.com.fcb.dolala.core.common.repository.CustomerAccountRepository;
 import tw.com.fcb.dolala.core.common.repository.entity.CustomerAccountEntity;
-import tw.com.fcb.dolala.core.common.web.dto.CustomerAccount;
+import tw.com.fcb.dolala.core.common.web.dto.CustomerAccountDto;
 
 
 @Transactional
@@ -16,9 +16,9 @@ public class CustomerAccountService {
 	@Autowired
 	CustomerAccountRepository repository;
 
-	public CustomerAccount getCustomerAccount(String accountNumber) {
-		CustomerAccount customerAccount = new CustomerAccount();
-		CustomerAccountEntity customerAccountEntity = repository.findByAccountNumber(accountNumber).orElse(new CustomerAccountEntity());
+	public CustomerAccountDto getCustomerAccount(String accountNumber)  throws Exception {
+		CustomerAccountDto customerAccount = new CustomerAccountDto();
+		CustomerAccountEntity customerAccountEntity = repository.findByAccountNumber(accountNumber).orElseThrow(() -> new Exception("D001"));
 		BeanUtils.copyProperties(customerAccountEntity, customerAccount);
 		return customerAccount;
 	}
