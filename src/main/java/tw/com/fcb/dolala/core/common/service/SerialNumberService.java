@@ -2,6 +2,7 @@ package tw.com.fcb.dolala.core.common.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tw.com.fcb.dolala.core.common.repository.entity.BranchInformation;
@@ -26,6 +27,8 @@ import java.util.Date;
 @Transactional
 @Service
 public class SerialNumberService {
+    @Value("${fcb.dolala.core.serial-no-code}")
+    String noCode;
 
     @Autowired
     BranchInformationRepository branchInformationRepository;
@@ -42,7 +45,7 @@ public class SerialNumberService {
         return seqNo;
     }
 //取得外匯編號FxNo
-    public String getFxNo(String noCode,String systemType,String branch) throws Exception {
+    public String getFxNo(String systemType,String branch) throws Exception {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String nowDate = sdf.format(new Date());
         //取得字軌
@@ -52,11 +55,11 @@ public class SerialNumberService {
         //讀取取號檔
         SerialNumber serialNumber;
         serialNumber = serialNumberRepository.findBySystemTypeAndBranch(systemType,branch).orElseThrow(() -> new Exception("D001"+ "SerialNumberRepository"+ systemType + branch));
-        System.out.println("SerialNumberService !!! line 53" + serialNumber );
         log.info("讀取取號檔號碼 = " +serialNumber.getSerialNo());
         //取得流水號
         String serialNo = getNo(serialNumber.getSerialNo());
         // noCode + 西元年最末碼+ 字軋+ 流水號六碼
+        log.info("no-code = {}",noCode);
         String fxNo = noCode + nowDate.substring(3,4)+ branchCode+ serialNo;
 
 

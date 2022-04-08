@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,6 +23,7 @@ import tw.com.fcb.dolala.core.common.service.IDNumberCheckService;
 import tw.com.fcb.dolala.core.common.web.dto.CustomerDto;
 import tw.com.fcb.dolala.core.common.web.dto.CustomerAccountDto;
 import tw.com.fcb.dolala.core.common.web.vo.BankVo;
+import tw.com.fcb.dolala.core.config.IRConfig;
 
 /**
  * @author sinjen
@@ -31,6 +33,9 @@ import tw.com.fcb.dolala.core.common.web.vo.BankVo;
 @RestController
 @RequestMapping("/common")
 public class CommonController {
+
+	@Autowired
+	IRConfig irConfig;
 
 	@Autowired
 	ExchgRateService fxService;
@@ -60,6 +65,7 @@ public class CommonController {
 	@GetMapping("/get-fxrate")
 	@Operation(description = "依exchgRateType, currency, standardCurrency取得ExchgRate", summary = "讀取買/賣匯匯率")
 	public BigDecimal isGetFxRate(String fxRateType, String currency, String standardCurrency) {
+		log.info("${env-type} = {}",irConfig.getEnvType());
 		BigDecimal exchangeRate = fxService.getRate(fxRateType, currency, standardCurrency);
 		log.info("呼叫讀取匯率API：取得ExchgRate = " + exchangeRate);
 		return exchangeRate;
@@ -117,7 +123,7 @@ public class CommonController {
 	public String getFxNo(@PathVariable String noCode, @PathVariable String systemType, @PathVariable String branch)  {
 		String fxNo = null;
 		try {
-			 fxNo =  serialNumberService.getFxNo("S","IR",branch);
+			 fxNo =  serialNumberService.getFxNo(systemType,branch);
 			String numberSerial = null;
 			if (branch.equals("093")){
 				numberSerial = fxNo.substring(5, 11);
@@ -139,7 +145,9 @@ public class CommonController {
 	@Operation(description = "取得匯入IRCase SEQ_NO",summary = "取得匯入IRCase SEQ_NO並更新取號檔")
 	public String getSeqNo()  {
 		String irSeq = null;
+
 		final String branch = "999";
+
 		final String systemType = "IR_SEQ";
 		try {
 			irSeq =  serialNumberService.getIrSeqNo(systemType,branch);

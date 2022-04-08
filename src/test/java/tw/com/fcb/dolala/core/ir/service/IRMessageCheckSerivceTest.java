@@ -25,7 +25,7 @@ class IRMessageCheckSerivceTest {
     IRMessageCheckSerivce irMessageCheckService;
 
     @Test
-    void getAccountNo() {
+    void getAccountNo() throws Exception {
         String account = "/12209301111";
         assertEquals("12209301111",irMessageCheckService.getAccountNo(account));
     }

@@ -22,7 +22,7 @@ import java.math.BigDecimal;
 @Builder
 public class IRMessageCheckSerivce {
 
-    public String  getAccountNo(String account) {
+    public String  getAccountNo(String account) throws Exception{
         String accountNo = null;
         if (account != null) {
             if (account.substring(0, 1).equals("/")) {
@@ -69,10 +69,9 @@ public class IRMessageCheckSerivce {
         return  checkMK;
     }
     
-    public boolean checkCurrency(String currency) throws Exception {
-        boolean checkMK = false;
+    public boolean checkCurrency(String currency) {
+        boolean checkMK;
         if (currency.length()> 3){
-//            throw new Exception("幣別資料有誤");
             checkMK = false;
         }else {
             checkMK =  true;
@@ -81,7 +80,7 @@ public class IRMessageCheckSerivce {
     }
 
 	public boolean checkChargeType(String chargeType) {
-		boolean checkMK = false;
+		boolean checkMK;
 		try {
 			ChargeType.valueOf(chargeType);
 			checkMK = true;
