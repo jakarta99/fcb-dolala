@@ -123,6 +123,9 @@ public class IRCaseService {
         irCaseDto.setReceiverAccount(accountNo);
         //顧客資料，受通知分行
         CustomerDto customer = commonFeignClient.getCustomer(irCaseDto.getReceiverAccount()).getData();
+        if (customer == null){
+            throw new Exception("DZZZ:查不到客戶");
+        }
         irCaseDto.setBeAdvBranch(customer.getBranchID());
         irCaseDto.setCustomerId(customer.getCustomerId());
 
