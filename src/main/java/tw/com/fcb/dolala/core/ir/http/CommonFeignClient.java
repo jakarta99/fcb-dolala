@@ -15,9 +15,9 @@ import java.math.BigDecimal;
 @FeignClient(value = "CHECK",url = "localhost:8080")
 public interface CommonFeignClient {
     // 匯率處理
-    @GetMapping("/common/get-fxrate")
+    @GetMapping("/common/get-fxrate/{exchg-rate-type}/{currency}/{standard-currency}")
     @Operation(description = "依exchgRateType, currency, standardCurrency取得ExchgRate", summary = "讀取買/賣匯匯率")
-    BigDecimal getFxRate(@RequestParam("fxRateType") String exchgRateType, @RequestParam("currency")String currency, @RequestParam("standardCurrency")String standardCurrency);
+    BigDecimal getFxRate(@RequestParam("exchg-rate-type") String exchgRateType, @RequestParam("currency")String currency, @RequestParam("standard-currency")String standardCurrency);
 
     @GetMapping("/common/check-fxrate")
     @Operation(description = "檢核承作匯率", summary = "檢核承作匯率")
@@ -53,9 +53,9 @@ public interface CommonFeignClient {
     String getSeqNo();
 
     //顧客資料處理
-    @GetMapping("/common/customeraccount/{accountNumber}")
+    @GetMapping("/common/customer-account/{accountNumber}")
     @Operation(description = "以顧客帳號讀取顧客資料", summary = "讀取顧客資料")
-    Response<CustomerDto> getCustomer(@RequestParam("accountNumber")String accountNumber);
+    CustomerDto getCustomer(@RequestParam("accountNumber")String accountNumber);
     
     // 分行資料處理
     @GetMapping("/common/branch")
@@ -92,8 +92,8 @@ public interface CommonFeignClient {
 	@Operation(description = "依remitNatureCode, remitNatureType取得remitNatureName", summary = "讀取匯款性質名稱")
     String isGetRemitNature(@RequestParam("remitNatureCode")String remitNatureCode, @RequestParam("remitNatureType")String remitNatureType);
 
-    @GetMapping("/common/errorcode/{errorCode}")
+    @GetMapping("/common/errorcode/{errorcode}")
     @Operation(description = "傳入errorCode查詢錯誤說明", summary="以errorCode查詢錯誤說明")
-    String getErrorMessage(@RequestParam("errorCode")String errorCode);
+    String getErrorMessage(@RequestParam("errorcode")String errorCode);
 
 }

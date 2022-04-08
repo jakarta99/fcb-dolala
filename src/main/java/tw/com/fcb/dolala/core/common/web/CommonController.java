@@ -62,11 +62,11 @@ public class CommonController {
 
 
 	// 匯率處理
-	@GetMapping("/get-fxrate")
+	@GetMapping("/get-fxrate/{exchg-rate-type}/{currency}/{standard-currency}")
 	@Operation(description = "依exchgRateType, currency, standardCurrency取得ExchgRate", summary = "讀取買/賣匯匯率")
-	public BigDecimal isGetFxRate(String fxRateType, String currency, String standardCurrency) {
+	public BigDecimal isGetFxRate(@PathVariable("exchg-rate-type") String exchgRateType, @PathVariable("currency") String currency, @PathVariable("standard-currency") String standardCurrency) {
 		log.info("${env-type} = {}",irConfig.getEnvType());
-		BigDecimal exchangeRate = fxService.getRate(fxRateType, currency, standardCurrency);
+		BigDecimal exchangeRate = fxService.getRate(exchgRateType, currency, standardCurrency);
 		log.info("呼叫讀取匯率API：取得ExchgRate = " + exchangeRate);
 		return exchangeRate;
 	}
@@ -163,26 +163,24 @@ public class CommonController {
 
 
 	//顧客資料處理
-	@GetMapping("/customeraccount/{accountNumber}")
+	@GetMapping("/customer-account/{accountNumber}")
 	@Operation(description = "以顧客帳號讀取顧客資料", summary = "依帳號讀取顧客資料")
-	public Response<CustomerDto> getCustomer(String accountNumber) {
+	public CustomerDto getCustomer(@PathVariable String accountNumber) {
 		log.info("接收accountNumber = " + accountNumber);
 		CustomerAccountDto customerAccountDto = null;
 		CustomerDto customerDto= null;
-		Response<CustomerDto> response =new Response<CustomerDto>();
 		try {
 			customerAccountDto = customerAccountService.getCustomerAccount(accountNumber);
 			log.info("呼叫讀取顧客帳戶API：顧客帳戶資料："+customerAccountDto.toString());
 			
 			customerDto = customerService.getCustomer(customerAccountDto.getCustomerSeqNo());
 			log.info("呼叫讀取顧客檔API：顧客資料："+customerDto.toString());
-			response.Success();
+
 		}catch(Exception e) {
 			log.info(String.valueOf(e));
-			response.Error(e.getMessage(),getErrorMessage(e.getMessage()));
 		}
-		response.setData(customerDto);
-		return response;
+
+		return customerDto;
 	}
 	
 	@GetMapping("/customerid/{customerId}")
@@ -279,9 +277,9 @@ public class CommonController {
 	}
 	
 	// 查詢error code
-	@GetMapping("/errorcode/{errorCode}")
+	@GetMapping("/errorcode/{errorcode}")
 	@Operation(description = "傳入errorCode查詢錯誤說明", summary="以errorCode查詢錯誤說明")
-	public String getErrorMessage(String errorCode) {
+	public String getErrorMessage(@PathVariable("errorcode") String errorCode) {
 		String errorMessage = null;
 		try {
 			errorMessage = errorMessageService.findByErrorCode(errorCode);

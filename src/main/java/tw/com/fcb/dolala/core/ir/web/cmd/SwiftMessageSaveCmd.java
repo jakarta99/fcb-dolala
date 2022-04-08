@@ -2,10 +2,8 @@ package tw.com.fcb.dolala.core.ir.web.cmd;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 import tw.com.fcb.dolala.core.ir.repository.enums.ChargeType;
 
-import javax.persistence.Column;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -88,6 +86,7 @@ public class SwiftMessageSaveCmd {
     BigDecimal chargeFeeAmount3;
 
     @Size(max = 11, min = 11,message = "發電行swift代碼輸入有誤")
+    @NotNull
     @Schema(description = "發電行 swift 代號" )
     String senderSwiftCode;
 

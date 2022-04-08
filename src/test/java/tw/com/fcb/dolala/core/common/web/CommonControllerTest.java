@@ -1,31 +1,57 @@
 package tw.com.fcb.dolala.core.common.web;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.math.BigDecimal;
 
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import org.springframework.test.web.servlet.MockMvc;
 import tw.com.fcb.dolala.core.common.repository.entity.ExchgRate;
 import tw.com.fcb.dolala.core.common.web.dto.BankAddressDto;
 
 @SpringBootTest
+@AutoConfigureMockMvc
 class CommonControllerTest {
 
 	@Autowired
 	CommonController common;
-	
+
+	@Autowired
+	MockMvc mockMvc;
+
 	// 讀取買賣匯匯率
 	@Test
-	void testGetFxRate() {
+	void testGetFxRate() throws Exception {
 		BigDecimal exchangeRateB = common.isGetFxRate(ExchgRate.EXCHG_RATE_TYPE_BUY, "USD", "TWD");
 		BigDecimal exchangeRateS = common.isGetFxRate(ExchgRate.EXCHG_RATE_TYPE_SELL, "USD", "TWD");
 		assertNotNull(exchangeRateB);
 		assertNotNull(exchangeRateS);
+		var exchgRateType = "B";
+		var currency = "USD";
+		var standardCurrency = "TWD";
+		var isGetFxrate =  mockMvc.perform(get("/common/get-fxrate/{exchg-rate-type}/{currency}/{standard-currency}",exchgRateType,currency,standardCurrency))
+				.andExpect(status().isOk())
+				.andReturn().getResponse().getContentAsString();
+
+		System.out.println("getfxrate: " + isGetFxrate);
 	}
-	
+
+	@Test
+	void testGetCustomer() throws Exception {
+		var accountNumber = "09357654321";
+		var isGetCustomer = mockMvc.perform(get("/common/customer-account/{accountNumber}",accountNumber))
+				.andExpect(status().isOk())
+				.andReturn().getResponse().getContentAsString();
+		System.out.println("getcustomer" + isGetCustomer);
+	}
+
 	// 檢核承作匯率
 	@Test
 	void testCheckFxRate() {
@@ -33,7 +59,19 @@ class CommonControllerTest {
 		boolean check = common.isCheckFxRate(exchgRate);
 		assertTrue(check);
 	}
-	
+
+	@Test
+	void isGetNumberSerial() throws Exception {
+		var systemType = "IR";
+		var branch = "094";
+
+		var isGetNumberSerial =  mockMvc.perform(get("/common/{systemType}/{branch}/get-number-serial",systemType,branch))
+				.andExpect(status().isOk())
+				.andReturn().getResponse().getContentAsString();
+
+		System.out.println("getNumberSerial: " + isGetNumberSerial);
+	}
+
 	// 讀取國家代號4碼數字
 	@Test
 	void testGetCountryNumber() {
@@ -102,9 +140,9 @@ class CommonControllerTest {
 	// 錯誤訊息處理
 	@Test
 	void getErrorMessage() {
-		String erroeMessage;
-		erroeMessage = common.getErrorMessage("D001");
-		assertEquals("查無資料",erroeMessage);
+		String errorMessage;
+		errorMessage = common.getErrorMessage("D001");
+		assertEquals("查無資料",errorMessage);
 	}
 	
 }

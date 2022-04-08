@@ -122,7 +122,7 @@ public class IRCaseService {
         String accountNo = irMessageCheckSerivce.getAccountNo(receiveAccount);
         irCaseDto.setReceiverAccount(accountNo);
         //顧客資料，受通知分行
-        CustomerDto customer = commonFeignClient.getCustomer(irCaseDto.getReceiverAccount()).getData();
+        CustomerDto customer = commonFeignClient.getCustomer(irCaseDto.getReceiverAccount());
         irCaseDto.setBeAdvBranch(customer.getBranchID());
         irCaseDto.setCustomerId(customer.getCustomerId());
 
@@ -269,6 +269,7 @@ public class IRCaseService {
 
 		if (irCaseEntity != null) {
 			// 從電文檔搬移到主檔
+
 			irMaster = new IRMaster();
 			irMaster.setPaidStats(0);
 			irMaster.setValueDate(irCaseEntity.getValueDate());

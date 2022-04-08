@@ -137,7 +137,7 @@ public class IRService {
 
 	// set IRMaster相關欄位資料
 	public IRSaveCmd setIRMaster(IRSaveCmd irSaveCmd){
-		CustomerDto customer = commonFeignClient.getCustomer(irSaveCmd.getReceiverAccount()).getData();		//初始值 0
+		CustomerDto customer = commonFeignClient.getCustomer(irSaveCmd.getReceiverAccount());		//初始值 0
 		irSaveCmd.setPaidStats(0);
 		//印製通知書記號
 		irSaveCmd.setPrintAdvMk("N");
@@ -223,7 +223,7 @@ public class IRService {
 	// S211A 執行原幣解款資料新增
    	public IRDto exeRelaseIRMaster(IRSaveCmd irSaveCmd) throws Exception {
 		IRMaster irMaster = irMasterRepository.findByIrNoAndPaidStats(irSaveCmd.getIrNo(), 0).orElseThrow(() -> new Exception("S101"));
-		IRDto irDto = new IRDto(); 
+		IRDto irDto = new IRDto();
 
 		if (irMaster != null) {
 			// 將傳入值對應至irMaster
