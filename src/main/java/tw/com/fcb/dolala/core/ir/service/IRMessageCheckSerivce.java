@@ -69,10 +69,9 @@ public class IRMessageCheckSerivce {
         return  checkMK;
     }
     
-    public boolean checkCurrency(String currency) throws Exception {
-        boolean checkMK = false;
+    public boolean checkCurrency(String currency) {
+        boolean checkMK;
         if (currency.length()> 3){
-//            throw new Exception("幣別資料有誤");
             checkMK = false;
         }else {
             checkMK =  true;
@@ -81,7 +80,7 @@ public class IRMessageCheckSerivce {
     }
 
 	public boolean checkChargeType(String chargeType) {
-		boolean checkMK = false;
+		boolean checkMK;
 		try {
 			ChargeType.valueOf(chargeType);
 			checkMK = true;
