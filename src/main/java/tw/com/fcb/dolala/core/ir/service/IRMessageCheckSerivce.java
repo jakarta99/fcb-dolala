@@ -23,7 +23,7 @@ import java.math.BigDecimal;
 public class IRMessageCheckSerivce {
 
     public String  getAccountNo(String account) {
-        String accountNo = null;
+        String accountNo = "00000000000";
         if (account != null) {
             if (account.substring(0, 1).equals("/")) {
                 accountNo = account.substring(1);
