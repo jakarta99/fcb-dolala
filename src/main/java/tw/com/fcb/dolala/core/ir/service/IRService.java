@@ -229,6 +229,14 @@ public class IRService {
 			// 將傳入值對應至irMaster
 			BeanUtils.copyProperties(irSaveCmd, irMaster);
 			irMaster.setPaidStats(4); // 4:已解款
+			//取得賣匯匯率
+			irMaster.setExchangeRate(commonFeignClient.getFxRate("S", irMaster.getCurrency(), "TWD"));
+			//取得對美元匯率
+			irMaster.setExchangeRate(commonFeignClient.getFxRate("S", "USD", "TWD"));
+			//取得匯款行名稱地址
+			irMaster.setRemitBkName1(commonFeignClient.getBank(irMaster.getRemitBank()).getName());
+			irMaster.setRemitBkName2(commonFeignClient.getBank(irMaster.getRemitBank()).getAddress());
+			
 			// 更新匯入匯款主檔
 			irMasterRepository.save(irMaster);
 			// 自動將entity的屬性，對應到dto裡
