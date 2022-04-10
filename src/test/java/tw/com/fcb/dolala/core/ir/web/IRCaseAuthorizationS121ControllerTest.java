@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import tw.com.fcb.dolala.core.FcbCoreApplication;
 import tw.com.fcb.dolala.core.common.http.Response;
 import tw.com.fcb.dolala.core.ir.web.dto.IRCaseDto;
 import tw.com.fcb.dolala.core.ir.web.dto.IRDto;
@@ -14,7 +15,7 @@ import tw.com.fcb.dolala.core.ir.web.dto.IRDto;
  * @author ijoshua29
  * S121-匯入匯款案件放行
  */
-@SpringBootTest
+@SpringBootTest(classes = FcbCoreApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 class IRCaseAuthorizationS121ControllerTest {
 
 	@Autowired
