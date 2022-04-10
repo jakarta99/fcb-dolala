@@ -54,6 +54,8 @@ class SerialNumberServiceTest {
         //取得外匯編號
         String fxNo = combinationFxNo("S",nowDate.substring(3,4),"AW",1) ;
         assertEquals("S2AW000001",fxNo);
+        fxNo = combinationFxNo("S",nowDate.substring(3,4),"NHA",1) ;
+        assertEquals("S2NHA00001",fxNo);
     }
 
     private String combinationFxNo(String noCode, String year, String branchCode, int serialNo) {

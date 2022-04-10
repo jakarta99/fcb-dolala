@@ -41,7 +41,8 @@ public class SerialNumberService {
 
         SerialNumber serialNumber;
         serialNumber = serialNumberRepository.findBySystemTypeAndBranch(systemType,branch).orElseThrow(() -> new Exception("D001"+ "SerialNumberRepository" + systemType +"," + branch));
-        String seqNo = getNo(serialNumber.getSerialNo());
+        Long serialNo = getNo(serialNumber.getSerialNo());
+        String seqNo = combinationIrSeq(serialNo);
         return seqNo;
     }
 //取得外匯編號FxNo
@@ -57,15 +58,39 @@ public class SerialNumberService {
         serialNumber = serialNumberRepository.findBySystemTypeAndBranch(systemType,branch).orElseThrow(() -> new Exception("D001"+ "SerialNumberRepository"+ systemType + branch));
         log.info("讀取取號檔號碼 = " +serialNumber.getSerialNo());
         //取得流水號
-        String serialNo = getNo(serialNumber.getSerialNo());
+        Long serialNo = getNo(serialNumber.getSerialNo());
         // noCode + 西元年最末碼+ 字軋+ 流水號六碼
         log.info("no-code = {}",noCode);
-        String fxNo = noCode + nowDate.substring(3,4)+ branchCode+ serialNo;
+        String fxNo = combinationFxNo(noCode , nowDate.substring(3,4),branchCode,serialNo);
 
 
         log.info("{取得外匯編號 }"+ fxNo);
 
         return fxNo;
+    }
+    private String combinationFxNo(String noCode, String year, String branchCode, Long serialNo) {
+        String fxNo;
+        String tempNo = String.valueOf(serialNo);
+        fxNo = noCode + year + branchCode;
+        int length = 10 - fxNo.length();
+
+        for (int j = 1; j < length; j++ ) {
+            tempNo = "0"+ tempNo;
+        }
+        fxNo = fxNo + tempNo;
+        return fxNo;
+    }
+    private String combinationIrSeq(Long serialNo) {
+        String irSeq;
+        String tempNo = String.valueOf(serialNo);
+
+        int length = 6 - tempNo.length();
+
+        for (int j = 1; j <= length; j++ ) {
+            tempNo = "0"+ tempNo;
+        }
+        irSeq =  tempNo;
+        return irSeq;
     }
  // 讀取取號檔資料
     public  SerialNumber getNumberSerial(String systemType,String branch){
@@ -83,16 +108,10 @@ public class SerialNumberService {
     }
 
 // 取號 + 1
-    private static String getNo(Long s) {
-        String serialNo;
-        Long rsTemp;
+    private static Long getNo(Long s) {
+        Long serialNo;
         int i = 1;
-        rsTemp = s + i;
-        serialNo = String.valueOf(rsTemp);
-        for (int j = serialNo.length(); j < 6; j++ ) {
-            serialNo = "0"+ serialNo;
-        }
-
+        serialNo =  (s + i);
         return serialNo;
     }
 

@@ -126,8 +126,8 @@ public class CommonController {
 			 fxNo =  serialNumberService.getFxNo(systemType,branch);
 			String numberSerial = null;
 			if (branch.equals("093")){
-				numberSerial = fxNo.substring(5, 11);
-				log.info("呼叫取得外匯編號API：取得serialno = " + fxNo.substring(6,11));
+				numberSerial = fxNo.substring(6, 10);
+				log.info("呼叫取得外匯編號API：取得serialno = " + fxNo.substring(6,10));
 			}else {
 				numberSerial = fxNo.substring(5, 10);
 			}
