@@ -18,6 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import tw.com.fcb.dolala.core.FcbCoreApplication;
 import tw.com.fcb.dolala.core.ir.repository.enums.ChargeType;
 import tw.com.fcb.dolala.core.ir.web.cmd.SwiftMessageSaveCmd;
 
@@ -30,7 +31,7 @@ import java.time.LocalDate;
  * @author Han-Ru
  * SWIFT MT103進電處理
  */
-@SpringBootTest
+@SpringBootTest(classes = FcbCoreApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @AutoConfigureMockMvc
 
 class IRCaseControllerTest {
