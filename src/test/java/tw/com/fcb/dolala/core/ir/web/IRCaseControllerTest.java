@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 
 import tw.com.fcb.dolala.core.FcbCoreApplication;
@@ -36,15 +37,12 @@ import java.time.LocalDate;
 
 class IRCaseControllerTest {
 
-
 	@Autowired
 	 MockMvc mockMvc;
-
 	@Autowired
 	ObjectMapper mapper;
 
-
-
+// 一般自動放行案件
 	@Test
 	void receiveSwift() throws Exception {
 		mapper = new ObjectMapper();
@@ -68,6 +66,57 @@ class IRCaseControllerTest {
 				.andReturn().getResponse().getContentAsString(Charset.defaultCharset());
 
 		System.out.println("insert: " + insert);
-
 	}
+
+	// 期交所案件
+	@Test
+	void receiveFESwift() throws Exception {
+		mapper = new ObjectMapper();
+		mapper.registerModule(new JavaTimeModule());
+		SwiftMessageSaveCmd swiftMessageSaveCmd = new SwiftMessageSaveCmd();
+
+		swiftMessageSaveCmd.setReferenceNo("FutureExchange");
+		swiftMessageSaveCmd.setChargeType(ChargeType.valueOf("SHA"));
+		swiftMessageSaveCmd.setReceiveDate(LocalDate.now());
+		swiftMessageSaveCmd.setValueDate(LocalDate.now());
+		swiftMessageSaveCmd.setIrAmount(BigDecimal.valueOf(100));
+		swiftMessageSaveCmd.setReceiverAccount("/17140014156");
+		swiftMessageSaveCmd.setSenderSwiftCode("CITIUS33XXX");
+		swiftMessageSaveCmd.setCurrency("USD");
+
+		var feInsert = mockMvc.perform(post("/ir/ircase/receive-swift")
+						.content(mapper.writeValueAsString(swiftMessageSaveCmd))
+						.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andDo(print())
+				.andReturn().getResponse().getContentAsString(Charset.defaultCharset());
+
+		System.out.println("feInsert: " + feInsert);
+	}
+	@Test
+	void receiveNoAutoSwift() throws Exception {
+		mapper = new ObjectMapper();
+		mapper.registerModule(new JavaTimeModule());
+		SwiftMessageSaveCmd swiftMessageSaveCmd = new SwiftMessageSaveCmd();
+
+// 期交所案件
+		swiftMessageSaveCmd.setReferenceNo("NoAutoPassSwiftMessage");
+		swiftMessageSaveCmd.setChargeType(ChargeType.valueOf("SHA"));
+		swiftMessageSaveCmd.setReceiveDate(LocalDate.now());
+		swiftMessageSaveCmd.setValueDate(LocalDate.now());
+		swiftMessageSaveCmd.setIrAmount(BigDecimal.valueOf(100));
+		swiftMessageSaveCmd.setReceiverAccount("/09311123456");
+		swiftMessageSaveCmd.setSenderSwiftCode("CITIUS33XXX");
+		swiftMessageSaveCmd.setCurrency("USD");
+
+		var noAutoInsert = mockMvc.perform(post("/ir/ircase/receive-swift")
+						.content(mapper.writeValueAsString(swiftMessageSaveCmd))
+						.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andDo(print())
+				.andReturn().getResponse().getContentAsString(Charset.defaultCharset());
+		System.out.println("noAutoInsert: " + noAutoInsert);
+	}
+
+
 }
