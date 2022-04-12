@@ -77,9 +77,9 @@ public class IRCaseController {
 			// update IRCaseDto AutoPassMk
 			irCaseDto.setAutoPassMk(autoPassCheckService.checkAutoPass(irCaseDto));
 			irCaseService.updateByIRSeqNo(irCaseDto);
-			if (irCaseDto.getAutoPassMk().equals("Y")){
-				irService.autoPassInsertIRMaster(irCaseDto);
-			}
+//			if (irCaseDto.getAutoPassMk().equals("Y")){
+//				irService.autoPassInsertIRMaster(irCaseDto);
+//			}
 			response.Success();
 			response.setData("success");
 			log.info("呼叫檢核電文是否可自動放行API：SeqNo編號" + irSeqNo + "是否已自動放行:" + irCaseDto.getAutoPassMk());

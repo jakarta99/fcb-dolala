@@ -53,7 +53,12 @@ public class IRService {
 		irMaster.setExchangeRate(commonFeignClient.getFxRate(ExchgRate.EXCHG_RATE_TYPE_BUY, irSaveCmd.getCurrency(),"TWD"));
 		//取號
 		irMaster.setIrNo(commonFeignClient.getFxNo(noCode,systemType,irSaveCmd.getBeAdvBranch()));
-		irMasterRepository.save(irMaster);
+		if (irMaster.getIrNo() != null){
+			irMasterRepository.save(irMaster);
+		}else{
+			throw new Exception("S106");
+		}
+
 
 		return irMaster;
 	}

@@ -165,22 +165,24 @@ public class CommonController {
 	//顧客資料處理
 	@GetMapping("/customer-account/{accountNumber}")
 	@Operation(description = "以顧客帳號讀取顧客資料", summary = "依帳號讀取顧客資料")
-	public CustomerDto getCustomer(@PathVariable String accountNumber) {
+	public Response<CustomerDto> getCustomer(@PathVariable String accountNumber) {
 		log.info("接收accountNumber = " + accountNumber);
-		CustomerAccountDto customerAccountDto = null;
 		CustomerDto customerDto= null;
+		Response<CustomerDto> response = new Response<CustomerDto>();
+		CustomerAccountDto customerAccountDto = null;
 		try {
 			customerAccountDto = customerAccountService.getCustomerAccount(accountNumber);
 			log.info("呼叫讀取顧客帳戶API：顧客帳戶資料："+customerAccountDto.toString());
 			
 			customerDto = customerService.getCustomer(customerAccountDto.getCustomerSeqNo());
 			log.info("呼叫讀取顧客檔API：顧客資料："+customerDto.toString());
-
+			response.Success();
 		}catch(Exception e) {
 			log.info(String.valueOf(e));
 		}
+		response.setData(customerDto);
+		return response;
 
-		return customerDto;
 	}
 	
 	@GetMapping("/customerid/{customerId}")

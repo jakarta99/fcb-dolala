@@ -129,7 +129,12 @@ public class IRCaseService {
         //取號
         String irSeqNo = commonFeignClient.getSeqNo();
         irCaseDto.setSeqNo(irSeqNo);
-        return irCaseDto;
+        if (irCaseDto.getSeqNo()!= null){
+            return irCaseDto;
+        }else{
+            throw new Exception("S105");
+        }
+
     }
 
 	// 傳入seqNo編號查詢案件
