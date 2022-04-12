@@ -1,12 +1,10 @@
 package tw.com.fcb.dolala.core.common.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import tw.com.fcb.dolala.core.common.repository.entity.BranchInformation;
 import tw.com.fcb.dolala.core.common.repository.entity.SerialNumber;
 import tw.com.fcb.dolala.core.common.repository.BranchInformationRepository;
@@ -44,8 +42,7 @@ public class SerialNumberService {
         SerialNumber serialNumber;
         serialNumber = serialNumberRepository.findBySystemTypeAndBranch(systemType,branch).orElseThrow(() -> new Exception("D001"+ "SerialNumberRepository" + systemType +"," + branch));
         Long serialNo = getNo(serialNumber.getSerialNo());
-        String seqNo = StringUtils.leftPad(String.valueOf(serialNo),6,"0");
-//        String seqNo = combinationIrSeq(serialNo);
+        String seqNo = combinationIrSeq(serialNo);
         return seqNo;
     }
 //取得外匯編號FxNo
@@ -55,7 +52,7 @@ public class SerialNumberService {
         //取得字軌
         BranchInformation branchInformation = branchInformationRepository.findByBranch(branch).orElseThrow(() -> new Exception("D001"+ "branchInformationRepository"+ branch));
         String branchCode = branchInformation.getBranchCode();
-
+        System.out.println("BranchInformation !!! line " + branchCode );
         //讀取取號檔
         SerialNumber serialNumber;
         serialNumber = serialNumberRepository.findBySystemTypeAndBranch(systemType,branch).orElseThrow(() -> new Exception("D001"+ "SerialNumberRepository"+ systemType + branch));
@@ -64,8 +61,6 @@ public class SerialNumberService {
         Long serialNo = getNo(serialNumber.getSerialNo());
         // noCode + 西元年最末碼+ 字軋+ 流水號六碼
         log.info("no-code = {}",noCode);
-        String tempNo = noCode + nowDate.substring(3,4)+ branch;
-
         String fxNo = combinationFxNo(noCode , nowDate.substring(3,4),branchCode,serialNo);
 
 
