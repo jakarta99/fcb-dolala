@@ -30,7 +30,7 @@ class SerialNumberRepositoryTest {
 
     @Test
     void findById(){
-        SerialNumber serialNumber = serialNumberRepository.findById(1L).orElse(new SerialNumber());
+        SerialNumber serialNumber = serialNumberRepository.findById(3L).orElse(new SerialNumber());
         assertEquals(0, serialNumber.getSerialNo());
     }
 

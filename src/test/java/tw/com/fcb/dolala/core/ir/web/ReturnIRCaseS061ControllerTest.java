@@ -22,7 +22,7 @@ class ReturnIRCaseS061ControllerTest {
 	// S061I 退匯(無匯入編號) (A/C/D/P) 前資料查詢
 	@Test
 	void testQryWaitForReturnIRCase() {
-		String seqNo = "123456789012345";
+		String seqNo = "123456789012348";
 		Response<IRCaseDto> response = S061.qryWaitForReturnIRCase(seqNo);
 		assertEquals("0000", response.getCode());
 	}

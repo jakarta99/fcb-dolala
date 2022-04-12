@@ -4,9 +4,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import tw.com.fcb.dolala.core.FcbCoreApplication;
+import org.springframework.test.annotation.DirtiesContext;
 import tw.com.fcb.dolala.core.common.http.Response;
 import tw.com.fcb.dolala.core.ir.web.dto.IRCaseDto;
 import tw.com.fcb.dolala.core.ir.web.dto.IRDto;
@@ -15,7 +16,9 @@ import tw.com.fcb.dolala.core.ir.web.dto.IRDto;
  * @author ijoshua29
  * S121-匯入匯款案件放行
  */
-@SpringBootTest(classes = FcbCoreApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@DirtiesContext
+
 class IRCaseAuthorizationS121ControllerTest {
 
 	@Autowired
@@ -36,4 +39,6 @@ class IRCaseAuthorizationS121ControllerTest {
 		Response<IRDto> response = S121.exeCaseAuthorization(seqNo);
 		assertEquals("0000", response.getCode());
 	}
+
+
 }
