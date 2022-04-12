@@ -1,4 +1,4 @@
-package tw.com.fcb.dolala.core.ir.http;
+package tw.com.fcb.dolala.core.common;
 
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -12,7 +12,8 @@ import tw.com.fcb.dolala.core.common.web.dto.CustomerDto;
 
 import java.math.BigDecimal;
 
-@FeignClient(value = "CHECK",url = "localhost:8080")
+@FeignClient(value = "COMMON",url = "localhost:8001")
+
 public interface CommonFeignClient {
     // 匯率處理
     @GetMapping("/common/get-fxrate/{exchg-rate-type}/{currency}/{standard-currency}")
