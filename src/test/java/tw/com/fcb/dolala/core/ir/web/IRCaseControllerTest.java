@@ -17,6 +17,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
 import tw.com.fcb.dolala.core.FcbCoreApplication;
@@ -32,7 +33,8 @@ import java.time.LocalDate;
  * @author Han-Ru
  * SWIFT MT103進電處理
  */
-@SpringBootTest(classes = FcbCoreApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@DirtiesContext
 @AutoConfigureMockMvc
 
 class IRCaseControllerTest {

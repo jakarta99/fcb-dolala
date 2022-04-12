@@ -22,7 +22,7 @@ class IRCaseEntryS031ControllerTest {
 	// S031I 執行匯款資料查詢 (C:更正/ D:剔除/T:複製電文)前資料查詢
 	@Test
 	void testQryIRCase() {
-		String seqNo = "123456789012345";
+		String seqNo = "123456789012348";
 		Response<IRCaseDto> response = S031.qryIRCase(seqNo);
 		assertEquals("0000", response.getCode());
 	}
